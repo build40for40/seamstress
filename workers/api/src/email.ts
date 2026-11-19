@@ -18,7 +18,7 @@ export type Email = {
 export const clientEmail = (team: TeamRow, client: ClientRow | null, { automatic = true } = {}) =>
   client?.email && (!automatic || team.auto_email_clients === 1) ? client.email : null
 
-export function sendEmail(_env: Env, ctx: ExecutionContext, alias: EmailAlias, email: Email) {
+export function sendEmail(_env: Env, ctx: Pick<ExecutionContext, 'waitUntil'>, alias: EmailAlias, email: Email) {
   console.log(`email ${alias} not sent: Postmark isn't wired up yet`)
   ctx.waitUntil(
     logActivity(email.team.id, {
