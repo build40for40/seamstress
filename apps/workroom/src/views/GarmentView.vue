@@ -112,7 +112,6 @@ function openEntry(entry: Entry) {
     <section class="card">
       <h2 class="section-label">The brief</h2>
       <p class="brief">{{ detail.order.description }}</p>
-      <p class="brief stitched">{{ garment.description }}</p>
     </section>
 
     <section class="stack gap">

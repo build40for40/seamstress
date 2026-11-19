@@ -113,7 +113,7 @@ const runningOn = (garmentId: string | null) => timer.value !== null && timer.va
   <article class="card">
     <div class="row">
       <div class="stack">
-        <h2 class="strong">General time</h2>
+        <h2 class="general-title">General time</h2>
         <span class="muted small">Waiting, no order. Paid, never billed.</span>
       </div>
       <button v-if="runningOn(null)" type="button" class="btn btn-dark start" :disabled="busy" @click="stopTimer()">
@@ -158,7 +158,7 @@ const runningOn = (garmentId: string | null) => timer.value !== null && timer.va
 
 .order-title {
   font-family: var(--serif);
-  font-size: 23px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -201,6 +201,11 @@ const runningOn = (garmentId: string | null) => timer.value !== null && timer.va
   flex: none;
   min-width: 92px;
   min-height: 56px;
+}
+
+.general-title {
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .timesheet-link .spool {

@@ -367,7 +367,7 @@ textarea.field {
 }
 
 .number {
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: lining-nums tabular-nums;
   white-space: nowrap;
 }
 
