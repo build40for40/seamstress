@@ -321,7 +321,7 @@ textarea.field {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 8px -20px calc(-24px - var(--bar-space));
+  margin: auto -20px calc(-24px - var(--bar-space));
   padding: 16px 20px calc(24px + var(--bar-space));
   background: var(--paper);
   border-top: 1px solid var(--edge);
