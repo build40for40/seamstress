@@ -1,0 +1,35 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The seamstress Worker: API, tracking page, photos and both apps' static builds.",
+  "type": "module",
+  "scripts": {
+    "dev": "mkdir -p public && pnpm wrangler dev --port ${API_PORT:-8787} --persist-to ${PERSIST_TO:-.wrangler/state}",
+    "test": "mkdir -p public && vitest run",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
+    "types": "wrangler types --env-interface Env --env-file .dev.vars.example",
+    "db:migrate": "pnpm wrangler d1 migrations apply seamstress --local --persist-to ${PERSIST_TO:-.wrangler/state}",
+    "seed": "tsx scripts/seed.ts",
+    "postmark:sync": "tsx postmark/sync.ts",
+    "deploy": "pnpm wrangler d1 migrations apply seamstress --remote && pnpm wrangler deploy",
+    "wrangler": "env -u CLOUDFLARE_API_KEY -u CLOUDFLARE_EMAIL wrangler --profile 40for40"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.9.1",
+    "@seamstress/shared": "workspace:*",
+    "hono": "^4.13.19",
+    "jose": "^6.2.15",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.6.0",
+    "@types/node": "^24.13.4",
+    "csv-parse": "^7.0.3",
+    "jpeg-js": "^0.4.4",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.1",
+    "wrangler": "^4.158.0"
+  }
+}
