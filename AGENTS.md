@@ -56,10 +56,13 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 ### Stack
 
 - Vue 3 with `<script setup lang="ts">`, Vite and vue-router in both apps. Composables, no Pinia. The studio uses HTML5 history; the workroom uses hash history so the key stays in the fragment.
-- Hono in the Worker, with `requireOwner` and `requireMember` middleware and zod validation from `packages/shared`. The tracking page is Hono JSX rendered on the server.
+- Hono in the Worker, with `requireOwner` and `requireMember` middleware and zod validation (`@hono/zod-validator`) from `packages/shared`. The tracking page is Hono JSX rendered on the server.
+- Each API area is one file in `workers/api/src/routes/`, mounted at `/api` and declaring its full paths (`/orders/:id`, `/me/timer`). Attach middleware per route or with a path-scoped `use('/orders/*', ...)`, never `use('*')`, since every module shares the `/api` mount. `track.tsx` and `photos.ts` are mounted at `/track` and `/photos`.
+- `packages/shared` is consumed as TypeScript source: import `@seamstress/shared` or a module by name, like `@seamstress/shared/billing`. Use extensionless relative imports inside it.
 - Raw SQL on the app's own `seamstress` D1 database, migrations in `workers/api/migrations/`, a query module per area. No ORM.
-- Vitest. Logic tests in `packages/shared`; Worker tests through `@cloudflare/vitest-pool-workers` for tenant isolation, what a seamstress can see, locking and the timer. Tests sit next to their source as `*.test.ts`.
+- Vitest. Logic tests in `packages/shared`; Worker tests through `@cloudflare/vitest-plugin` (the renamed `vitest-pool-workers`) for tenant isolation, what a seamstress can see, locking and the timer. Worker tests get the migrations applied to a fresh D1 per file. Tests sit next to their source as `*.test.ts`.
 - `pnpm seed` loads `fixtures/*.csv` into local D1 (or a preview with a flag), shifting every date so 19 November 2026 lands on today.
+- Dev ports come from the environment: `API_PORT` (8787), `STUDIO_PORT` (5173), `WORKROOM_PORT` (5174), and `API_PROXY_TARGET` for the Vite proxies (defaults to `http://localhost:$API_PORT`). `PERSIST_TO` (`.wrangler/state`) picks the local D1 and R2 folder for `pnpm --filter api dev` and `db:migrate`; pass the same `--persist-to` to any other local wrangler command. The staging WorkOS client only allows port 5173.
 
 ### Hosting
 
