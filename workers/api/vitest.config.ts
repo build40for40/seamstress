@@ -15,6 +15,8 @@ export default defineConfig({
         bindings: {
           POSTMARK_SERVER_TOKEN: 'fake-postmark-token',
           WORKOS_CLIENT_ID: 'client_fake',
+          ANTHROPIC_API_KEY: 'fake-anthropic-key',
+          TYPESAFE_API_KEY: 'fake-typesafe-key',
           TEST_MIGRATIONS: migrations,
           TEST_WORKOS_JWKS: { keys: [workosJwk] },
           TEST_WORKOS_PRIVATE_JWK: { ...(await exportJWK(privateKey)), kid: 'test', alg: 'RS256' },
