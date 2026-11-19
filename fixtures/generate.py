@@ -106,6 +106,62 @@ INVOICES = [
 
 SENT_TIMESHEETS = {("S01", "2026-10"), ("S03", "2026-10")}
 
+# What the seamstress says or types to produce each row of ENTRIES, in the same order.
+# She names an order by its number or by the garment, never by the client.
+ENTRY_SAID = [
+    "Four hours on SE-1001 today, cut and tacked the bodice.",
+    "Five hours on the wedding gown, bodice seams and boning channels.",
+    "4.5 hours on SE-1001, skirt panels.",
+    "Five hours on the gown, joined the skirt to the bodice.",
+    "Three hours for the first fitting on SE-1001.",
+    "And half an hour waiting for the fitting to start. That's not on an order.",
+    "Five hours on SE-1001, alterations from the fitting.",
+    "Four hours on the gown, lining.",
+    "Four hours on SE-1001, buttons and loops.",
+    "Two hours on the gown, hem.",
+    "One hour tidying up on SE-1001, pressed and packed. It's finished.",
+    "Two hours on the veil, cut the tulle.",
+    "An hour and a half on SE-1004, started the rolled edge.",
+    "Three hours on the velvet coat, took out the old lining.",
+    "2.5 hours on SE-1002, cut and set the new lining.",
+    "Two hours on the veil, first half of the rolled edge.",
+    "One hour waiting for the thread delivery, no order.",
+    "Four hours on the tweed jacket, cut the tweed.",
+    "Two hours on a fitting.",
+    "Half an hour waiting for that fitting to start.",
+    "An hour and a half on the coat, new cuffs.",
+    "Half an hour tidying up on SE-1002, pressed and packed. It's finished.",
+    "1.5 hours on SE-1004, second half of the rolled edge.",
+    "Five hours on SE-1005, canvas and front panels.",
+    "An hour and a half on the bridesmaid dress, took in the side seams.",
+    "4.5 hours on the jacket, sleeves.",
+    "One hour on SE-1003, re-stitched the loose beading.",
+    "Three hours on SE-1005. I had to redo a sleeve after a cutting mistake.",
+    "One hour on SE-1003, hem.",
+    "One hour on the veil, attached the comb.",
+    "Four hours on the jacket, collar.",
+]
+
+# What she says with each photo in PHOTOS, in the same order.
+PHOTO_SAID = [
+    "Photo of the bodice with the boning channels.",
+    "Here it is on the stand after the first fitting.",
+    "Photo of the finished gown.",
+    "Photo of the old lining before I start.",
+    "Photo of the new lining and cuffs.",
+    "Photo of the beading, repaired.",
+    "Close up of the rolled edge.",
+    "Photo with the comb attached.",
+    "Photo of the sleeves, set.",
+    "Photo of the sleeve I had to recut.",
+    "Photo of the collar, pinned.",
+]
+
+CORRECTED = {10: (2, "Sorry, make that two and a half.")}  # entry number: (hours first said, the correction)
+UNCLEAR = {19: "The coat."}  # entry number: her answer when the app asks which order
+FINISHED = {11, 22}  # entries where she also says the order is finished
+ORDER_DONE = {"SE-1001": "2026-10-30", "SE-1002": "2026-11-12"}
+
 
 def num(x):
     return int(x) if float(x) == int(x) else x
@@ -118,7 +174,72 @@ def write(name, header, rows):
         w.writerows(rows)
 
 
+def clock(minutes):
+    return f"{int(minutes // 60):02d}:{int(minutes % 60):02d}"
+
+
+def hours_text(h):
+    return f"{num(h)} hour" + ("" if h == 1 else "s")
+
+
+def open_orders(who, date):
+    """Orders this seamstress has on the go on a given day, as (number, description)."""
+    mine = {o for o, s in ASSIGNMENTS if s == who}
+    return [
+        (o, d)
+        for o, _, d, _, _, created in ORDERS
+        if o in mine and created <= date and date <= ORDER_DONE.get(o, "9999")
+    ]
+
+
+def scripts():
+    """The conversation, line by line, that would produce time_entries.csv and photos.csv."""
+    names = {s: n.split()[0] for s, n, _, _ in SEAMSTRESSES}
+    desc = {o: d for o, _, d, _, _, _ in ORDERS}
+    rows, days = [], defaultdict(list)
+    for i, e in enumerate(ENTRIES, 1):
+        days[(e[1], e[2])].append((i, e))
+
+    def say(who, date, t, speaker, text, order="", creates=""):
+        rows.append([f"L{len(rows) + 1:03d}", who, date, clock(t), speaker, text, order, creates])
+
+    for (who, date), items in sorted(days.items()):
+        t = 9 * 60
+        mine = open_orders(who, date)
+        say(who, date, t, "seamstress", "Morning. What's on my list today?")
+        say(who, date, t, "app", f"Morning {names[who]}. You have {len(mine)} open: " + "; ".join(f"{o}, {d}" for o, d in mine) + ".")
+        for i, (order, _, _, hours, kind, review, note) in items:
+            t += hours * 60
+            entry = f"T{i:03d}"
+            where = order or "general time"
+            said_hours = CORRECTED[i][0] if i in CORRECTED else hours
+            say(who, date, t, "seamstress", ENTRY_SAID[i - 1], "" if i in UNCLEAR else order)
+            if i in UNCLEAR:
+                say(who, date, t, "app", "Which order is that for? " + " or ".join(f"{o}, {d}" for o, d in mine) + ".")
+                say(who, date, t, "seamstress", UNCLEAR[i], order)
+            tail = " Paid, and not billed to any client." if not order else " Want to add a photo?"
+            say(who, date, t, "app", f"Saved: {hours_text(said_hours)} of {kind} on {where}, {date}.{tail}", order, "" if i in CORRECTED else entry)
+            if i in CORRECTED:
+                say(who, date, t + 1, "seamstress", CORRECTED[i][1], order)
+                say(who, date, t + 1, "app", f"Changed to {hours_text(hours)} of {kind} on {order}, {date}.", order, entry)
+            for p, (p_order, p_who, p_date, file, _, _) in enumerate(PHOTOS, 1):
+                if (p_order, p_who, p_date) == (order, who, date):
+                    say(who, date, t + 2, "seamstress", f"[sends {file}] {PHOTO_SAID[p - 1]}", order)
+                    say(who, date, t + 2, "app", f"Photo saved on {order}. The atelier checks it before the client sees it.", order, f"P{p:03d}")
+            if i in FINISHED:
+                say(who, date, t + 3, "app", f"Marked {order}, {desc[order]}, as finished. The atelier has been told.", order)
+    write(
+        "seamstress_scripts.csv",
+        ["line_id", "seamstress_id", "date_local", "time_local", "speaker", "text", "order_number", "creates"],
+        rows,
+    )
+    made = {r[7] for r in rows if r[7]}
+    expected = {f"T{i:03d}" for i in range(1, len(ENTRIES) + 1)} | {f"P{i:03d}" for i in range(1, len(PHOTOS) + 1)}
+    assert made == expected, f"scripts and data disagree: {sorted(made ^ expected)}"
+
+
 def main():
+    scripts()
     invoice_for = {order: inv for inv, order, *_ in INVOICES}
     write("clients.csv", ["client_id", "name"], CLIENTS)
     write("seamstresses.csv", ["seamstress_id", "name", "time_zone", "active"], SEAMSTRESSES)

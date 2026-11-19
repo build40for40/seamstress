@@ -1,0 +1,147 @@
+line_id,seamstress_id,date_local,time_local,speaker,text,order_number,creates
+L001,S01,2026-10-05,09:00,seamstress,Morning. What's on my list today?,,
+L002,S01,2026-10-05,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L003,S01,2026-10-05,13:00,seamstress,"Four hours on SE-1001 today, cut and tacked the bodice.",SE-1001,
+L004,S01,2026-10-05,13:00,app,"Saved: 4 hours of sewing on SE-1001, 2026-10-05. Want to add a photo?",SE-1001,T001
+L005,S01,2026-10-06,09:00,seamstress,Morning. What's on my list today?,,
+L006,S01,2026-10-06,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L007,S01,2026-10-06,14:00,seamstress,"Five hours on the wedding gown, bodice seams and boning channels.",SE-1001,
+L008,S01,2026-10-06,14:00,app,"Saved: 5 hours of sewing on SE-1001, 2026-10-06. Want to add a photo?",SE-1001,T002
+L009,S01,2026-10-06,14:02,seamstress,[sends se-1001-bodice.jpg] Photo of the bodice with the boning channels.,SE-1001,
+L010,S01,2026-10-06,14:02,app,Photo saved on SE-1001. The atelier checks it before the client sees it.,SE-1001,P001
+L011,S01,2026-10-08,09:00,seamstress,Morning. What's on my list today?,,
+L012,S01,2026-10-08,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L013,S01,2026-10-08,13:30,seamstress,"4.5 hours on SE-1001, skirt panels.",SE-1001,
+L014,S01,2026-10-08,13:30,app,"Saved: 4.5 hours of sewing on SE-1001, 2026-10-08. Want to add a photo?",SE-1001,T003
+L015,S01,2026-10-12,09:00,seamstress,Morning. What's on my list today?,,
+L016,S01,2026-10-12,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L017,S01,2026-10-12,14:00,seamstress,"Five hours on the gown, joined the skirt to the bodice.",SE-1001,
+L018,S01,2026-10-12,14:00,app,"Saved: 5 hours of sewing on SE-1001, 2026-10-12. Want to add a photo?",SE-1001,T004
+L019,S01,2026-10-13,09:00,seamstress,Morning. What's on my list today?,,
+L020,S01,2026-10-13,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L021,S01,2026-10-13,12:00,seamstress,Three hours for the first fitting on SE-1001.,SE-1001,
+L022,S01,2026-10-13,12:00,app,"Saved: 3 hours of fitting on SE-1001, 2026-10-13. Want to add a photo?",SE-1001,T005
+L023,S01,2026-10-13,12:02,seamstress,[sends se-1001-first-fitting.jpg] Here it is on the stand after the first fitting.,SE-1001,
+L024,S01,2026-10-13,12:02,app,Photo saved on SE-1001. The atelier checks it before the client sees it.,SE-1001,P002
+L025,S01,2026-10-13,12:30,seamstress,And half an hour waiting for the fitting to start. That's not on an order.,,
+L026,S01,2026-10-13,12:30,app,"Saved: 0.5 hours of waiting on general time, 2026-10-13. Paid, and not billed to any client.",,T006
+L027,S01,2026-10-19,09:00,seamstress,Morning. What's on my list today?,,
+L028,S01,2026-10-19,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L029,S01,2026-10-19,14:00,seamstress,"Five hours on SE-1001, alterations from the fitting.",SE-1001,
+L030,S01,2026-10-19,14:00,app,"Saved: 5 hours of sewing on SE-1001, 2026-10-19. Want to add a photo?",SE-1001,T007
+L031,S01,2026-10-20,09:00,seamstress,Morning. What's on my list today?,,
+L032,S01,2026-10-20,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L033,S01,2026-10-20,13:00,seamstress,"Four hours on the gown, lining.",SE-1001,
+L034,S01,2026-10-20,13:00,app,"Saved: 4 hours of sewing on SE-1001, 2026-10-20. Want to add a photo?",SE-1001,T008
+L035,S01,2026-10-26,09:00,seamstress,Morning. What's on my list today?,,
+L036,S01,2026-10-26,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L037,S01,2026-10-26,13:00,seamstress,"Four hours on SE-1001, buttons and loops.",SE-1001,
+L038,S01,2026-10-26,13:00,app,"Saved: 4 hours of sewing on SE-1001, 2026-10-26. Want to add a photo?",SE-1001,T009
+L039,S01,2026-10-29,09:00,seamstress,Morning. What's on my list today?,,
+L040,S01,2026-10-29,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L041,S01,2026-10-29,11:30,seamstress,"Two hours on the gown, hem.",SE-1001,
+L042,S01,2026-10-29,11:30,app,"Saved: 2 hours of sewing on SE-1001, 2026-10-29. Want to add a photo?",SE-1001,
+L043,S01,2026-10-29,11:31,seamstress,"Sorry, make that two and a half.",SE-1001,
+L044,S01,2026-10-29,11:31,app,"Changed to 2.5 hours of sewing on SE-1001, 2026-10-29.",SE-1001,T010
+L045,S01,2026-10-30,09:00,seamstress,Morning. What's on my list today?,,
+L046,S01,2026-10-30,09:00,app,"Morning Ada. You have 1 open: SE-1001, Ivory silk wedding gown, made to order.",,
+L047,S01,2026-10-30,10:00,seamstress,"One hour tidying up on SE-1001, pressed and packed. It's finished.",SE-1001,
+L048,S01,2026-10-30,10:00,app,"Saved: 1 hour of tidying on SE-1001, 2026-10-30. Want to add a photo?",SE-1001,T011
+L049,S01,2026-10-30,10:02,seamstress,[sends se-1001-finished.jpg] Photo of the finished gown.,SE-1001,
+L050,S01,2026-10-30,10:02,app,Photo saved on SE-1001. The atelier checks it before the client sees it.,SE-1001,P003
+L051,S01,2026-10-30,10:03,app,"Marked SE-1001, Ivory silk wedding gown, made to order, as finished. The atelier has been told.",SE-1001,
+L052,S01,2026-11-16,09:00,seamstress,Morning. What's on my list today?,,
+L053,S01,2026-11-16,09:00,app,"Morning Ada. You have 1 open: SE-1003, Beaded bridesmaid dress, take in and hem.",,
+L054,S01,2026-11-16,10:30,seamstress,"An hour and a half on the bridesmaid dress, took in the side seams.",SE-1003,
+L055,S01,2026-11-16,10:30,app,"Saved: 1.5 hours of sewing on SE-1003, 2026-11-16. Want to add a photo?",SE-1003,T025
+L056,S01,2026-11-18,09:00,seamstress,Morning. What's on my list today?,,
+L057,S01,2026-11-18,09:00,app,"Morning Ada. You have 1 open: SE-1003, Beaded bridesmaid dress, take in and hem.",,
+L058,S01,2026-11-18,10:00,seamstress,"One hour on SE-1003, hem.",SE-1003,
+L059,S01,2026-11-18,10:00,app,"Saved: 1 hour of sewing on SE-1003, 2026-11-18. Want to add a photo?",SE-1003,T029
+L060,S02,2026-11-03,09:00,seamstress,Morning. What's on my list today?,,
+L061,S02,2026-11-03,09:00,app,"Morning Bea. You have 1 open: SE-1002, Velvet evening coat, reline and new cuffs.",,
+L062,S02,2026-11-03,12:00,seamstress,"Three hours on the velvet coat, took out the old lining.",SE-1002,
+L063,S02,2026-11-03,12:00,app,"Saved: 3 hours of sewing on SE-1002, 2026-11-03. Want to add a photo?",SE-1002,T014
+L064,S02,2026-11-03,12:02,seamstress,[sends se-1002-before.jpg] Photo of the old lining before I start.,SE-1002,
+L065,S02,2026-11-03,12:02,app,Photo saved on SE-1002. The atelier checks it before the client sees it.,SE-1002,P004
+L066,S02,2026-11-04,09:00,seamstress,Morning. What's on my list today?,,
+L067,S02,2026-11-04,09:00,app,"Morning Bea. You have 1 open: SE-1002, Velvet evening coat, reline and new cuffs.",,
+L068,S02,2026-11-04,11:30,seamstress,"2.5 hours on SE-1002, cut and set the new lining.",SE-1002,
+L069,S02,2026-11-04,11:30,app,"Saved: 2.5 hours of sewing on SE-1002, 2026-11-04. Want to add a photo?",SE-1002,T015
+L070,S02,2026-11-09,09:00,seamstress,Morning. What's on my list today?,,
+L071,S02,2026-11-09,09:00,app,"Morning Bea. You have 2 open: SE-1002, Velvet evening coat, reline and new cuffs; SE-1005, Tweed jacket, made to measure.",,
+L072,S02,2026-11-09,13:00,seamstress,"Four hours on the tweed jacket, cut the tweed.",SE-1005,
+L073,S02,2026-11-09,13:00,app,"Saved: 4 hours of sewing on SE-1005, 2026-11-09. Want to add a photo?",SE-1005,T018
+L074,S02,2026-11-10,09:00,seamstress,Morning. What's on my list today?,,
+L075,S02,2026-11-10,09:00,app,"Morning Bea. You have 2 open: SE-1002, Velvet evening coat, reline and new cuffs; SE-1005, Tweed jacket, made to measure.",,
+L076,S02,2026-11-10,11:00,seamstress,Two hours on a fitting.,,
+L077,S02,2026-11-10,11:00,app,"Which order is that for? SE-1002, Velvet evening coat, reline and new cuffs or SE-1005, Tweed jacket, made to measure.",,
+L078,S02,2026-11-10,11:00,seamstress,The coat.,SE-1002,
+L079,S02,2026-11-10,11:00,app,"Saved: 2 hours of fitting on SE-1002, 2026-11-10. Want to add a photo?",SE-1002,T019
+L080,S02,2026-11-10,11:30,seamstress,Half an hour waiting for that fitting to start.,,
+L081,S02,2026-11-10,11:30,app,"Saved: 0.5 hours of waiting on general time, 2026-11-10. Paid, and not billed to any client.",,T020
+L082,S02,2026-11-11,09:00,seamstress,Morning. What's on my list today?,,
+L083,S02,2026-11-11,09:00,app,"Morning Bea. You have 2 open: SE-1002, Velvet evening coat, reline and new cuffs; SE-1005, Tweed jacket, made to measure.",,
+L084,S02,2026-11-11,10:30,seamstress,"An hour and a half on the coat, new cuffs.",SE-1002,
+L085,S02,2026-11-11,10:30,app,"Saved: 1.5 hours of sewing on SE-1002, 2026-11-11. Want to add a photo?",SE-1002,T021
+L086,S02,2026-11-12,09:00,seamstress,Morning. What's on my list today?,,
+L087,S02,2026-11-12,09:00,app,"Morning Bea. You have 2 open: SE-1002, Velvet evening coat, reline and new cuffs; SE-1005, Tweed jacket, made to measure.",,
+L088,S02,2026-11-12,09:30,seamstress,"Half an hour tidying up on SE-1002, pressed and packed. It's finished.",SE-1002,
+L089,S02,2026-11-12,09:30,app,"Saved: 0.5 hours of tidying on SE-1002, 2026-11-12. Want to add a photo?",SE-1002,T022
+L090,S02,2026-11-12,09:32,seamstress,[sends se-1002-finished.jpg] Photo of the new lining and cuffs.,SE-1002,
+L091,S02,2026-11-12,09:32,app,Photo saved on SE-1002. The atelier checks it before the client sees it.,SE-1002,P005
+L092,S02,2026-11-12,09:33,app,"Marked SE-1002, Velvet evening coat, reline and new cuffs, as finished. The atelier has been told.",SE-1002,
+L093,S02,2026-11-13,09:00,seamstress,Morning. What's on my list today?,,
+L094,S02,2026-11-13,09:00,app,"Morning Bea. You have 1 open: SE-1005, Tweed jacket, made to measure.",,
+L095,S02,2026-11-13,14:00,seamstress,"Five hours on SE-1005, canvas and front panels.",SE-1005,
+L096,S02,2026-11-13,14:00,app,"Saved: 5 hours of sewing on SE-1005, 2026-11-13. Want to add a photo?",SE-1005,T024
+L097,S02,2026-11-16,09:00,seamstress,Morning. What's on my list today?,,
+L098,S02,2026-11-16,09:00,app,"Morning Bea. You have 1 open: SE-1005, Tweed jacket, made to measure.",,
+L099,S02,2026-11-16,13:30,seamstress,"4.5 hours on the jacket, sleeves.",SE-1005,
+L100,S02,2026-11-16,13:30,app,"Saved: 4.5 hours of sewing on SE-1005, 2026-11-16. Want to add a photo?",SE-1005,T026
+L101,S02,2026-11-16,13:32,seamstress,"[sends se-1005-sleeves.jpg] Photo of the sleeves, set.",SE-1005,
+L102,S02,2026-11-16,13:32,app,Photo saved on SE-1005. The atelier checks it before the client sees it.,SE-1005,P009
+L103,S02,2026-11-17,09:00,seamstress,Morning. What's on my list today?,,
+L104,S02,2026-11-17,09:00,app,"Morning Bea. You have 1 open: SE-1005, Tweed jacket, made to measure.",,
+L105,S02,2026-11-17,12:00,seamstress,Three hours on SE-1005. I had to redo a sleeve after a cutting mistake.,SE-1005,
+L106,S02,2026-11-17,12:00,app,"Saved: 3 hours of sewing on SE-1005, 2026-11-17. Want to add a photo?",SE-1005,T028
+L107,S02,2026-11-17,12:02,seamstress,[sends se-1005-miscut.jpg] Photo of the sleeve I had to recut.,SE-1005,
+L108,S02,2026-11-17,12:02,app,Photo saved on SE-1005. The atelier checks it before the client sees it.,SE-1005,P010
+L109,S02,2026-11-18,09:00,seamstress,Morning. What's on my list today?,,
+L110,S02,2026-11-18,09:00,app,"Morning Bea. You have 1 open: SE-1005, Tweed jacket, made to measure.",,
+L111,S02,2026-11-18,13:00,seamstress,"Four hours on the jacket, collar.",SE-1005,
+L112,S02,2026-11-18,13:00,app,"Saved: 4 hours of sewing on SE-1005, 2026-11-18. Want to add a photo?",SE-1005,T031
+L113,S02,2026-11-18,13:02,seamstress,"[sends se-1005-collar.jpg] Photo of the collar, pinned.",SE-1005,
+L114,S02,2026-11-18,13:02,app,Photo saved on SE-1005. The atelier checks it before the client sees it.,SE-1005,P011
+L115,S03,2026-10-26,09:00,seamstress,Morning. What's on my list today?,,
+L116,S03,2026-10-26,09:00,app,"Morning Cleo. You have 1 open: SE-1004, Wedding veil, hand-rolled edge.",,
+L117,S03,2026-10-26,11:00,seamstress,"Two hours on the veil, cut the tulle.",SE-1004,
+L118,S03,2026-10-26,11:00,app,"Saved: 2 hours of sewing on SE-1004, 2026-10-26. Want to add a photo?",SE-1004,T012
+L119,S03,2026-10-28,09:00,seamstress,Morning. What's on my list today?,,
+L120,S03,2026-10-28,09:00,app,"Morning Cleo. You have 1 open: SE-1004, Wedding veil, hand-rolled edge.",,
+L121,S03,2026-10-28,10:30,seamstress,"An hour and a half on SE-1004, started the rolled edge.",SE-1004,
+L122,S03,2026-10-28,10:30,app,"Saved: 1.5 hours of sewing on SE-1004, 2026-10-28. Want to add a photo?",SE-1004,T013
+L123,S03,2026-11-05,09:00,seamstress,Morning. What's on my list today?,,
+L124,S03,2026-11-05,09:00,app,"Morning Cleo. You have 1 open: SE-1004, Wedding veil, hand-rolled edge.",,
+L125,S03,2026-11-05,11:00,seamstress,"Two hours on the veil, first half of the rolled edge.",SE-1004,
+L126,S03,2026-11-05,11:00,app,"Saved: 2 hours of sewing on SE-1004, 2026-11-05. Want to add a photo?",SE-1004,T016
+L127,S03,2026-11-05,12:00,seamstress,"One hour waiting for the thread delivery, no order.",,
+L128,S03,2026-11-05,12:00,app,"Saved: 1 hour of waiting on general time, 2026-11-05. Paid, and not billed to any client.",,T017
+L129,S03,2026-11-13,09:00,seamstress,Morning. What's on my list today?,,
+L130,S03,2026-11-13,09:00,app,"Morning Cleo. You have 2 open: SE-1003, Beaded bridesmaid dress, take in and hem; SE-1004, Wedding veil, hand-rolled edge.",,
+L131,S03,2026-11-13,10:30,seamstress,"1.5 hours on SE-1004, second half of the rolled edge.",SE-1004,
+L132,S03,2026-11-13,10:30,app,"Saved: 1.5 hours of sewing on SE-1004, 2026-11-13. Want to add a photo?",SE-1004,T023
+L133,S03,2026-11-13,10:32,seamstress,[sends se-1004-edge.jpg] Close up of the rolled edge.,SE-1004,
+L134,S03,2026-11-13,10:32,app,Photo saved on SE-1004. The atelier checks it before the client sees it.,SE-1004,P007
+L135,S03,2026-11-17,09:00,seamstress,Morning. What's on my list today?,,
+L136,S03,2026-11-17,09:00,app,"Morning Cleo. You have 2 open: SE-1003, Beaded bridesmaid dress, take in and hem; SE-1004, Wedding veil, hand-rolled edge.",,
+L137,S03,2026-11-17,10:00,seamstress,"One hour on SE-1003, re-stitched the loose beading.",SE-1003,
+L138,S03,2026-11-17,10:00,app,"Saved: 1 hour of sewing on SE-1003, 2026-11-17. Want to add a photo?",SE-1003,T027
+L139,S03,2026-11-17,10:02,seamstress,"[sends se-1003-beading.jpg] Photo of the beading, repaired.",SE-1003,
+L140,S03,2026-11-17,10:02,app,Photo saved on SE-1003. The atelier checks it before the client sees it.,SE-1003,P006
+L141,S03,2026-11-18,09:00,seamstress,Morning. What's on my list today?,,
+L142,S03,2026-11-18,09:00,app,"Morning Cleo. You have 2 open: SE-1003, Beaded bridesmaid dress, take in and hem; SE-1004, Wedding veil, hand-rolled edge.",,
+L143,S03,2026-11-18,10:00,seamstress,"One hour on the veil, attached the comb.",SE-1004,
+L144,S03,2026-11-18,10:00,app,"Saved: 1 hour of sewing on SE-1004, 2026-11-18. Want to add a photo?",SE-1004,T030
+L145,S03,2026-11-18,10:02,seamstress,[sends se-1004-comb.jpg] Photo with the comb attached.,SE-1004,
+L146,S03,2026-11-18,10:02,app,Photo saved on SE-1004. The atelier checks it before the client sees it.,SE-1004,P008

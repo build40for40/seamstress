@@ -16,6 +16,27 @@ To change it, edit the lists in `generate.py` and run `python3 fixtures/generate
 | `photos.csv` | 11 | Photo records. File names only, there are no image files |
 | `invoices.csv` | 2 | One sent, one draft |
 | `timesheets.csv` | 5 | One per seamstress per month |
+| `seamstress_scripts.csv` | 146 | The conversation, line by line, that would produce every time entry and photo |
+
+## Seamstress scripts
+
+`seamstress_scripts.csv` is what each seamstress says or types to the app, day by day, and what the app says back. Use it to test voice or typed input: feed in the `seamstress` lines for a day and you should end up with the rows named in `creates`.
+
+- `speaker` is `seamstress` or `app`. `time_local` is her own clock.
+- `creates` is the `entry_id` or `photo_id` that line produces. Every row in `time_entries.csv` and `photos.csv` is created by exactly one line, and the generator fails if that stops being true.
+- Each day opens with her asking what's on her list.
+- She names an order by its number or by the garment ("the veil"), never by the client.
+- A line starting `[sends file.jpg]` is a photo with a spoken caption.
+
+Days worth trying first:
+
+| Seamstress and day | What happens |
+| --- | --- |
+| `S01`, 13 Oct | A fitting on an order, a photo, then waiting logged as general time |
+| `S01`, 29 Oct | She says two hours, then corrects it to two and a half |
+| `S01`, 30 Oct | Tidying up on an order, a photo, and "it's finished" |
+| `S02`, 10 Nov | "Two hours on a fitting" with two orders open, so the app asks which one |
+| `S02`, 17 Nov | She explains a mistake. The CEO later holds that entry and photo back |
 
 ## Values
 
