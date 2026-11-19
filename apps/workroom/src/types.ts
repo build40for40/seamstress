@@ -1,4 +1,4 @@
-import type { DueFlag, EntryKind, GarmentEntryKind, GarmentStatus, OrderStatus, PhotoLabel, ReviewStatus, Role } from '@seamstress/shared'
+import type { DueFlag, EntryKind, GarmentEntryKind, GarmentStatus, OrderStatus, PhotoLabel, ReviewStatus, Role } from '@seamless/shared'
 
 export interface Entry {
   id: string

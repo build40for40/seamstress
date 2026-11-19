@@ -6,9 +6,9 @@ import { call, client, createTestTeam, ownerToken, signedInUser } from './test/a
 
 describe('workosClientId', () => {
   it('uses production on the live host, staging elsewhere, and an override when set', () => {
-    expect(workosClientId('seamstress.build40for40.com')).toBe('client_01M6E5ZDQ9XBYYE28XYN7H3XTJ')
+    expect(workosClientId('seamless.build40for40.com')).toBe('client_01M6E5ZDQ9XBYYE28XYN7H3XTJ')
     expect(workosClientId('seamstress-pr-3.build40for40.workers.dev')).toBe('client_01M6E5ZDCH31RFHPJTD8N5JQZY')
-    expect(workosClientId('seamstress.build40for40.com', 'client_override')).toBe('client_override')
+    expect(workosClientId('seamless.build40for40.com', 'client_override')).toBe('client_override')
   })
 })
 

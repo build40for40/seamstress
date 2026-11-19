@@ -5,14 +5,14 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { parse } from 'csv-parse/sync'
 import jpeg from 'jpeg-js'
-import { invoiceDraft } from '@seamstress/shared/billing'
-import { addDays, addMonths, daysBetween, localDate, monthOf } from '@seamstress/shared/time'
-import { poundsToPence } from '@seamstress/shared/format'
+import { invoiceDraft } from '@seamless/shared/billing'
+import { addDays, addMonths, daysBetween, localDate, monthOf } from '@seamless/shared/time'
+import { poundsToPence } from '@seamless/shared/format'
 
 const FIXTURE_DAY = '2026-11-19'
 const TEAM_ID = 'seed-team'
 const OWNER_ID = 'seed-owner'
-const REMOTE_ORIGIN = 'https://seamstress.build40for40.com'
+const REMOTE_ORIGIN = 'https://seamless.build40for40.com'
 
 const args = process.argv.slice(2)
 const remote = args.includes('--remote')

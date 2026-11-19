@@ -1,4 +1,4 @@
-import { orderDraftSchema, type OrderDraft, type PriceItem } from '@seamstress/shared'
+import { orderDraftSchema, type OrderDraft, type PriceItem } from '@seamless/shared'
 import { describe, expect, it } from 'vitest'
 import { formStateFromDraft, formStateFromFailedDraft } from './new-order-draft'
 

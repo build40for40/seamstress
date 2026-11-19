@@ -1,4 +1,4 @@
-import type { ToldClientInput } from '@seamstress/shared'
+import type { ToldClientInput } from '@seamless/shared'
 import { firstName, formatDate } from './format'
 
 export type Moment = ToldClientInput['moment']

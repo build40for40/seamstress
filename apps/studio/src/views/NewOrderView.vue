@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createOrderSchema, ORDER_NOTE_MAX, type Client, type OrderDraft, type PriceItem, type UnsureField } from '@seamstress/shared'
+import { createOrderSchema, ORDER_NOTE_MAX, type Client, type OrderDraft, type PriceItem, type UnsureField } from '@seamless/shared'
 import { computed, onBeforeUnmount, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { OrderDetail, TeamMember } from '@/api-types'

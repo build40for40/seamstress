@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { TimesheetResult } from '@seamstress/shared'
+import type { TimesheetResult } from '@seamless/shared'
 import EmptyState from '@/components/EmptyState.vue'
 import { api, errorMessage } from '@/composables/useApi'
 import { useResource } from '@/composables/useResource'
 import { refreshCounts } from '@/composables/useSession'
 import { toast } from '@/composables/useToast'
-import { addMonths } from '@seamstress/shared/time'
+import { addMonths } from '@seamless/shared/time'
 import { formatDate, formatInstantDate, formatMinutes, formatMonth, formatPence, todayInLondon } from '@/lib/format'
 
 type TimesheetRow = TimesheetResult & {

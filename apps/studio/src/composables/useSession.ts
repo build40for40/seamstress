@@ -1,4 +1,4 @@
-import type { Member, Team } from '@seamstress/shared'
+import type { Member, Team } from '@seamless/shared'
 import { computed, readonly, ref } from 'vue'
 import type { Session, SessionCounts } from '@/api-types'
 import { api } from './useApi'

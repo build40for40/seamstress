@@ -1,4 +1,4 @@
-import { dueFlag, lockReason, type TimesheetResult } from '@seamstress/shared'
+import { dueFlag, lockReason, type TimesheetResult } from '@seamless/shared'
 import type { MemberRow, OrderRow, PhotoRow, TeamRow, TimesheetRow, TimeEntryRow } from '../db/rows'
 import type { EntryWithRef, MemberGarmentRow, MemberOrderRow } from '../db/workroom'
 

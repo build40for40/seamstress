@@ -1,4 +1,4 @@
-import { formatMinutes, formatPence, runningCost, type GarmentStatus, type InvoiceSnapshot } from '@seamstress/shared'
+import { formatMinutes, formatPence, runningCost, type GarmentStatus, type InvoiceSnapshot } from '@seamless/shared'
 import { Hono, type Context } from 'hono'
 import { raw } from 'hono/html'
 import type { Child } from 'hono/jsx'

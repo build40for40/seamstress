@@ -1,4 +1,4 @@
-import type { Activity } from '@seamstress/shared'
+import type { Activity } from '@seamless/shared'
 import { describe, expect, it } from 'vitest'
 import { describeActivity } from './labels'
 

@@ -6,7 +6,7 @@ import { createOrder, type NewOrder } from '../db/orders'
 import type { MemberRow, OrderRow, TeamRow } from '../db/rows'
 import { createTeamWithOwner, getTeam } from '../db/teams'
 
-export const ORIGIN = 'https://seamstress.build40for40.com'
+export const ORIGIN = 'https://seamless.build40for40.com'
 
 export const call = (path: string, init?: RequestInit) => exports.default.fetch(new Request(`${ORIGIN}${path}`, init))
 

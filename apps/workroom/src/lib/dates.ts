@@ -1,4 +1,4 @@
-import { addDays, localDate } from '@seamstress/shared/time'
+import { addDays, localDate } from '@seamless/shared/time'
 
 const noon = (dateLocal: string) => new Date(`${dateLocal}T12:00:00Z`)
 

@@ -45,7 +45,7 @@ describe('POST /api/orders', () => {
       { ref: 'SE-1001-A', assignees: [{ memberId: ada.member.id, name: 'Ada Example' }] },
       { ref: 'SE-1001-B', assignees: [] },
     ])
-    expect(body.trackingUrl).toBe(`https://seamstress.build40for40.com/track/${body.order.trackingToken}`)
+    expect(body.trackingUrl).toBe(`https://seamless.build40for40.com/track/${body.order.trackingToken}`)
     expect(body.activity.map((row: { kind: string }) => row.kind)).toContain('created')
   })
 

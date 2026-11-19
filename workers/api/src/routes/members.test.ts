@@ -10,7 +10,7 @@ describe('team members', () => {
     const created = await owner.send('POST', '/api/members', { name: 'Ada Example', timeZone: 'Europe/Paris', payRatePence: 1900 })
     expect(created.status).toBe(201)
     expect(created.body.member).toMatchObject({ name: 'Ada Example', role: 'seamstress', payRatePence: 1900, hasLink: true })
-    expect(created.body.link).toMatch(/^https:\/\/seamstress\.build40for40\.com\/workroom\/#\/k\/\S+$/)
+    expect(created.body.link).toMatch(/^https:\/\/seamless\.build40for40\.com\/workroom\/#\/k\/\S+$/)
     expect(JSON.stringify(created.body.member)).not.toContain('key')
 
     const first = client({ 'X-Member-Key': keyOf(created.body.link) })

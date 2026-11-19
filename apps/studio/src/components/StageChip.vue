@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { GarmentStatus } from '@seamstress/shared'
+import type { GarmentStatus } from '@seamless/shared'
 import { GARMENT_STAGE_LABELS } from '@/lib/labels'
 
 defineProps<{ stage: GarmentStatus }>()

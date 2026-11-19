@@ -1,4 +1,4 @@
-import { formatMinutes, formatPence } from '@seamstress/shared'
+import { formatMinutes, formatPence } from '@seamless/shared'
 import { logActivity } from './db/activity'
 import type { ClientRow, TeamRow } from './db/rows'
 

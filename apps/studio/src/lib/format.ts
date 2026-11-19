@@ -1,6 +1,6 @@
-import { daysBetween, localDate, STUDIO_TIME_ZONE } from '@seamstress/shared'
+import { daysBetween, localDate, STUDIO_TIME_ZONE } from '@seamless/shared'
 
-export { formatMinutes, formatPence } from '@seamstress/shared'
+export { formatMinutes, formatPence } from '@seamless/shared'
 
 const dateFormatter = new Intl.DateTimeFormat('en-GB', {
   weekday: 'short',

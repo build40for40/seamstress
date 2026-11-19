@@ -2,7 +2,7 @@
   "name": "api",
   "version": "0.0.0",
   "private": true,
-  "description": "The seamstress Worker: API, tracking page, photos and both apps' static builds.",
+  "description": "The Seamless Worker: API, tracking page, photos and both apps' static builds.",
   "type": "module",
   "scripts": {
     "dev": "mkdir -p public && pnpm wrangler dev --port ${API_PORT:-8787} --persist-to ${PERSIST_TO:-.wrangler/state}",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.9.1",
-    "@seamstress/shared": "workspace:*",
+    "@seamless/shared": "workspace:*",
     "hono": "^4.13.19",
     "jose": "^6.2.15",
     "zod": "^4.6.7"

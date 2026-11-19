@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { formatMinutes, formatPence } from '@seamstress/shared/format'
-import { addMonths, localDate, monthOf } from '@seamstress/shared/time'
+import { formatMinutes, formatPence } from '@seamless/shared/format'
+import { addMonths, localDate, monthOf } from '@seamless/shared/time'
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Glyph from '@/components/Glyph.vue'

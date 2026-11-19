@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createMemberSchema } from '@seamstress/shared'
+import { createMemberSchema } from '@seamless/shared'
 import { computed, reactive, ref } from 'vue'
 import type { TeamMember } from '@/api-types'
 import EmptyState from '@/components/EmptyState.vue'

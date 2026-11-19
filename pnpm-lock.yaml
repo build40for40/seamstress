@@ -168,7 +168,7 @@ importers:
 
   apps/studio:
     dependencies:
-      '@seamstress/shared':
+      '@seamless/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       '@workos-inc/authkit-js':
@@ -217,7 +217,7 @@ importers:
 
   apps/workroom:
     dependencies:
-      '@seamstress/shared':
+      '@seamless/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       vue:
@@ -279,7 +279,7 @@ importers:
       '@hono/zod-validator':
         specifier: ^0.9.1
         version: 0.9.1(hono@4.13.19)(zod@4.6.7)
-      '@seamstress/shared':
+      '@seamless/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       hono:

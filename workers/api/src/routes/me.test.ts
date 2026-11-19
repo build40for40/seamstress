@@ -1,4 +1,4 @@
-import { LOCK_MESSAGES, localDate } from '@seamstress/shared'
+import { LOCK_MESSAGES, localDate } from '@seamless/shared'
 import { env } from 'cloudflare:workers'
 import { describe, expect, it } from 'vitest'
 import { getGarment, listGarments } from '../db/garments'

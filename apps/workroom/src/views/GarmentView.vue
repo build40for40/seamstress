@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { LOCK_MESSAGES, type GarmentStatus } from '@seamstress/shared'
-import { formatMinutes } from '@seamstress/shared/format'
-import { GARMENT_STATUSES } from '@seamstress/shared/types'
+import { LOCK_MESSAGES, type GarmentStatus } from '@seamless/shared'
+import { formatMinutes } from '@seamless/shared/format'
+import { GARMENT_STATUSES } from '@seamless/shared/types'
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import AuthPhoto from '@/components/AuthPhoto.vue'

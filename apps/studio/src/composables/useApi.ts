@@ -1,4 +1,4 @@
-import type { PhotoLabel } from '@seamstress/shared'
+import type { PhotoLabel } from '@seamless/shared'
 import type { OwnerPhoto } from '@/api-types'
 import { getAccessToken } from './useAuth'
 

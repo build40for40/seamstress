@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { EntryKind } from '@seamstress/shared'
-import { formatMinutes } from '@seamstress/shared/format'
-import { monthOf } from '@seamstress/shared/time'
+import type { EntryKind } from '@seamless/shared'
+import { formatMinutes } from '@seamless/shared/format'
+import { monthOf } from '@seamless/shared/time'
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Glyph from '@/components/Glyph.vue'

@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
+import { PRODUCTION_HOST } from './auth'
 import type { AppEnv } from './env'
 import clients from './routes/clients'
 import dashboard from './routes/dashboard'
@@ -30,10 +31,19 @@ const api = new Hono<AppEnv>()
   .route('/', me)
   .all('*', (c) => c.json({ error: 'Not found' }, 404))
 
+const LEGACY_HOST = 'seamstress.build40for40.com'
+
 const app = new Hono<AppEnv>()
+  .use(async (c, next) => {
+    const url = new URL(c.req.url)
+    if (url.hostname !== LEGACY_HOST) return next()
+    url.hostname = PRODUCTION_HOST
+    return c.redirect(url.toString(), 308)
+  })
   .route('/api', api)
   .route('/track', track)
   .route('/photos', photos)
+  .all('*', (c) => c.env.ASSETS.fetch(c.req.raw))
 
 app.onError((err, c) => {
   if (err instanceof HTTPException) return c.json({ error: err.message }, err.status)

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PhotoLabel } from '@seamstress/shared'
+import type { PhotoLabel } from '@seamless/shared'
 import { ref } from 'vue'
 import type { OwnerPhoto } from '@/api-types'
 import { errorMessage, uploadGarmentPhoto } from '@/composables/useApi'

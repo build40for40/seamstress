@@ -11,7 +11,7 @@
     "typecheck": "vue-tsc --build"
   },
   "dependencies": {
-    "@seamstress/shared": "workspace:*",
+    "@seamless/shared": "workspace:*",
     "@workos-inc/authkit-js": "^0.20.5",
     "vue": "^3.5.42",
     "vue-router": "^5.0.0",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Client } from '@seamstress/shared'
+import type { Client } from '@seamless/shared'
 import { ref } from 'vue'
 import TellClient from '@/components/TellClient.vue'
 import { api, errorMessage } from '@/composables/useApi'

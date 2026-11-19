@@ -1,4 +1,4 @@
-import type { OrderDraft, PriceItem, UnsureField } from '@seamstress/shared'
+import type { OrderDraft, PriceItem, UnsureField } from '@seamless/shared'
 
 export type DraftClient = { id: string; name: string; phone: string }
 
