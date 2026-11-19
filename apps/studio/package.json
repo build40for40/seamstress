@@ -1,0 +1,32 @@
+{
+  "name": "studio",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The atelier owner's app, served at /.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "vue-tsc --build"
+  },
+  "dependencies": {
+    "@seamstress/shared": "workspace:*",
+    "@workos-inc/authkit-js": "^0.20.5",
+    "vue": "^3.5.42",
+    "vue-router": "^5.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tsconfig/node24": "^24.0.5",
+    "@types/node": "^24.13.4",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vue/test-utils": "^2.5.0",
+    "@vue/tsconfig": "^0.9.1",
+    "happy-dom": "^21.0.4",
+    "typescript": "~6.0.3",
+    "vite": "^8.2.2",
+    "vitest": "^5.1.1",
+    "vue-tsc": "^3.3.11"
+  }
+}

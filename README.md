@@ -1,50 +1,67 @@
-# Seamstress
+# Seamless
 
-Have one conversation with Claude and get a working system for your atelier. Claude gets to know you, walks you through signing up for Superthread and connecting it, then learns how your business works and sets up your board: a space for your company, a board for orders, a conventions page, and cards for the jobs you're working on right now. Your board opens as your to-do list instead of an empty page. Hours and photo evidence then live on each garment's card, and you ask Claude instead of reading the board.
+Day 14 of [40 for 40](https://build40for40.com): a workshop system for ateliers that make garments to order. Built live on Twitch on 19 November 2026, for the problem "Unbilled seamstress hours".
 
-Day 14 of 40 for 40. Problem: unbilled seamstress hours.
+Live at https://seamstress.build40for40.com.
 
-## How onboarding goes (for an owner)
+## What it is
 
-All of it happens in one chat with Claude. You only leave the chat to sign up and connect.
+- **Studio** (`/`): the atelier owner signs in, sets up her atelier, takes orders with garments, quotes and due dates, and assigns each garment to her seamstresses. She approves hours and photos before a client sees them, turns an order into an invoice against its quote, runs the monthly timesheets and watches three numbers: unbilled work, what this month's invoices earned per hour against her rate, and the billable share of paid hours.
+- **Workroom** (`/workroom/`): each seamstress opens a personal link on her phone, with no password. She sees only her own garments, starts and stops a timer, types in time she forgot, sends photos, moves garments along and sends her timesheet.
+- **Tracking page** (`/track/<token>`): the client follows her order, with approved hours and photos only, and gets emails when it's in, ready and invoiced.
 
-| Step | What happens | Who |
-|---|---|---|
-| 0. Start | Open Claude (claude.ai) and say "set up my atelier" | You |
-| 1. Get to know you | Your name, your company's name, what it does | Claude asks |
-| 2. Sign up for Superthread | Claude sends you to superthread.com and tells you what to enter (your business email, your company name as the workspace) | You, guided |
-| 3. Connect Superthread to Claude | Add Superthread to Claude using <https://mcp.superthread.com/mcp> and sign in to approve. Claude then checks it can see your workspace | You, guided, then Claude checks |
-| 4. Your profile | Claude fills in anything missing, such as your display name, with your OK | Claude |
-| 5. How your business works | Walk Claude through a typical order, tell it who's on your team, and what you're working on now | Claude asks |
-| 6. Proposal | Claude shows the board, lists, rules and first cards before creating anything | Claude, you approve |
-| 7. Your board appears | Space, board, conventions page and cards for your current jobs | Claude |
-| 8. Your team | Send each seamstress her personal link to the logging app. They don't sign up for anything | You |
+- **Superthread onboarding skill** (`.claude/skills/seamstress-onboard/`): a separate track that onboards an atelier owner onto Superthread through one conversation with Claude. See its [README](.claude/skills/seamstress-onboard/README.md).
 
-## For the build team
-The skill lives in this repo and is tested from Claude Code:
-
-```
-/seamstress-onboard
-```
-
-For a real owner it needs to run in claude.ai (as an uploaded skill or a Claude project), since an atelier owner won't use a terminal. That move is not done yet.
-
-## What you get
-- A space named after your company.
-- A board with one card per garment. Lists come from your own description of how an order flows; for most ateliers that's Inquiry, Quoted, Accepted, In Progress, Client Review, then an ending that follows how you get paid (by default Ready & Invoiced → Paid & Collected), plus Cancelled. Every list has to mean a different next action, so a simple alterations shop may end up with four. Invoices awaiting payment stay open work, never "done".
-- Page **Conventions (read first)**: the rules Claude follows when it logs time and evidence, including your team list.
-- Cards for the jobs you mention, each with a numbered Work steps checklist. (A sample card only if you mention none.)
-
-## Known limits (tested 2026-11-19)
-- Claude can't create accounts: you sign up for Superthread and connect it yourself, with Claude guiding you.
-- The MCP cannot upload files. Photos are attached by the seamstress logging app (personal link per seamstress, no login), and Claude reads them by file ID.
-- Superthread has no custom fields: rate, price and client contact go in the card description.
-- Not built yet: the claude.ai version of the skill, invoice generation, payroll, client portal.
-- Not checked yet: what Superthread's signup asks for, whether connecting Superthread in claude.ai needs a paid Claude plan, and whether Claude can update your Superthread profile.
-
-See [DECISIONS.md](DECISIONS.md) for why it works this way.
+Any atelier can sign up and run its own team. [docs/PRD.md](docs/PRD.md) has the stories and product decisions, [docs/PLAN.md](docs/PLAN.md) the build plan, and [AGENTS.md](AGENTS.md) the technical decisions.
 
 ## Layout
-- `.claude/skills/seamstress-onboard/SKILL.md`: the onboarding skill
-- `.claude/skills/seamstress-onboard/conventions-template.md`: template for the conventions page
-- `DECISIONS.md`: decisions made while building
+
+```
+apps/studio/        Vue app for the owner, served at /
+apps/workroom/      Vue app for seamstresses, served at /workroom/
+packages/shared/    zod schemas, types, billing, time and timesheet maths
+workers/api/        Hono Worker: API, tracking page, photos and both app builds
+  migrations/       D1 migrations
+  postmark/         email templates and the sync script
+  scripts/seed.ts   loads fixtures/*.csv
+fixtures/           fake demo data
+mockups/            the first sketches of the seamstress screens
+```
+
+## Develop
+
+You need Node (see `.node-version`), pnpm (pinned in `package.json`) and the `40for40` wrangler profile.
+
+```sh
+pnpm install
+cp workers/api/.dev.vars.example workers/api/.dev.vars   # fill in the Postmark token and the staging WorkOS client id
+pnpm --filter api db:migrate                             # local D1
+pnpm seed                                                # the fake atelier, dated around today
+pnpm dev
+```
+
+`pnpm dev` runs the Worker on 8787, the studio on http://localhost:5173 and the workroom on http://localhost:5174/workroom/. Both Vite servers proxy `/api`, `/photos` and `/track` to the Worker. Override the ports with `API_PORT`, `STUDIO_PORT` and `WORKROOM_PORT`, and the local D1 and R2 folder with `PERSIST_TO`. Only port 5173 is allowed by the staging WorkOS client, so sign in there.
+
+The seed prints each seamstress's workroom link. The seeded owner has no WorkOS user unless you run `SEED_OWNER_WORKOS_USER_ID=<your token's sub> pnpm seed`; without it your first sign in sets up a fresh atelier instead. Seeded clients have no email address, so nothing gets sent.
+
+Run wrangler through the repo script, never bare `npx wrangler`: `pnpm --filter api wrangler <args>`.
+
+## Check
+
+```sh
+pnpm test        # shared maths, Worker tests on a fresh local D1 per file, and the apps
+pnpm typecheck
+pnpm build       # the studio into workers/api/public, then the workroom into public/workroom
+```
+
+Always build from the root: building the studio on its own empties `workers/api/public`, workroom included.
+
+## Deploy
+
+CI (`.github/workflows/ci.yml`) typechecks, tests and builds every push and PR. Each PR gets a preview at `https://<branch>-seamstress.40for40.workers.dev`, and merging to `main` applies the D1 migrations and deploys the `seamstress` Worker to the custom domain.
+
+Previews share the production D1 database and R2 bucket, so never seed them or run destructive tests against them. `pnpm seed --remote` writes to production: don't.
+
+Emails are Postmark templates under `seamstress-*` aliases. After editing `workers/api/postmark/*.json`, push them with `pnpm --filter api postmark:sync`. The Worker's `POSTMARK_SERVER_TOKEN` is a Cloudflare secret, set once with `pnpm --filter api wrangler secret put POSTMARK_SERVER_TOKEN`.
+
+Sign in goes through the shared build40for40 WorkOS application. The production client allows `https://seamstress.build40for40.com/`, and the staging client allows `http://localhost:5173/` and `https://*seamstress.40for40.workers.dev/`, as redirect URIs and web origins.

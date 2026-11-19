@@ -1,0 +1,7 @@
+order_number,client_id,description,quote_gbp,status,created_date,due_date,express
+SE-1001,C001,"Ivory silk wedding gown, made to order",2400,collected,2026-10-02,2026-11-01,no
+SE-1002,C002,"Velvet evening coat, reline and new cuffs",480,ready,2026-11-02,2026-11-20,no
+SE-1003,C003,Two bridesmaid dresses for a wedding on Saturday,300,open,2026-11-13,2026-11-20,yes
+SE-1004,C001,"Wedding veil, hand-rolled edge",600,open,2026-10-23,2026-12-12,no
+SE-1005,C004,"Tweed jacket, made to measure",1500,open,2026-11-06,2026-11-18,no
+SE-1006,C005,"Linen suit trousers, taper and hem",120,open,2026-11-18,2026-11-27,no

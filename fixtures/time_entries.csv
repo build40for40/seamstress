@@ -1,0 +1,32 @@
+entry_id,order_number,garment_ref,seamstress_id,date_local,hours,kind,review_status,invoice_id,timesheet_id,note
+T001,SE-1001,SE-1001-A,S01,2026-10-05,4,sewing,approved,INV-0001,TS-S01-2026-10,Cut and tacked the bodice
+T002,SE-1001,SE-1001-A,S01,2026-10-06,5,sewing,approved,INV-0001,TS-S01-2026-10,Bodice seams and boning channels
+T003,SE-1001,SE-1001-A,S01,2026-10-08,4.5,sewing,approved,INV-0001,TS-S01-2026-10,Skirt panels
+T004,SE-1001,SE-1001-A,S01,2026-10-12,5,sewing,approved,INV-0001,TS-S01-2026-10,Joined skirt to bodice
+T005,SE-1001,SE-1001-A,S01,2026-10-13,3,fitting,approved,INV-0001,TS-S01-2026-10,First fitting
+T006,,,S01,2026-10-13,0.5,waiting,,,TS-S01-2026-10,Waited for the fitting to start
+T007,SE-1001,SE-1001-A,S01,2026-10-19,5,sewing,approved,INV-0001,TS-S01-2026-10,Alterations from the fitting
+T008,SE-1001,SE-1001-A,S01,2026-10-20,4,sewing,approved,INV-0001,TS-S01-2026-10,Lining
+T009,SE-1001,SE-1001-A,S01,2026-10-26,4,sewing,approved,INV-0001,TS-S01-2026-10,Buttons and loops
+T010,SE-1001,SE-1001-A,S01,2026-10-29,2.5,sewing,approved,INV-0001,TS-S01-2026-10,Hem
+T011,SE-1001,SE-1001-A,S01,2026-10-30,1,tidying,approved,INV-0001,TS-S01-2026-10,Pressed and packed
+T012,SE-1004,SE-1004-A,S03,2026-10-26,2,sewing,approved,,TS-S03-2026-10,Cut the tulle
+T013,SE-1004,SE-1004-A,S03,2026-10-28,1.5,sewing,approved,,TS-S03-2026-10,Started the rolled edge
+T014,SE-1002,SE-1002-A,S02,2026-11-03,3,sewing,approved,INV-0002,TS-S02-2026-11,Removed the old lining
+T015,SE-1002,SE-1002-A,S02,2026-11-04,2.5,sewing,approved,INV-0002,TS-S02-2026-11,Cut and set the new lining
+T016,SE-1004,SE-1004-A,S03,2026-11-05,2,sewing,approved,,TS-S03-2026-11,"Rolled edge, first half"
+T017,,,S03,2026-11-05,1,waiting,,,TS-S03-2026-11,Waited for the thread delivery
+T018,SE-1005,SE-1005-A,S02,2026-11-09,4,sewing,approved,,TS-S02-2026-11,Cut the tweed
+T019,SE-1002,SE-1002-A,S02,2026-11-10,2,fitting,approved,INV-0002,TS-S02-2026-11,Fitting for the cuffs
+T020,,,S02,2026-11-10,0.5,waiting,,,TS-S02-2026-11,Waited for the fitting to start
+T021,SE-1002,SE-1002-A,S02,2026-11-11,1.5,sewing,approved,INV-0002,TS-S02-2026-11,New cuffs
+T022,SE-1002,SE-1002-A,S02,2026-11-12,0.5,tidying,approved,INV-0002,TS-S02-2026-11,Pressed and packed
+T023,SE-1004,SE-1004-A,S03,2026-11-13,1.5,sewing,approved,,TS-S03-2026-11,"Rolled edge, second half"
+T024,SE-1005,SE-1005-A,S02,2026-11-13,5,sewing,approved,,TS-S02-2026-11,Canvas and front panels
+T025,SE-1003,SE-1003-A,S01,2026-11-16,1.5,sewing,approved,,TS-S01-2026-11,Took in the side seams
+T026,SE-1005,SE-1005-A,S02,2026-11-16,4.5,sewing,approved,,TS-S02-2026-11,Sleeves
+T027,SE-1003,SE-1003-A,S03,2026-11-17,1,sewing,approved,,TS-S03-2026-11,Re-stitched loose beading
+T028,SE-1005,SE-1005-A,S02,2026-11-17,3,sewing,held_back,,TS-S02-2026-11,Redid a sleeve after a cutting mistake
+T029,SE-1003,SE-1003-B,S01,2026-11-18,1,sewing,waiting,,TS-S01-2026-11,Hem
+T030,SE-1004,SE-1004-A,S03,2026-11-18,1,sewing,waiting,,TS-S03-2026-11,Attached the comb
+T031,SE-1005,SE-1005-A,S02,2026-11-18,4,sewing,waiting,,TS-S02-2026-11,Collar
