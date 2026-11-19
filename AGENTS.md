@@ -49,8 +49,7 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 
 ### Email
 
-- Postmark, from `"<Atelier name> via Seamless"` at the `noreply` address on build40for40.com, on the `outbound` (transactional) stream, with `Reply-To` set to the atelier's email.
-- The sender address is the `EMAIL_FROM` Worker var, set with `wrangler secret put` and in `.dev.vars`, never written in committed files: the privacy hook blocks it until a human allowlists it.
+- Postmark, from `"<Atelier name> via Seamless" <noreply@build40for40.com>` on the `outbound` (transactional) stream, with `Reply-To` set to the atelier's email. The address is the `EMAIL_FROM` var in `wrangler.jsonc`.
 - Templates live in `workers/api/postmark/` and are pushed with `pnpm --filter api postmark:sync` under `seamstress-*` aliases. The Worker sends with `/email/withTemplate`.
 - Emails send in `ctx.waitUntil`, never block the change that caused them, and are logged on the order's activity whether they succeed or fail.
 
@@ -66,7 +65,7 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 
 - One Worker, `seamstress`, on the `seamstress.build40for40.com` custom domain. `/` is the studio, `/workroom/` the workroom, `/track/*` the tracking page, `/api/*` the API, `/photos/*` photos.
 - Bindings: the `seamstress` D1 database, the `seamstress-photos` R2 bucket, static assets from both apps' builds.
-- Secrets: `POSTMARK_SERVER_TOKEN` and `EMAIL_FROM`, both listed empty in `workers/api/.dev.vars.example`.
+- Secrets: `POSTMARK_SERVER_TOKEN`, listed empty in `workers/api/.dev.vars.example`.
 - WorkOS: the production client allows `https://seamstress.build40for40.com/` as a redirect URI and origin; the staging client allows localhost and the `*.workers.dev` previews.
 - CI tests and builds every push and PR, uploads a preview per PR, and deploys `main`. `CLOUDFLARE_API_TOKEN` comes from the org secrets.
 

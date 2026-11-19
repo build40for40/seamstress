@@ -181,14 +181,14 @@ Templates in `workers/api/postmark/<alias>.json` (subject, HTML, text), pushed b
 | `seamstress-garments-done` | Atelier | The last garment on an order is done |
 | `seamstress-timesheet-sent` | Atelier | A seamstress sends her timesheet |
 
-From `"<Atelier name> via Seamless"` at the address in `EMAIL_FROM` (the `noreply` address on build40for40.com, kept out of committed files because the privacy hook blocks it), `MessageStream: outbound`, `ReplyTo` the atelier's email. Links use the request's origin. Seeded clients have no email address, so the seed never sends anything. Test real sends with a client whose email is a team address.
+From `"<Atelier name> via Seamless" <noreply@build40for40.com>`, read from the `EMAIL_FROM` var in `wrangler.jsonc`, `MessageStream: outbound`, `ReplyTo` the atelier's email. Links use the request's origin. Seeded clients have no email address, so the seed never sends anything. Test real sends with a client whose email is a team address.
 
 ## Build order
 
 Each step ends with a commit. Push after each one.
 
 1. **Docs on the branch.** Make sure the branch has this plan, the PRD, `AGENTS.md` and the fixtures as they stand on `main`.
-2. **Scaffold.** The workspace, two Vite apps saying hello, `packages/shared`, the Hono Worker serving both builds, CI adapted from `../templates/web-app/.github/workflows/ci.yml` and the `build40for40/actions` composite actions (setup, deploy-worker, preview-worker). Create the D1 database and the R2 bucket with the repo's wrangler script, add the custom domain route, set `POSTMARK_SERVER_TOKEN` as a Worker secret from `.dev.vars`, and set `EMAIL_FROM` the same way, in both places, to the `noreply` address on build40for40.com. Push and check a preview deploys.
+2. **Scaffold.** The workspace, two Vite apps saying hello, `packages/shared`, the Hono Worker serving both builds, CI adapted from `../templates/web-app/.github/workflows/ci.yml` and the `build40for40/actions` composite actions (setup, deploy-worker, preview-worker). Create the D1 database and the R2 bucket with the repo's wrangler script, add the custom domain route, and set `POSTMARK_SERVER_TOKEN` as a Worker secret from `.dev.vars`. Push and check a preview deploys.
 3. **Shared logic and tests.**
 4. **Schema, auth and scoping.** The migration, query modules, `requireOwner` and `requireMember`, and the Worker tests for tenant isolation and what a seamstress can see.
 5. **API.** The endpoints above, with Worker tests for the timer (one at a time, under a minute, stop with a time), locking and review.
