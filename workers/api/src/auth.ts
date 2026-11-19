@@ -57,6 +57,7 @@ export const requireUser = createMiddleware<AppEnv>(async (c, next) => {
 })
 
 export const requireOwner = createMiddleware<AppEnv>(async (c, next) => {
+  if (c.get('via') === 'token' && c.get('member')?.role === 'owner') return next()
   const userId = await signedInUser(c.req.raw, c.env.WORKOS_CLIENT_ID)
   if (!userId) throw notSignedIn()
   const found = await findActiveMemberByWorkosUser(userId)

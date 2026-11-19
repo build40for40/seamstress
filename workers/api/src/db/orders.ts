@@ -86,10 +86,11 @@ export async function createOrder(teamId: string, order: NewOrder, createdBy: st
   return (await getOrder(teamId, orderId))!
 }
 
-export type OrderPatch = Partial<Pick<OrderRow, 'description' | 'quote_pence' | 'due_date' | 'express' | 'status'>>
+export type OrderPatch = Partial<Pick<OrderRow, 'client_id' | 'description' | 'quote_pence' | 'due_date' | 'express' | 'status'>>
 
 export async function updateOrder(teamId: string, orderId: string, patch: OrderPatch) {
   const statement = updateStatement<OrderRow>('orders', teamId, orderId, { ...patch, updated_at: nowIso() }, [
+    'client_id',
     'description',
     'quote_pence',
     'due_date',
