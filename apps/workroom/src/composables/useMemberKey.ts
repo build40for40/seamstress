@@ -1,5 +1,7 @@
 const STORAGE_KEY = 'seamstress.memberKey'
 
+export const MEMBER_KEY_HEADER = 'X-Member-Key'
+
 export function memberKey(): string | null {
   try {
     return localStorage.getItem(STORAGE_KEY)
