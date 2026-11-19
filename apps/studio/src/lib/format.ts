@@ -37,6 +37,10 @@ export function formatDateTime(instant: string, today: string = todayInLondon())
   return `${formatDate(localDate(instant, STUDIO_TIME_ZONE), today)}, ${timeFormatter.format(new Date(instant))}`
 }
 
+export function formatInstantDate(instant: string, today: string = todayInLondon()): string {
+  return formatDate(localDate(instant, STUDIO_TIME_ZONE), today)
+}
+
 export function formatTime(instant: string): string {
   return timeFormatter.format(new Date(instant))
 }
