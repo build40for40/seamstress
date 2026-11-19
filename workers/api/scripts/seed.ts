@@ -83,7 +83,6 @@ const garmentRows = garments.map((garment): Row => {
   return { ...garment, position: siblings.indexOf(garment), order }
 })
 
-const entryInvoice = (entry: Row) => (entry.invoice_id ? invoiceId(entry.invoice_id) : null)
 
 const statements: string[] = []
 const wipe = [
@@ -94,6 +93,8 @@ for (const table of wipe) statements.push(`DELETE FROM ${table} WHERE team_id = 
 statements.push(`DELETE FROM teams WHERE id = ${sql(TEAM_ID)};`)
 
 const sentInvoices = fixture('invoices').filter((invoice) => invoice.status !== 'draft')
+const sentInvoiceIds = new Set(sentInvoices.map((invoice) => invoice.invoice_id))
+const entryInvoice = (entry: Row) => (sentInvoiceIds.has(entry.invoice_id) ? invoiceId(entry.invoice_id) : null)
 statements.push(
   insert('teams', {
     id: TEAM_ID,
