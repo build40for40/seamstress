@@ -59,3 +59,6 @@ export async function createPhoto(teamId: string, photo: NewPhoto, id = newId())
 
 export const setPhotoReviewStatement = (teamId: string, photoId: string, status: ReviewStatus) =>
   db().prepare('UPDATE photos SET review_status = ? WHERE team_id = ? AND id = ?').bind(status, teamId, photoId)
+
+export const deletePhoto = (teamId: string, photoId: string) =>
+  db().prepare('DELETE FROM photos WHERE team_id = ? AND id = ?').bind(teamId, photoId).run()

@@ -1,5 +1,5 @@
-import { db } from './db'
-import type { GarmentRow, OrderRow, OrderStatus } from './rows'
+import { db, nowIso } from './db'
+import type { GarmentRow, OrderRow, OrderStatus, TimeEntryRow } from './rows'
 
 export type MemberOrderRow = OrderRow & { other_garments: number; last_worked_at: string | null }
 export type MemberGarmentRow = GarmentRow & { my_minutes: number }
@@ -54,3 +54,72 @@ export async function getMemberGarment(teamId: string, memberId: string, garment
     .first<OrderRow>()
   return order ? { garment, order } : null
 }
+
+export type EntryWithRef = TimeEntryRow & { garment_ref: string | null }
+
+export const getMemberEntry = (teamId: string, memberId: string, entryId: string) =>
+  db()
+    .prepare(
+      `SELECT e.*, g.ref AS garment_ref FROM time_entries e LEFT JOIN garments g ON g.id = e.garment_id
+       WHERE e.team_id = ? AND e.member_id = ? AND e.id = ?`,
+    )
+    .bind(teamId, memberId, entryId)
+    .first<EntryWithRef>()
+
+export const runningTimer = (teamId: string, memberId: string) =>
+  db()
+    .prepare(
+      `SELECT e.*, g.ref AS garment_ref FROM time_entries e LEFT JOIN garments g ON g.id = e.garment_id
+       WHERE e.team_id = ? AND e.member_id = ? AND e.ended_at IS NULL AND e.started_at IS NOT NULL`,
+    )
+    .bind(teamId, memberId)
+    .first<EntryWithRef>()
+
+export const finishTimerStatement = (teamId: string, entryId: string, endedAt: string, minutes: number) =>
+  db()
+    .prepare(
+      `UPDATE time_entries SET ended_at = ?, minutes = ?, updated_at = ?
+       WHERE team_id = ? AND id = ? AND ended_at IS NULL`,
+    )
+    .bind(endedAt, minutes, nowIso(), teamId, entryId)
+
+export const discardTimerStatement = (teamId: string, entryId: string) =>
+  db().prepare('DELETE FROM time_entries WHERE team_id = ? AND id = ? AND ended_at IS NULL').bind(teamId, entryId)
+
+export const startGarmentStatement = (teamId: string, garmentId: string) =>
+  db()
+    .prepare(`UPDATE garments SET status = 'in_progress', updated_at = ? WHERE team_id = ? AND id = ? AND status = 'todo'`)
+    .bind(nowIso(), teamId, garmentId)
+
+export const listOrderGarmentStatuses = (teamId: string, orderId: string) =>
+  db()
+    .prepare('SELECT status FROM garments WHERE team_id = ? AND order_id = ?')
+    .bind(teamId, orderId)
+    .all<Pick<GarmentRow, 'status'>>()
+    .then((result) => result.results)
+
+export type MemberMonthEntry = {
+  id: string
+  memberId: string
+  garmentId: string | null
+  kind: TimeEntryRow['kind']
+  dateLocal: string
+  minutes: number | null
+  orderId: string | null
+  orderNumber: string | null
+}
+
+export const listMemberEntriesBetween = (teamId: string, memberId: string, from: string, to: string) =>
+  db()
+    .prepare(
+      `SELECT e.id, e.member_id AS memberId, e.garment_id AS garmentId, e.kind, e.date_local AS dateLocal, e.minutes,
+         o.id AS orderId, o.number AS orderNumber
+       FROM time_entries e
+       LEFT JOIN garments g ON g.id = e.garment_id AND g.team_id = e.team_id
+       LEFT JOIN orders o ON o.id = g.order_id AND o.team_id = e.team_id
+       WHERE e.team_id = ? AND e.member_id = ? AND e.date_local BETWEEN ? AND ?
+       ORDER BY e.date_local, coalesce(e.started_at, e.created_at)`,
+    )
+    .bind(teamId, memberId, from, to)
+    .all<MemberMonthEntry>()
+    .then((result) => result.results)
