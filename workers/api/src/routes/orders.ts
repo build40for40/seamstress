@@ -4,6 +4,7 @@ import {
   createGarmentSchema,
   createOrderSchema,
   orderListQuerySchema,
+  photoUploadQuerySchema,
   setAssigneesSchema,
   toldClientSchema,
   updateGarmentSchema,
@@ -21,12 +22,13 @@ import { addGarment, getGarment, listAssignees, listGarments, setAssignees, upda
 import { listInvoices } from '../db/invoices'
 import { listMembers } from '../db/members'
 import { createOrder, getOrder, listOrders, regenerateTrackingToken, updateOrder } from '../db/orders'
-import { listPhotos } from '../db/photos'
+import { createPhoto, deletePhoto, listPhotos } from '../db/photos'
 import type { ClientRow, OrderRow } from '../db/rows'
 import { listEntries } from '../db/time-entries'
 import { clientEmail, sendEmail } from '../email'
 import type { AppEnv } from '../env'
 import { studioOrderUrl, trackingUrl } from '../links'
+import { readJpeg } from '../photo-upload'
 import * as serialize from '../serializers/owner'
 import { validate } from '../validate'
 
@@ -259,6 +261,30 @@ routes.put('/garments/:id/assignees', validate('json', setAssigneesSchema), asyn
     detail: { ref: garment.ref, memberIds: assignees!.map((assignee) => assignee.member_id) },
   })
   return c.json(await orderDetail(c, garment.order_id))
+})
+
+routes.post('/garments/:id/photos', validate('query', photoUploadQuerySchema), async (c) => {
+  const { team, member } = c.var
+  const garment = await getGarment(team.id, c.req.param('id'))
+  if (!garment) throw garmentNotFound()
+  const body = await readJpeg(c)
+  const { caption, label } = c.req.valid('query')
+  const photo = await createPhoto(team.id, {
+    garment_id: garment.id,
+    member_id: member.id,
+    taken_on: localDate(new Date(), STUDIO_TIME_ZONE),
+    caption: caption || null,
+    label: label ?? null,
+    review_status: 'approved',
+  })
+  if (!photo) throw garmentNotFound()
+  try {
+    await c.env.PHOTOS.put(photo.r2_key, body, { httpMetadata: { contentType: 'image/jpeg' } })
+  } catch (error) {
+    await deletePhoto(team.id, photo.id)
+    throw error
+  }
+  return c.json({ photo: serialize.photo(photo) }, 201)
 })
 
 export default routes

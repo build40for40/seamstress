@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { listGarments } from '../db/garments'
 import { createTestTeam } from '../test/actors'
 
 describe('GET /api/orders/:id', () => {
@@ -102,5 +103,30 @@ describe('order and garment stages', () => {
     expect(status).toBe(200)
     expect(after.order.garments[0].assignees).toEqual([{ memberId: ada.member.id, name: 'Ada Example' }])
     expect((await second.owner.send('PUT', `/api/garments/${garmentId}/assignees`, { memberIds: [] })).status).toBe(404)
+  })
+})
+
+describe('POST /api/garments/:id/photos', () => {
+  const JPEG = new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0xff, 0xd9])
+
+  it("saves the owner's photo approved, and only on her own atelier's garments", async () => {
+    const first = await createTestTeam()
+    const second = await createTestTeam()
+    const order = await first.addOrder({ garments: [{ description: 'Gown' }] })
+    const [gown] = await listGarments(first.team.id, [order.id])
+    const upload = (owner: typeof first.owner) =>
+      owner.fetch(`/api/garments/${gown!.id}/photos?label=before&caption=As%20it%20came%20in`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'image/jpeg' },
+        body: JPEG,
+      })
+
+    const response = await upload(first.owner)
+    expect(response.status).toBe(201)
+    const { photo } = (await response.json()) as { photo: { url: string } }
+    expect(photo).toMatchObject({ label: 'before', caption: 'As it came in', reviewStatus: 'approved' })
+    expect((await first.owner.fetch(photo.url)).status).toBe(200)
+
+    expect((await upload(second.owner)).status).toBe(404)
   })
 })
