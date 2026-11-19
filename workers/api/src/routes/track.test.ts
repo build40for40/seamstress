@@ -47,6 +47,18 @@ describe('GET /track/:token', () => {
     expect(html).toContain('mailto:hello@40for40.app')
   })
 
+  it("says it's booked in until work starts, then that it's under way", async () => {
+    const { order, entry } = await tracked()
+    const before = (await page(order.tracking_token)).html
+    expect(before).toContain('Booked in and waiting its turn.')
+    expect(before).not.toContain('Needle in hand')
+
+    await entry('approved', 30, 'x')
+    const after = (await page(order.tracking_token)).html
+    expect(after).toContain('Needle in hand, as we speak.')
+    expect(after).toContain('In the workroom')
+  })
+
   it('never shows waiting or held-back work or photos', async () => {
     const { order, entry, photo } = await tracked()
     await entry('approved', 60, 'approved note')

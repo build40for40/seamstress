@@ -20,12 +20,22 @@ const STAGES: { status: GarmentStatus; label: string }[] = [
   { status: 'done', label: 'Finished' },
 ]
 
-const ORDER_STATUS: Record<OrderStatus, string> = {
+const ORDER_STATUS: Record<OrderStatus | 'queued', string> = {
+  queued: 'Booked in',
   open: 'In the workroom',
   ready: 'Ready for collection',
   collected: 'Collected',
   cancelled: 'Cancelled',
 }
+
+const ORDER_ASIDE: Partial<Record<OrderStatus | 'queued', string>> = {
+  queued: 'Booked in and waiting its turn.',
+  open: 'Needle in hand, as we speak.',
+  ready: 'All done and waiting for you.',
+}
+
+const trackedStatus = (order: OrderRow, garments: GarmentRow[], cost: { minutes: number }) =>
+  order.status === 'open' && cost.minutes === 0 && garments.every((garment) => garment.status === 'todo') ? 'queued' : order.status
 
 const STYLES = `
 *{box-sizing:border-box}
@@ -181,16 +191,17 @@ function Tracking({ team, order, garments, photos, cost, invoice, token }: {
   const quote = order.quote_pence
   const over = quote !== null && quote > 0 && cost.pence > quote
   const mailto = `mailto:${team.reply_to_email}?subject=${encodeURIComponent(`About ${order.number}`)}`
+  const status = trackedStatus(order, garments, cost)
   return (
     <Page title={`${order.number} at ${team.name}`}>
       <span class="brand">{team.name}</span>
       <span class="label">{order.number}</span>
       <h1>{order.description}</h1>
-      <p class="aside">{order.status === 'ready' ? 'All done and waiting for you.' : order.status === 'open' ? 'Needle in hand, as we speak.' : ORDER_STATUS[order.status]}</p>
+      <p class="aside">{ORDER_ASIDE[status] ?? ORDER_STATUS[status]}</p>
       <section class="card">
         <div class="row">
           <h2>Status</h2>
-          <strong>{ORDER_STATUS[order.status]}</strong>
+          <strong>{ORDER_STATUS[status]}</strong>
         </div>
         {order.due_date && (
           <div class="row">
