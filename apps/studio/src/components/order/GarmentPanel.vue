@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GARMENT_STATUSES, type GarmentStatus } from '@seamstress/shared'
+import { GARMENT_STATUSES, type GarmentStatus } from '@seamless/shared'
 import { computed, ref } from 'vue'
 import type { GarmentCard, OrderDetail, OrderMember, OwnerPhoto } from '@/api-types'
 import AssigneePicker from '@/components/AssigneePicker.vue'

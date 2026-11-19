@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Dashboard } from '@seamstress/shared'
+import type { Dashboard } from '@seamless/shared'
 import { computed, ref } from 'vue'
 import { api } from '@/composables/useApi'
 import { useResource } from '@/composables/useResource'

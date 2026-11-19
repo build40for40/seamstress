@@ -1,5 +1,5 @@
-import { isOverQuote, runningCost } from '@seamstress/shared/billing'
-import { allGarmentsDone, canMoveOrder, dueFlag } from '@seamstress/shared/orders'
+import { isOverQuote, runningCost } from '@seamless/shared/billing'
+import { allGarmentsDone, canMoveOrder, dueFlag } from '@seamless/shared/orders'
 import {
   createGarmentSchema,
   createOrderSchema,
@@ -9,9 +9,9 @@ import {
   toldClientSchema,
   updateGarmentSchema,
   updateOrderSchema,
-} from '@seamstress/shared/schemas'
-import { localDate } from '@seamstress/shared/time'
-import { STUDIO_TIME_ZONE } from '@seamstress/shared/types'
+} from '@seamless/shared/schemas'
+import { localDate } from '@seamless/shared/time'
+import { STUDIO_TIME_ZONE } from '@seamless/shared/types'
 import type { Context } from 'hono'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'

@@ -6,7 +6,7 @@ const context = {
   clientName: 'Clara Example',
   orderNumber: 'SE-1003',
   dueDate: '2026-11-28',
-  trackingUrl: 'https://seamstress.build40for40.com/track/abc',
+  trackingUrl: 'https://seamless.build40for40.com/track/abc',
 }
 
 describe('tell the client', () => {

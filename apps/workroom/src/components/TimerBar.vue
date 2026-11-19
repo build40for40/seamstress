@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { localDate, timerNeedsCheck } from '@seamstress/shared/time'
+import { localDate, timerNeedsCheck } from '@seamless/shared/time'
 import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Glyph from '@/components/Glyph.vue'

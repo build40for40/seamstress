@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Invoice } from '@seamstress/shared'
+import type { Invoice } from '@seamless/shared'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { InvoiceView } from '@/api-types'

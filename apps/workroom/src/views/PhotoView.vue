@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PHOTO_LABELS, type PhotoLabel } from '@seamstress/shared'
+import { PHOTO_LABELS, type PhotoLabel } from '@seamless/shared'
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Glyph from '@/components/Glyph.vue'

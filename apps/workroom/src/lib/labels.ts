@@ -1,4 +1,4 @@
-import type { DueFlag, GarmentStatus } from '@seamstress/shared'
+import type { DueFlag, GarmentStatus } from '@seamless/shared'
 import { formatRelativeDay } from './dates'
 
 export const STAGE_LABELS: Record<GarmentStatus, string> = {

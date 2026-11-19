@@ -1,6 +1,6 @@
 # Seamless build plan
 
-The handoff for building Seamless in one go. The product is Seamless; every technical name (repo, Worker, D1, R2, subdomain) stays `seamstress`. Read these first, in this order: `../AGENTS.md` (shared 40 for 40 rules), `AGENTS.md` (this repo's technical decisions), `docs/PRD.md` (what to build and why), `fixtures/README.md` (the demo data). Where this plan and those disagree, the PRD wins on product and `AGENTS.md` on tech; fix this plan when you spot a gap.
+The handoff for building Seamless in one go. The product is Seamless; it lives at `seamless.build40for40.com`, and every other technical name (repo, Worker, D1, R2) stays `seamstress`. Read these first, in this order: `../AGENTS.md` (shared 40 for 40 rules), `AGENTS.md` (this repo's technical decisions), `docs/PRD.md` (what to build and why), `fixtures/README.md` (the demo data). Where this plan and those disagree, the PRD wins on product and `AGENTS.md` on tech; fix this plan when you spot a gap.
 
 Everything below has been decided with the team. Don't reopen it. Make routine calls yourself, record anything worth keeping under "Decided" in `AGENTS.md`, and only stop for the things listed under [When to ask a human](#when-to-ask-a-human).
 
@@ -217,6 +217,6 @@ On the production URL, with the seeded atelier and a fresh one you set up yourse
 
 ## When to ask a human
 
-- **WorkOS redirects.** The production client needs `https://seamstress.build40for40.com/` as a redirect URI and allowed origin, and staging needs `http://localhost:5173/` and the preview origins. Try the WorkOS MCP or the `workos` CLI. If neither is signed in, ask the user to do it and give them the exact values.
+- **WorkOS redirects.** The production client needs `https://seamless.build40for40.com/` as a redirect URI and allowed origin, and staging needs `http://localhost:5173/` and the preview origins. Try the WorkOS MCP or the `workos` CLI. If neither is signed in, ask the user to do it and give them the exact values.
 - A pre-commit hook blocks something you think is a false positive.
 - Anything that would send real email to a real client, or touch another repo's resources.

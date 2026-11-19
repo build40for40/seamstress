@@ -1,4 +1,4 @@
-import type { Activity, EntryKind, GarmentStatus, InvoiceStatus, OrderStatus, PhotoLabel, ReviewStatus } from '@seamstress/shared'
+import type { Activity, EntryKind, GarmentStatus, InvoiceStatus, OrderStatus, PhotoLabel, ReviewStatus } from '@seamless/shared'
 import { formatPence } from './format'
 
 export const GARMENT_STAGE_LABELS: Record<GarmentStatus, string> = {

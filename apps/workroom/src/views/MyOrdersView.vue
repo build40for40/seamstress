@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { formatMinutes } from '@seamstress/shared/format'
-import { monthOf } from '@seamstress/shared/time'
+import { formatMinutes } from '@seamless/shared/format'
+import { monthOf } from '@seamless/shared/time'
 import { computed, ref, watch } from 'vue'
 import Glyph from '@/components/Glyph.vue'
 import { api, errorMessage } from '@/composables/useApi'

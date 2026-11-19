@@ -14,7 +14,7 @@ import type {
   ReviewStatus,
   Team,
   TimeEntry,
-} from '@seamstress/shared'
+} from '@seamless/shared'
 
 export type SessionCounts = { waitingReviews: number; sentTimesheets: number; readyToCollect: number }
 

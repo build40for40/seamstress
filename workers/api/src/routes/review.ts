@@ -1,4 +1,4 @@
-import { reviewSchema } from '@seamstress/shared/schemas'
+import { reviewSchema } from '@seamless/shared/schemas'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { requireOwner } from '../auth'

@@ -12,7 +12,7 @@ import type {
   PriceItem,
   Team,
   TimeEntry,
-} from '@seamstress/shared/types'
+} from '@seamless/shared/types'
 import type {
   ActivityRow,
   ClientRow,

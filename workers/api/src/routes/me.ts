@@ -22,7 +22,7 @@ import {
   updateTimerSchema,
   workroomOrder,
   type GarmentStatus,
-} from '@seamstress/shared'
+} from '@seamless/shared'
 import { Hono, type Context } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { requireMember } from '../auth'

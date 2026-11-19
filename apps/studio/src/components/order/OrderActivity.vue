@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Activity } from '@seamstress/shared'
+import type { Activity } from '@seamless/shared'
 import { computed } from 'vue'
 import { formatDateTime } from '@/lib/format'
 import { describeActivity, type ActivityLookups } from '@/lib/labels'

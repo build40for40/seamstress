@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { businessDetailsSchema, updateTeamSchema, type BusinessDetails, type PriceItem } from '@seamstress/shared'
+import { businessDetailsSchema, updateTeamSchema, type BusinessDetails, type PriceItem } from '@seamless/shared'
 import { reactive, ref, watchEffect } from 'vue'
 import PoundsInput from '@/components/PoundsInput.vue'
 import { api, errorMessage } from '@/composables/useApi'

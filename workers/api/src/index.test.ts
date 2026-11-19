@@ -2,7 +2,7 @@ import { exports } from 'cloudflare:workers'
 import { describe, expect, it } from 'vitest'
 
 const call = (path: string, init?: RequestInit) =>
-  exports.default.fetch(`https://seamstress.build40for40.com${path}`, init)
+  exports.default.fetch(`https://seamless.build40for40.com${path}`, init)
 
 describe('worker', () => {
   it('says it is up on /api/health', async () => {
@@ -15,6 +15,12 @@ describe('worker', () => {
     const response = await call('/api/nope')
     expect(response.status).toBe(404)
     expect(await response.json()).toEqual({ error: 'Not found' })
+  })
+
+  it('redirects the old seamstress domain to the same path on the seamless one', async () => {
+    const response = await exports.default.fetch('https://seamstress.build40for40.com/track/abc?t=1', { redirect: 'manual' })
+    expect(response.status).toBe(308)
+    expect(response.headers.get('Location')).toBe('https://seamless.build40for40.com/track/abc?t=1')
   })
 
   it('renders a 404 page for an unknown tracking token', async () => {

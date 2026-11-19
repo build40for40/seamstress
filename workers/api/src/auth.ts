@@ -4,7 +4,7 @@ import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from 'jose'
 import { findActiveMemberByKey, findActiveMemberByWorkosUser } from './db/members'
 import type { AppEnv } from './env'
 
-const PRODUCTION_HOST = 'seamstress.build40for40.com'
+export const PRODUCTION_HOST = 'seamless.build40for40.com'
 
 const CLIENT_IDS = {
   production: 'client_01M6E5ZDQ9XBYYE28XYN7H3XTJ',

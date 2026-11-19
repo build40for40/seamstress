@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import type { OrderDraft, UnsureField } from '@seamstress/shared/order-draft'
+import type { OrderDraft, UnsureField } from '@seamless/shared/order-draft'
 import type { KnownClient } from '../src/order-draft/clients'
 import { draftOrder } from '../src/order-draft/draft'
 import type { Named } from '../src/order-draft/questions'

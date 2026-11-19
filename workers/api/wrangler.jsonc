@@ -8,7 +8,7 @@
     "directory": "./public",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*", "/track/*", "/photos/*"]
+    "run_worker_first": true
   },
   "d1_databases": [
     {
@@ -22,7 +22,10 @@
   "vars": {
     "EMAIL_FROM": "noreply@build40for40.com"
   },
-  "routes": [{ "pattern": "seamstress.build40for40.com", "custom_domain": true }],
+  "routes": [
+    { "pattern": "seamless.build40for40.com", "custom_domain": true },
+    { "pattern": "seamstress.build40for40.com", "custom_domain": true }
+  ],
   "workers_dev": true,
   "preview_urls": true,
   "observability": { "enabled": true }

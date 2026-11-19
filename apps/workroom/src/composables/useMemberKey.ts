@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'seamstress.memberKey'
+const STORAGE_KEY = 'seamless.memberKey'
 
 export const MEMBER_KEY_HEADER = 'X-Member-Key'
 

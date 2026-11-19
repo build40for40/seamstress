@@ -2,8 +2,8 @@
 
 Day 14 of 40 for 40, built live on Twitch on Thursday 19 November 2026. The problem is "Unbilled seamstress hours", from Alex. Work is tracked on the Superthread `day14` board and the "Day 14" page.
 
-- **Name:** Seamless. The repo, folder, Worker, database, bucket and subdomain are all still `seamstress`. Brand and voice are in `mockups/README.md`.
-- **Form factor:** two web apps and a Worker, at https://seamstress.build40for40.com. The pre-day picks (CLI, WhatsApp, Agents) were dropped for this.
+- **Name:** Seamless. It lives at the `seamless` subdomain, but the repo, folder, Worker, database, bucket, Postmark aliases and `members.role` value keep their `seamstress` names. Brand and voice are in `mockups/README.md`.
+- **Form factor:** two web apps and a Worker, at https://seamless.build40for40.com. The pre-day picks (CLI, WhatsApp, Agents) were dropped for this.
 - **Layout:** a pnpm workspace. `apps/studio` is the CEO's app, `apps/workroom` the seamstress app, `packages/shared` the zod schemas, billing and time maths both sides use, and `workers/api` the one Worker that serves both apps, the API and the client's tracking page.
 - **Docs:** [docs/PRD.md](docs/PRD.md) is the product: personas, stories, objects, scope and every product decision. [docs/PLAN.md](docs/PLAN.md) is the build plan: data model, API, screens and order of work. `fixtures/` is the shared fake data, and `mockups/` the first sketches of the seamstress screens.
 
@@ -25,7 +25,7 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 
 - Every row an atelier owns has a `team_id`, and every query function takes it as its first argument. Nothing reads across teams.
 - **CEO (studio app):** signs in with WorkOS AuthKit through the shared build40for40 WorkOS application (no new one): `@workos-inc/authkit-js` in the app, `jose` checking the token in the Worker, as `joyo` does. The token's `sub` maps to a `members` row with role `owner`. A signed-in user with no team gets "Set up your atelier" and becomes its owner. The UI has one owner per team and no team switcher, though the schema allows more.
-- **Seamstress (workroom app):** a personal link, `https://seamstress.build40for40.com/workroom/#/k/<key>`. The key sits in the URL fragment so it never reaches server logs. The app moves it to `localStorage`, clears it from the address bar and sends it as `X-Member-Key` on every call. The Worker stores only its SHA-256 hash. A new link or removing the member ends the old one. The owner can get a link for herself to log time.
+- **Seamstress (workroom app):** a personal link, `https://seamless.build40for40.com/workroom/#/k/<key>`. The key sits in the URL fragment so it never reaches server logs. The app moves it to `localStorage`, clears it from the address bar and sends it as `X-Member-Key` on every call. The Worker stores only its SHA-256 hash. A new link or removing the member ends the old one. The owner can get a link for herself to log time.
 - **Seamstress views** never include client names or contact details, other seamstresses' names or hours, or garments not assigned to her. The API leaves those fields out on the server; hiding them in the browser isn't enough.
 - **Client (tracking page):** `/track/<token>`, a random token per order that the CEO can regenerate. It only shows approved hours and photos.
 
@@ -93,7 +93,7 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 - API responses are camelCase. Owner routes map rows through `src/serializers/owner.ts` to the shared types; workroom routes use `src/serializers/seamstress.ts`. Bodies and queries go through `validate()` in `src/validate.ts`, which answers 400 with `{ error }` from the first zod issue. Links (tracking, workroom, studio) are built from the request's origin in `src/links.ts`.
 - Emails go through the one `sendEmail(env, ctx, alias, email)` in `src/email.ts`. `clientEmail(team, client)` decides whether a client gets one: order received and order ready respect the auto-email toggle; the invoice email goes whenever the client has an address, since sending it is the owner's own act.
 - The studio keeps its shared pieces in `apps/studio/src`: `composables/` (`useApi` with `api()`, `uploadGarmentPhoto` and `fetchPhoto`, `useAuth`, `useSession`, `useResource`, `useToast`), `lib/` (London dates and money in `format.ts`, labels and activity sentences in `labels.ts`, `tell-client.ts`, `photos.ts` for shrinking) and `components/`. Photos need the owner's token, so the studio shows them through `AuthPhoto`, never a bare `<img src="/photos/...">`. The owner adds photos with `POST /api/garments/:id/photos`, approved from the start.
-- `packages/shared` is consumed as TypeScript source: import `@seamstress/shared` or a module by name, like `@seamstress/shared/billing`. Use extensionless relative imports inside it.
+- `packages/shared` is consumed as TypeScript source: import `@seamless/shared` or a module by name, like `@seamless/shared/billing`. Use extensionless relative imports inside it.
 - Raw SQL on the app's own `seamstress` D1 database, migrations in `workers/api/migrations/`, a query module per area. No ORM.
 - Vitest. Logic tests in `packages/shared`; Worker tests through `@cloudflare/vitest-plugin` (the renamed `vitest-pool-workers`) for tenant isolation, what a seamstress can see, locking and the timer. Worker tests get the migrations applied to a fresh D1 per file. Tests sit next to their source as `*.test.ts`.
 - `pnpm seed` loads `fixtures/*.csv` into local D1 (or a preview with a flag), shifting every date so 19 November 2026 lands on today.
@@ -101,10 +101,10 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 
 ### Hosting
 
-- One Worker, `seamstress`, on the `seamstress.build40for40.com` custom domain. `/` is the studio, `/workroom/` the workroom, `/track/*` the tracking page, `/api/*` the API, `/photos/*` photos.
+- One Worker, `seamstress`, on the `seamless.build40for40.com` custom domain. The old `seamstress.build40for40.com` domain is still attached and redirects to it with the same path, query and fragment, so links already sent keep working. `/` is the studio, `/workroom/` the workroom, `/track/*` the tracking page, `/api/*` the API, `/photos/*` photos.
 - Bindings: the `seamstress` D1 database, the `seamstress-photos` R2 bucket, static assets from both apps' builds.
 - Secrets: `POSTMARK_SERVER_TOKEN`, `ANTHROPIC_API_KEY` and `TYPESAFE_API_KEY`, listed empty in `workers/api/.dev.vars.example`.
-- WorkOS: the production client allows `https://seamstress.build40for40.com/` as a redirect URI and web origin; the staging client allows `http://localhost:5173/` and `https://*seamstress.40for40.workers.dev/` (the previews).
+- WorkOS: the production client allows `https://seamless.build40for40.com/` as a redirect URI and web origin; the staging client allows `http://localhost:5173/` and `https://*seamstress.40for40.workers.dev/` (the previews).
 - CI tests and builds every push and PR, uploads a preview per PR, and deploys `main`. `CLOUDFLARE_API_TOKEN` comes from the org secrets.
 - Previews share the production D1 database and R2 bucket. Never seed a preview or run destructive tests against one.
 - `POSTMARK_SERVER_TOKEN` is set on the Worker once, by hand. CI deploys leave it in place.

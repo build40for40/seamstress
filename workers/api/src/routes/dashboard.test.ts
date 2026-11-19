@@ -1,4 +1,4 @@
-import { localDate } from '@seamstress/shared/time'
+import { localDate } from '@seamless/shared/time'
 import { describe, expect, it } from 'vitest'
 import { listGarments } from '../db/garments'
 import { createEntry } from '../db/time-entries'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { canMoveOrder, type OrderStatus } from '@seamstress/shared'
+import { canMoveOrder, type OrderStatus } from '@seamless/shared'
 import { computed, reactive, ref } from 'vue'
 import type { OrderDetail, OwnerPhoto } from '@/api-types'
 import AssigneePicker from '@/components/AssigneePicker.vue'

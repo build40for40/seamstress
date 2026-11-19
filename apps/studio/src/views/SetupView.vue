@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createTeamSchema, type Member, type Team } from '@seamstress/shared'
+import { createTeamSchema, type Member, type Team } from '@seamless/shared'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import PoundsInput from '@/components/PoundsInput.vue'

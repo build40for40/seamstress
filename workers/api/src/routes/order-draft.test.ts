@@ -1,5 +1,5 @@
-import { addDays, localDate } from '@seamstress/shared/time'
-import { STUDIO_TIME_ZONE } from '@seamstress/shared/types'
+import { addDays, localDate } from '@seamless/shared/time'
+import { STUDIO_TIME_ZONE } from '@seamless/shared/types'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createClient } from '../db/clients'
 import { createPriceItem } from '../db/price-items'

@@ -1,5 +1,5 @@
-import type { GarmentEntryKind } from '@seamstress/shared'
-import { formatMinutes } from '@seamstress/shared/format'
+import type { GarmentEntryKind } from '@seamless/shared'
+import { formatMinutes } from '@seamless/shared/format'
 import { ref } from 'vue'
 import type { Entry, Me, Timer } from '@/types'
 import { ApiError, api, errorMessage } from './useApi'

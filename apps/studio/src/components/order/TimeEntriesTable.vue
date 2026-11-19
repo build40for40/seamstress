@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TimeEntry } from '@seamstress/shared'
+import type { TimeEntry } from '@seamless/shared'
 import { computed } from 'vue'
 import { formatDate, formatMinutes, formatTime } from '@/lib/format'
 import { ENTRY_KIND_LABELS, REVIEW_STATUS_LABELS } from '@/lib/labels'
