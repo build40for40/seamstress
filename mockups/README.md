@@ -40,6 +40,15 @@ These were drawn before the team settled the PRD, so the real workroom app diffe
 
 The brand, voice, cards and the saved screen's "repeat it back" pattern still stand.
 
+## Mood boards
+
+Two other directions for the brand, to compare with the dressmaker look the screens use now. Neither is applied to any screen.
+
+| File | Direction |
+| --- | --- |
+| `moodboard-godmother.html` | The godmother: midnight blue and stardust gold, a needle for a wand, a clock before midnight for due dates and the timer |
+| `moodboard-designer.html` | The designer: black, white and signal red, pattern pieces as cards, pins as flags, technical drawings |
+
 ## Things these are not
 
 - Not the real app. Nothing is saved, and only the hours steppers and the three choices on `log-time.html` respond.
