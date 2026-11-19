@@ -20,6 +20,7 @@ To change it, edit the lists in `generate.py` and run `python3 fixtures/generate
 | `invoices.csv` | 2 | One sent, one draft |
 | `timesheets.csv` | 5 | One per seamstress per month, with pay |
 | `seamstress_scripts.csv` | 146 | The conversation, line by line, that would produce every time entry and photo |
+| `order_notes.json` | 21 | Notes a CEO might type or dictate to add an order, each with the draft it should give, for `pnpm --filter api eval:order-draft`. It brings its own small team, clients and price list, since the names in the CSVs are too alike to test matching |
 
 ## Seamstress scripts
 

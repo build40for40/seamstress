@@ -34,7 +34,7 @@ You need Node (see `.node-version`), pnpm (pinned in `package.json`) and the `40
 
 ```sh
 pnpm install
-cp workers/api/.dev.vars.example workers/api/.dev.vars   # fill in the Postmark token and the staging WorkOS client id
+cp workers/api/.dev.vars.example workers/api/.dev.vars   # fill in the Postmark token, the staging WorkOS client id and the Anthropic and TypeSafe keys
 pnpm --filter api db:migrate                             # local D1
 pnpm seed                                                # the fake atelier, dated around today
 pnpm dev
@@ -56,12 +56,23 @@ pnpm build       # the studio into workers/api/public, then the workroom into pu
 
 Always build from the root: building the studio on its own empties `workers/api/public`, workroom included.
 
+### Order notes eval
+
+Adding an order from a note goes through Claude and Jev, so its tests stub both. To see how the real providers do, run the notes in `fixtures/order_notes.json` through them:
+
+```sh
+pnpm --filter api eval:order-draft                                  # every note
+pnpm --filter api eval:order-draft --case=asap --show-requests      # one note, with the exact request bodies
+```
+
+It reads `ANTHROPIC_API_KEY` and `TYPESAFE_API_KEY` from your shell or from `workers/api/.dev.vars`, and stops with a message when either is missing. Each run sends every note to both providers, so it costs a little. It prints each draft and every field it got wrong, then the hits per field. Notes only score the fields they list under `expected`; `unsure` passes when the draft lists at least those fields, and `sure` when it lists none of them.
+
 ## Deploy
 
 CI (`.github/workflows/ci.yml`) typechecks, tests and builds every push and PR. Each PR gets a preview at `https://<branch>-seamstress.40for40.workers.dev`, and merging to `main` applies the D1 migrations and deploys the `seamstress` Worker to the custom domain.
 
 Previews share the production D1 database and R2 bucket, so never seed them or run destructive tests against them. `pnpm seed --remote` writes to production: don't.
 
-Emails are Postmark templates under `seamstress-*` aliases. After editing `workers/api/postmark/*.json`, push them with `pnpm --filter api postmark:sync`. The Worker's `POSTMARK_SERVER_TOKEN` is a Cloudflare secret, set once with `pnpm --filter api wrangler secret put POSTMARK_SERVER_TOKEN`.
+Emails are Postmark templates under `seamstress-*` aliases. After editing `workers/api/postmark/*.json`, push them with `pnpm --filter api postmark:sync`. The Worker's `POSTMARK_SERVER_TOKEN` is a Cloudflare secret, set once with `pnpm --filter api wrangler secret put POSTMARK_SERVER_TOKEN`. `ANTHROPIC_API_KEY` and `TYPESAFE_API_KEY` go up with every deploy from the org secrets of the same names.
 
 Sign in goes through the shared build40for40 WorkOS application. The production client allows `https://seamstress.build40for40.com/`, and the staging client allows `http://localhost:5173/` and `https://*seamstress.40for40.workers.dev/`, as redirect URIs and web origins.
