@@ -26,6 +26,7 @@ import type { ClientRow, OrderRow } from '../db/rows'
 import { listEntries } from '../db/time-entries'
 import { clientEmail, sendEmail } from '../email'
 import type { AppEnv } from '../env'
+import { studioOrderUrl, trackingUrl } from '../links'
 import * as serialize from '../serializers/owner'
 import { validate } from '../validate'
 
@@ -37,8 +38,6 @@ routes.use('/garments/*', requireOwner)
 
 const orderNotFound = () => new HTTPException(404, { message: "We couldn't find that order." })
 const garmentNotFound = () => new HTTPException(404, { message: "We couldn't find that garment." })
-
-export const trackingUrl = (c: Context, token: string) => `${new URL(c.req.url).origin}/track/${token}`
 
 async function orderCards(teamId: string, ratePence: number, orders: OrderRow[]) {
   const orderIds = orders.map((order) => order.id)
@@ -240,7 +239,7 @@ routes.patch('/garments/:id', validate('json', updateGarmentSchema), async (c) =
         team,
         to: team.reply_to_email,
         orderId: order.id,
-        model: { atelierName: team.name, orderNumber: order.number, orderUrl: `${new URL(c.req.url).origin}/orders/${order.id}` },
+        model: { atelierName: team.name, orderNumber: order.number, orderUrl: studioOrderUrl(c, order.id) },
       })
     }
   }

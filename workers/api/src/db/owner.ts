@@ -78,14 +78,14 @@ export const listWaitingOnOrder = (teamId: string, orderId: string) =>
 
 export type ReviewDecision = { id: string; status: Exclude<ReviewStatus, 'waiting'> }
 
-export function reviewStatements(
+export async function applyReview(
   teamId: string,
   reviewer: string,
   { entries, photos }: { entries: ReviewDecision[]; photos: ReviewDecision[] },
   activity: { orderId: string; detail: Record<string, unknown> }[],
 ) {
   const now = nowIso()
-  return [
+  const statements = [
     ...entries.map(({ id, status }) =>
       db()
         .prepare(
@@ -99,6 +99,7 @@ export function reviewStatements(
     ),
     ...activity.map(({ orderId, detail }) => activityStatement(teamId, { orderId, memberId: reviewer, kind: 'reviewed', detail })),
   ]
+  if (statements.length > 0) await db().batch(statements)
 }
 
 export type WaitingEntryRow = TimeEntryRow & { order_id: string; ref: string; member_name: string }

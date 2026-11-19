@@ -1,7 +1,6 @@
 import { createMemberSchema, createPayRateSchema, updateMemberSchema } from '@seamstress/shared/schemas'
 import { localDate } from '@seamstress/shared/time'
 import { rateOn } from '@seamstress/shared/timesheet'
-import type { Context } from 'hono'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { requireOwner } from '../auth'
@@ -17,6 +16,7 @@ import {
 } from '../db/members'
 import type { MemberRow, PayRateRow } from '../db/rows'
 import type { AppEnv } from '../env'
+import { workroomLink } from '../links'
 import * as serialize from '../serializers/owner'
 import { validate } from '../validate'
 
@@ -26,8 +26,6 @@ routes.use('/members', requireOwner)
 routes.use('/members/*', requireOwner)
 
 const notFound = () => new HTTPException(404, { message: "That person isn't on your team." })
-
-export const workroomLink = (c: Context, key: string) => `${new URL(c.req.url).origin}/workroom/#/k/${key}`
 
 function teamMember(member: MemberRow, payRates: PayRateRow[]) {
   const rates = payRates.filter((rate) => rate.member_id === member.id).map(serialize.payRate)
