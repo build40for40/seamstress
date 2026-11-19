@@ -1,6 +1,6 @@
-# Conventions (read first)
+# House rules
 
-This page is the contract for how this atelier's board works. Claude reads it before writing to any card.
+How this atelier's board works. Claude reads this before writing anything to an order.
 
 ## The board
 - One board. **One card per garment or order.** A client with three garments has three cards.
