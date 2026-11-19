@@ -21,6 +21,13 @@ Made on Day 14 (19 November 2026) while building the onboarding. The newest deci
 - **The owner's experience is claude.ai, not Claude Code.** Claude Code is our build and test tool; moving the skill to claude.ai (an uploaded skill or a Claude project) is still to do.
 - **Not checked yet:** what Superthread's signup asks (and whether its own onboarding overlaps ours), whether connecting Superthread in claude.ai needs a paid Claude plan, whether `member_update_me` can set the owner's profile. One real signup from scratch, done by a person, answers all three.
 
+## After setup
+- **"What's next?" is the one habit.** Owners won't guess what Claude can do, so the end of onboarding teaches one line ("ask me what's next?") and Claude offers each capability inside its answer: ready to invoice, waiting to be paid, quotes going cold, coming up, gone quiet, month-end timesheets, gaps. After any task, Claude adds the most urgent next thing.
+- **Invoice details are collected just in time**, at the first invoice, on a private "Invoice details" page. The owner types bank details there themselves, never in the chat. Invoice numbers come from that page and every invoice is logged there.
+- **Invoices:** totalled from `⏱` comments, deposit subtracted, draft shown first, then a downloadable document plus a copy as a Superthread page linked from the order with a `🧾` comment.
+- **Country rules:** Claude says plainly that some countries (e.g. Portugal) require certified invoicing software; there the invoice is a draft or pro-forma. It never claims compliance.
+- **No automatic nudge yet:** Claude in claude.ai can't message first; a Superthread agent or scheduled reminder is untested.
+
 ## Superthread as the brain
 - **One company, one workspace.** The owner creates it when signing up, guided by Claude; the MCP cannot create one.
 - **A dedicated space per atelier**, holding the board and the conventions page. A space is also the boundary for a client view later, since clients can only see one board or page.
