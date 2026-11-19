@@ -2,7 +2,12 @@ import { activityStatement } from './activity'
 import { db, nowIso } from './db'
 import type { PhotoRow, ReviewStatus, TimeEntryRow } from './rows'
 
-export type EntryWithOrderRow = TimeEntryRow & { order_id: string | null; client_id: string | null }
+export type EntryWithOrderRow = TimeEntryRow & {
+  order_id: string | null
+  client_id: string | null
+  order_number: string | null
+  garment_ref: string | null
+}
 
 export function listEntriesWithOrder(teamId: string, filter: { from?: string; to?: string; orderIds?: string[] } = {}) {
   const where = ['e.team_id = ?1']
@@ -21,7 +26,7 @@ export function listEntriesWithOrder(teamId: string, filter: { from?: string; to
   }
   return db()
     .prepare(
-      `SELECT e.*, g.order_id, o.client_id FROM time_entries e
+      `SELECT e.*, g.order_id, o.client_id, o.number AS order_number, g.ref AS garment_ref FROM time_entries e
        LEFT JOIN garments g ON g.team_id = ?1 AND g.id = e.garment_id
        LEFT JOIN orders o ON o.team_id = ?1 AND o.id = g.order_id
        WHERE ${where.join(' AND ')}
