@@ -3,6 +3,7 @@
 Made on Day 14 (19 November 2026) while building the onboarding. The newest decision wins if two conflict.
 
 ## Scope
+- **Two skills (split after Day 14).** `seamstress-onboard` sets up; `seamstress-run` does logging, what's next and invoicing. Separate descriptions so day-to-day phrases trigger the right skill, and a short skill for daily use. Onboarding invokes `seamstress-run` at the end; `seamstress-run` reads the House rules page from Superthread, so it works in any later chat.
 - **Onboarding first.** The owner (CEO of an atelier) describes the business and Claude sets up Superthread. Invoicing, monthly timesheets and payroll come later.
 - **Atelier and seamstress first.** When unsure, default to the atelier. Other milestone-and-evidence businesses (film production, design agencies) are a stretch goal, not a design input.
 - **No per-industry templates.** Claude designs the board from the owner's description instead.
