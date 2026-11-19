@@ -12,6 +12,7 @@
     "db:migrate": "pnpm wrangler d1 migrations apply seamstress --local --persist-to ${PERSIST_TO:-.wrangler/state}",
     "seed": "tsx scripts/seed.ts",
     "postmark:sync": "tsx postmark/sync.ts",
+    "eval:order-draft": "tsx scripts/eval-order-draft.ts",
     "deploy": "pnpm wrangler d1 migrations apply seamstress --remote && pnpm wrangler deploy",
     "wrangler": "env -u CLOUDFLARE_API_KEY -u CLOUDFLARE_EMAIL wrangler --profile 40for40"
   },

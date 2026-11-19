@@ -6,6 +6,7 @@ import dashboard from './routes/dashboard'
 import invoices from './routes/invoices'
 import me from './routes/me'
 import members from './routes/members'
+import orderDraft from './routes/order-draft'
 import orders from './routes/orders'
 import photos from './routes/photos'
 import priceItems from './routes/price-items'
@@ -20,6 +21,7 @@ const api = new Hono<AppEnv>()
   .route('/', members)
   .route('/', priceItems)
   .route('/', clients)
+  .route('/', orderDraft)
   .route('/', orders)
   .route('/', review)
   .route('/', invoices)

@@ -1,3 +1,5 @@
 POSTMARK_SERVER_TOKEN=
 # The staging WorkOS client id, since wrangler dev shows the Worker the production hostname.
 WORKOS_CLIENT_ID=
+ANTHROPIC_API_KEY=
+TYPESAFE_API_KEY=

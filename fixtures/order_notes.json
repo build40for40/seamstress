@@ -1,0 +1,301 @@
+{
+  "today": "2026-11-19",
+  "team": {
+    "writerId": "M01",
+    "members": [
+      { "id": "M01", "name": "Olive Example" },
+      { "id": "S01", "name": "Ada Example" },
+      { "id": "S02", "name": "Bea Example" },
+      { "id": "S03", "name": "Cleo Example" }
+    ],
+    "clients": [
+      { "id": "C01", "name": "Felicity Fake", "phone": "01632 960 001" },
+      { "id": "C02", "name": "Frank Fake", "phone": "01632 960 002" },
+      { "id": "C03", "name": "Penny Placeholder", "phone": "01632 960 003" },
+      { "id": "C04", "name": "Mo Madeup", "phone": "01632 960 004" },
+      { "id": "C05", "name": "Tess Testcase", "phone": "01632 960 005" },
+      { "id": "C06", "name": "Penelope Pretend", "phone": null }
+    ],
+    "priceItems": [
+      { "id": "P01", "name": "Hem" },
+      { "id": "P02", "name": "Replace zip" },
+      { "id": "P03", "name": "Take in waist" },
+      { "id": "P04", "name": "Reline coat" }
+    ]
+  },
+  "notes": [
+    {
+      "id": "wedding-gown",
+      "about": "The example from the brief: returning client by title and surname, two garments, one person named, relative date, a quote",
+      "note": "Mrs Fake back again, wedding gown take in the bodice and hem, plus a bolero, Bea on the gown, needs it by the 12th, quoted 480",
+      "expected": {
+        "clientMatch": "C01",
+        "mentioned": { "name": "Mrs Fake", "phone": null, "email": null },
+        "dueDate": "2026-12-12",
+        "quotePence": 48000,
+        "express": false,
+        "garments": [["S02"], []],
+        "priceItemIds": ["P01"],
+        "unsure": ["dueDate"]
+      }
+    },
+    {
+      "id": "no-client",
+      "about": "No client named at all",
+      "note": "Hem on a pair of navy trousers, Ada can do it, Friday please, £25",
+      "expected": {
+        "clientMatch": null,
+        "mentioned": { "name": null, "phone": null, "email": null },
+        "dueDate": "2026-11-20",
+        "quotePence": 2500,
+        "express": false,
+        "garments": [["S01"]],
+        "priceItemIds": ["P01"],
+        "unsure": ["dueDate"],
+        "sure": ["client"]
+      }
+    },
+    {
+      "id": "two-people",
+      "about": "Two garments for two different seamstresses, an exact date",
+      "note": "Frank Fake dropped off a suit. Ada on the jacket, shorten the sleeves. Cleo on the trousers, new zip. Due 4 December, quoted £95",
+      "expected": {
+        "clientMatch": "C02",
+        "dueDate": "2026-12-04",
+        "quotePence": 9500,
+        "express": false,
+        "garments": [["S01"], ["S03"]],
+        "priceItemIds": ["P02"],
+        "sure": ["client", "dueDate", "assignees"]
+      }
+    },
+    {
+      "id": "first-name-ambiguous",
+      "about": "Returning client by first name only, and two clients could be her",
+      "note": "Penny's back with her winter coat, wants it relined by 15 January, quoted 300",
+      "expected": {
+        "clientMatch": null,
+        "candidates": ["C03", "C06"],
+        "dueDate": "2027-01-15",
+        "quotePence": 30000,
+        "garments": [[]],
+        "priceItemIds": ["P04"],
+        "unsure": ["client"]
+      }
+    },
+    {
+      "id": "first-name-clear",
+      "about": "Returning client by first name only, with one obvious match",
+      "note": "Tess is back, take in the waist on her black dress, 9 December, £40",
+      "expected": {
+        "clientMatch": "C05",
+        "dueDate": "2026-12-09",
+        "quotePence": 4000,
+        "garments": [[]],
+        "priceItemIds": ["P03"]
+      }
+    },
+    {
+      "id": "no-date",
+      "about": "No date anywhere in the note",
+      "note": "Tess Testcase, take in the waist on her green dress, £40",
+      "expected": {
+        "clientMatch": "C05",
+        "dueDate": null,
+        "quotePence": 4000,
+        "express": false,
+        "priceItemIds": ["P03"],
+        "sure": ["dueDate"]
+      }
+    },
+    {
+      "id": "asap",
+      "about": "ASAP instead of a date",
+      "note": "Mo Madeup needs the hem on his kilt fixed ASAP, Bea please",
+      "expected": {
+        "clientMatch": "C04",
+        "dueDate": null,
+        "quotePence": null,
+        "express": true,
+        "garments": [["S02"]],
+        "priceItemIds": ["P01"],
+        "unsure": ["dueDate"]
+      }
+    },
+    {
+      "id": "different-wording",
+      "about": "A price list job (Hem) in other words",
+      "note": "Felicity Fake's jeans are too long, take them up two inches, 12 December, £25",
+      "expected": {
+        "clientMatch": "C01",
+        "dueDate": "2026-12-12",
+        "quotePence": 2500,
+        "priceItemIds": ["P01"],
+        "sure": ["dueDate"]
+      }
+    },
+    {
+      "id": "not-an-order",
+      "about": "A reminder, not an order",
+      "note": "Remind me to buy more white thread and to call the landlord on Monday",
+      "expected": {
+        "clientMatch": null,
+        "mentioned": { "name": null, "phone": null, "email": null },
+        "quotePence": null,
+        "express": false,
+        "garments": [],
+        "priceItemIds": [],
+        "unsure": ["garments"]
+      }
+    },
+    {
+      "id": "question-not-order",
+      "about": "A question about an old order names a client but asks for no work",
+      "note": "Did Frank Fake ever pay for his suit?",
+      "expected": {
+        "quotePence": null,
+        "express": false,
+        "garments": [],
+        "priceItemIds": [],
+        "unsure": ["garments"]
+      }
+    },
+    {
+      "id": "new-client-details",
+      "about": "A new client with a phone and an email, matching nobody",
+      "note": "New client Grace Ghost, 01632 960 777, grace@example.com, wants her prom dress shortened, 30 November, £60",
+      "expected": {
+        "clientMatch": null,
+        "candidates": [],
+        "mentioned": { "name": "Grace Ghost", "phone": "01632 960 777", "email": "grace@example.com" },
+        "dueDate": "2026-11-30",
+        "quotePence": 6000,
+        "priceItemIds": ["P01"],
+        "sure": ["client", "dueDate"]
+      }
+    },
+    {
+      "id": "phone-match",
+      "about": "No name, but the phone number is a known client's in another format",
+      "note": "Lady on 01632960005 wants a new zip in her skirt, next Wednesday, £18",
+      "expected": {
+        "clientMatch": "C05",
+        "dueDate": "2026-11-25",
+        "quotePence": 1800,
+        "priceItemIds": ["P02"],
+        "unsure": ["dueDate"],
+        "sure": ["client"]
+      }
+    },
+    {
+      "id": "writer-does-it",
+      "about": "The owner gives the garment to herself",
+      "note": "Felicity Fake, I'll reline the coat myself, in two weeks, £300",
+      "expected": {
+        "clientMatch": "C01",
+        "dueDate": "2026-12-03",
+        "quotePence": 30000,
+        "garments": [["M01"]],
+        "priceItemIds": ["P04"],
+        "unsure": ["dueDate"]
+      }
+    },
+    {
+      "id": "unknown-person",
+      "about": "Names someone who isn't on the team",
+      "note": "Frank Fake, hem on his grey trousers, give it to Dot, 2 December, £25",
+      "expected": {
+        "clientMatch": "C02",
+        "dueDate": "2026-12-02",
+        "garments": [[]],
+        "priceItemIds": ["P01"],
+        "unsure": ["assignees"]
+      }
+    },
+    {
+      "id": "two-prices",
+      "about": "Two prices, so the quote is ambiguous",
+      "note": "Tess Testcase, two dresses to hem, £25 each or £45 for both, 10 December",
+      "expected": {
+        "clientMatch": "C05",
+        "dueDate": "2026-12-10",
+        "garments": [[], []],
+        "priceItemIds": ["P01"],
+        "unsure": ["quotePence"]
+      }
+    },
+    {
+      "id": "misspelt-client",
+      "about": "The client's name is misspelt",
+      "note": "Felicty Fake wants her blazer sleeves shortened, 1 December, Cleo, £45",
+      "expected": {
+        "clientMatch": "C01",
+        "dueDate": "2026-12-01",
+        "quotePence": 4500,
+        "garments": [["S03"]]
+      }
+    },
+    {
+      "id": "past-date",
+      "about": "A date that has already gone",
+      "note": "Mo Madeup, hem on his chinos, needed 3 November 2026, £25",
+      "expected": {
+        "clientMatch": "C04",
+        "dueDate": null,
+        "quotePence": 2500,
+        "priceItemIds": ["P01"],
+        "unsure": ["dueDate"]
+      }
+    },
+    {
+      "id": "rush-with-date",
+      "about": "A rush job that also has a date",
+      "note": "Rush job for Penny Placeholder, zip on her jeans by Saturday, Ada",
+      "expected": {
+        "clientMatch": "C03",
+        "dueDate": "2026-11-21",
+        "express": true,
+        "garments": [["S01"]],
+        "priceItemIds": ["P02"],
+        "unsure": ["dueDate"]
+      }
+    },
+    {
+      "id": "title-picks-client",
+      "about": "Title and surname only, and the title points to one of two Fakes",
+      "note": "Mr Fake's waistcoat needs taking in at the waist, 5 December, £40",
+      "expected": {
+        "clientMatch": "C02",
+        "candidates": ["C01", "C02"],
+        "dueDate": "2026-12-05",
+        "quotePence": 4000,
+        "priceItemIds": ["P03"]
+      }
+    },
+    {
+      "id": "two-jobs-two-people",
+      "about": "Two jobs on one garment, shared by two seamstresses",
+      "note": "Felicity Fake, evening gown needs a hem and a new zip, Ada and Bea together, 18 December, quoted 150",
+      "expected": {
+        "clientMatch": "C01",
+        "dueDate": "2026-12-18",
+        "quotePence": 15000,
+        "garments": [["S01", "S02"]],
+        "priceItemIds": ["P01", "P02"]
+      }
+    },
+    {
+      "id": "dictated",
+      "about": "Dictated, with no punctuation and the price in words",
+      "note": "ok so tess testcase came in she wants the lining redone on her camel coat by christmas eve she was quoted three hundred and twenty pounds cleo to do it",
+      "expected": {
+        "clientMatch": "C05",
+        "dueDate": "2026-12-24",
+        "quotePence": 32000,
+        "express": false,
+        "garments": [["S03"]],
+        "priceItemIds": ["P04"]
+      }
+    }
+  ]
+}

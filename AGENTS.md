@@ -72,6 +72,19 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 - Templates live in `workers/api/postmark/` and are pushed with `pnpm --filter api postmark:sync` under `seamstress-*` aliases. The Worker sends with `/email/withTemplate`.
 - Emails send in `ctx.waitUntil`, never block the change that caused them, and are logged on the order's activity whether they succeed or fail.
 
+### Drafting an order from a note
+
+- `POST /api/orders/draft` is owner only. It takes a note the CEO typed or dictated and returns an `OrderDraft` (`packages/shared/src/order-draft.ts`) for the studio to check and save through `POST /api/orders`. It never writes.
+- **Claude** (`claude-haiku-5-5`, called with `fetch` and a forced, strict `record_order` tool) turns the note into structure: the garments and what each needs, the order summary, the client details the note gives, the quote, the due date and the people named per garment. It gets today's date and weekday in Europe/London to resolve "the 12th" or "next Friday", and is told never to invent a client, date, price or person. Every field may come back empty.
+- **Code** does everything exact and makes every decision: candidate clients from this team only (an exact phone match after normalising, otherwise name similarity, at most 5), the date (a real date, not before today in Europe/London), the quote in pence and the limits `createOrderSchema` sets.
+- **Jev** (`jev-1.14.0`) makes the pick-one judgments in one request: whether the client is one of the candidates (a Noul) and which one (a Choice), the same pair for each person named, one Noul per price list item and one Noul for whether the order is a rush. All the question wording and the thresholds live in `workers/api/src/order-draft/questions.ts`.
+- Above 0.7 is yes, below 0.3 is no, and in between leaves the field unset and lists it in `unsure`. A client or a person is set only when its Noul and its Choice's top option are both above 0.7. A single exact phone match sets the client without asking Jev.
+- `unsure` also lists a date worked out from today rather than named by day and month, a past or invalid date (which is dropped), timing words with no date such as "ASAP", whatever Claude marked unclear, an email that doesn't parse, a person who matches nobody and a note with no garments. A field the note doesn't mention stays null and isn't listed. A price list item Jev can't settle lists `quotePence`, since the contract has no field for price items.
+- Jev only sees client names. The note goes to it with phone numbers and emails replaced, and code matches phones exactly.
+- If Claude fails, its reply doesn't validate or its key is missing, the endpoint answers 502 (503 for the missing key) with a plain message, and the studio falls back to the form. If only Jev fails or its key is missing, the draft still comes back with no client match, no assignees, no price items and express off, with those parts in `unsure`. Both log with `console.error`. A failed call is never read as an answer.
+- "me" in a note gives the garment to the owner who wrote it.
+- `fixtures/order_notes.json` holds fake notes with their expected drafts, and `pnpm --filter api eval:order-draft` scores them against the real providers.
+
 ### Stack
 
 - Vue 3 with `<script setup lang="ts">`, Vite and vue-router in both apps. Composables, no Pinia. The studio uses HTML5 history; the workroom uses hash history so the key stays in the fragment.
@@ -90,11 +103,12 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 
 - One Worker, `seamstress`, on the `seamstress.build40for40.com` custom domain. `/` is the studio, `/workroom/` the workroom, `/track/*` the tracking page, `/api/*` the API, `/photos/*` photos.
 - Bindings: the `seamstress` D1 database, the `seamstress-photos` R2 bucket, static assets from both apps' builds.
-- Secrets: `POSTMARK_SERVER_TOKEN`, listed empty in `workers/api/.dev.vars.example`.
+- Secrets: `POSTMARK_SERVER_TOKEN`, `ANTHROPIC_API_KEY` and `TYPESAFE_API_KEY`, listed empty in `workers/api/.dev.vars.example`.
 - WorkOS: the production client allows `https://seamstress.build40for40.com/` as a redirect URI and web origin; the staging client allows `http://localhost:5173/` and `https://*seamstress.40for40.workers.dev/` (the previews).
 - CI tests and builds every push and PR, uploads a preview per PR, and deploys `main`. `CLOUDFLARE_API_TOKEN` comes from the org secrets.
 - Previews share the production D1 database and R2 bucket. Never seed a preview or run destructive tests against one.
 - `POSTMARK_SERVER_TOKEN` is set on the Worker once, by hand. CI deploys leave it in place.
+- `ANTHROPIC_API_KEY` and `TYPESAFE_API_KEY` come from the org secrets of the same names, and the deploy job sends them with each deploy through `deploy-worker`'s `secrets` input.
 
 ## Still open
 
