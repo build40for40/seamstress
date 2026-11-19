@@ -29,12 +29,12 @@ My orders
 <div style="background: #FFFFFF; border: 1px solid #E8DCD9; border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
 <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #6A5870">How long?</h2>
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
-<button type="button" aria-label="Half an hour less" id="less" style="width: 60px; height: 60px; border-radius: 6px; border: 1.5px solid #2B1B33; background: #FFFFFF; color: #2B1B33; font-size: 30px; font-family: inherit; cursor: pointer">&minus;</button>
+<button type="button" aria-label="A quarter of an hour less" id="less" style="width: 60px; height: 60px; border-radius: 6px; border: 1.5px solid #2B1B33; background: #FFFFFF; color: #2B1B33; font-size: 30px; font-family: inherit; cursor: pointer">&minus;</button>
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px">
 <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 52px; font-weight: 600; line-height: 1"><span class="js-hours">0.5</span></span>
 <span style="font-size: 15px; color: #6A5870"><span class="js-unit">hours</span></span>
 </div>
-<button type="button" aria-label="Half an hour more" id="more" style="width: 60px; height: 60px; border-radius: 6px; border: 1.5px solid #2B1B33; background: #FFFFFF; color: #2B1B33; font-size: 30px; font-family: inherit; cursor: pointer">+</button>
+<button type="button" aria-label="A quarter of an hour more" id="more" style="width: 60px; height: 60px; border-radius: 6px; border: 1.5px solid #2B1B33; background: #FFFFFF; color: #2B1B33; font-size: 30px; font-family: inherit; cursor: pointer">+</button>
 </div>
 </div>
 <div style="display: flex; flex-direction: column; gap: 8px">
@@ -44,11 +44,11 @@ My orders
 <div style="background: #FFFFFF; border: 1px solid #E8DCD9; border-radius: 6px; padding: 4px 16px; display: flex; align-items: center; justify-content: space-between; min-height: 56px; box-sizing: border-box">
 <div style="display: flex; flex-direction: column; gap: 2px">
 <span style="font-size: 13px; font-weight: 600; color: #6A5870">When?</span>
-<span style="font-size: 16px; font-weight: 600">Today, Tue 10 Nov</span>
+<span style="font-size: 16px; font-weight: 600">Today, Thu 19 Nov</span>
 </div>
 <button type="button" style="min-height: 44px; padding: 0 4px; border: 0; background: none; font-size: 15px; font-weight: 600; font-family: inherit; color: #7A2E4D; cursor: pointer">Change</button>
 </div>
-<a href="which-order.html" style="align-self: flex-start; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 600; color: #7A2E4D">Was it for an order? Pick the order</a>
+<a href="index.html" style="align-self: flex-start; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 600; color: #7A2E4D">Was it for a garment? Go back and pick it</a>
 </div>
 <div style="padding: 16px 20px 24px; background: #FFFFFF; border-top: 1px solid #E8DCD9">
 <a href="general-saved.html" style="height: 56px; border-radius: 6px; background: #7A2E4D; outline: 1.5px dashed rgba(255, 255, 255, 0.6); outline-offset: -6px; color: #FFFFFF; font-size: 17px; font-weight: 600; display: flex; align-items: center; justify-content: center"><span>Save <span class="js-hours">0.5</span> <span class="js-unit">hours</span></span></a>
@@ -60,8 +60,8 @@ function show() {
   document.querySelectorAll(".js-hours").forEach(function (e) { e.textContent = hours; });
   document.querySelectorAll(".js-unit").forEach(function (e) { e.textContent = hours === 1 ? "hour" : "hours"; });
 }
-document.getElementById("less").onclick = function () { hours = Math.max(0.5, hours - 0.5); show(); };
-document.getElementById("more").onclick = function () { hours = Math.min(16, hours + 0.5); show(); };
+document.getElementById("less").onclick = function () { hours = Math.max(0.25, hours - 0.25); show(); };
+document.getElementById("more").onclick = function () { hours = Math.min(16, hours + 0.25); show(); };
 document.querySelectorAll(".js-kind").forEach(function (b) {
   b.onclick = function () {
     document.querySelectorAll(".js-kind").forEach(function (o) { o.setAttribute("aria-pressed", o === b); o.style.cssText = o === b ? ON : OFF; });
