@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { canMoveOrder, dueFlag, garmentRef, invoiceNumber, orderNumber, workroomOrder } from './orders'
+import { canMoveOrder, dueFlag, garmentRef, invoiceNumber, orderNumber, takesTime, workroomOrder } from './orders'
 import { garmentsOf, orderById, orders } from './test/fixtures'
 
 const TODAY = '2026-11-19'
@@ -59,6 +59,14 @@ describe('canMoveOrder', () => {
     expect(canMoveOrder({ status: 'open' }, 'collected', [])).toBe(false)
     expect(canMoveOrder({ status: 'collected' }, 'open', [])).toBe(false)
     expect(canMoveOrder({ status: 'open' }, 'cancelled', [])).toBe(true)
+  })
+})
+
+describe('takesTime', () => {
+  it('only takes new hours on open orders', () => {
+    expect(takesTime({ status: 'open' })).toBe(true)
+    for (const status of ['ready', 'collected', 'cancelled'] as const) expect(takesTime({ status })).toBe(false)
+    expect(takesTime(orderById('SE-1001'))).toBe(false)
   })
 })
 

@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { getGarment, listGarments } from '../db/garments'
 import { createPhoto } from '../db/photos'
 import { createEntry, getEntry, listEntries } from '../db/time-entries'
-import { reopenTimesheet } from '../db/timesheets'
+import { reopenTimesheet, sendTimesheet } from '../db/timesheets'
 import { createTestTeam } from '../test/actors'
 
 const minutesAgo = (minutes: number) => new Date(Date.now() - minutes * 60_000).toISOString()
@@ -276,6 +276,37 @@ describe('her entries and locking', () => {
 
     await reopenTimesheet(team.id, ada.member.id, '2026-10', owner.member.id)
     expect((await ada.send('PATCH', `/api/me/entries/${october!.id}`, { minutes: 40 })).status).toBe(200)
+  })
+
+  it("keeps timers out of a month she's sent", async () => {
+    const { team, owner, ada, gown } = await workshop()
+    const month = localDate(new Date(), ada.member.time_zone).slice(0, 7)
+    const locked = { status: 409, body: { error: LOCK_MESSAGES.timesheet } }
+
+    expect((await ada.send('POST', `/api/me/timesheet/${month}/send`)).status).toBe(200)
+    expect(await ada.send('POST', '/api/me/timer', { garmentId: gown.id })).toEqual(locked)
+    expect(await ada.send('POST', '/api/me/timer', { garmentId: null })).toEqual(locked)
+    expect((await ada.get('/api/me')).body.timer).toBeNull()
+
+    await reopenTimesheet(team.id, ada.member.id, month, owner.member.id)
+    const started = await ada.send('POST', '/api/me/timer', { garmentId: gown.id })
+    await backdateTimer(started.body.timer.id, minutesAgo(30))
+    await sendTimesheet(team.id, ada.member.id, month)
+
+    expect(await ada.send('POST', '/api/me/timer/stop', {})).toEqual(locked)
+    expect((await getEntry(team.id, started.body.timer.id))!.minutes).toBeNull()
+  })
+
+  it("won't take new hours on an order that's no longer open", async () => {
+    const { ada, gown, shared } = await workshop()
+    await env.DB.prepare("UPDATE orders SET status = 'collected' WHERE id = ?").bind(shared.id).run()
+    const closed = { status: 409, body: { error: "That order's closed, so ask your atelier if there's more to do." } }
+
+    expect(await ada.send('POST', '/api/me/timer', { garmentId: gown.id })).toEqual(closed)
+    expect(
+      await ada.send('POST', '/api/me/entries', { garmentId: gown.id, kind: 'sewing', dateLocal: '2026-11-18', minutes: 30 }),
+    ).toEqual(closed)
+    expect((await ada.send('POST', '/api/me/timer', { garmentId: null })).status).toBe(201)
   })
 })
 

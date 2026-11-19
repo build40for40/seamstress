@@ -13,6 +13,7 @@ import {
   photoUploadQuerySchema,
   startTimerSchema,
   stopTimerSchema,
+  takesTime,
   timerNeedsCheck,
   timesheet,
   tooShortToKeep,
@@ -82,6 +83,19 @@ const notHers = () => new HTTPException(404, { message: "That garment isn't on y
 const noEntry = () => new HTTPException(404, { message: "We couldn't find that entry." })
 const tooBig = () => new HTTPException(413, { message: "That photo's too big. Try a smaller one." })
 const locked = (reason: keyof typeof LOCK_MESSAGES) => new HTTPException(409, { message: LOCK_MESSAGES[reason] })
+const closedOrder = () => new HTTPException(409, { message: "That order's closed, so ask your atelier if there's more to do." })
+
+async function workableGarment(team: TeamRow, member: MemberRow, garmentId: string) {
+  const found = await getMemberGarment(team.id, member.id, garmentId)
+  if (!found) throw notHers()
+  if (!takesTime(found.order)) throw closedOrder()
+  return found
+}
+
+function refuseLocked(entry: TimeEntryRow, months: readonly string[]) {
+  const reason = lockReason({ invoiceId: entry.invoice_id, dateLocal: entry.date_local }, months)
+  if (reason) throw locked(reason)
+}
 
 function refuseFuture(member: MemberRow, dateLocal: string) {
   if (dateLocal > today(member)) throw new HTTPException(400, { message: "That date hasn't happened yet." })
@@ -149,8 +163,7 @@ routes.get('/me/garments/:id', async (c) => {
 routes.post('/me/timer', validate('json', startTimerSchema), async (c) => {
   const { member, team } = c.var
   const { garmentId, kind } = c.req.valid('json')
-  const found = garmentId ? await getMemberGarment(team.id, member.id, garmentId) : null
-  if (garmentId && !found) throw notHers()
+  const found = garmentId ? await workableGarment(team, member, garmentId) : null
 
   const running = await runningTimer(team.id, member.id)
   if (running && running.garment_id === garmentId && running.kind === kind) {
@@ -158,6 +171,9 @@ routes.post('/me/timer', validate('json', startTimerSchema), async (c) => {
   }
 
   const now = nowIso()
+  const months = await sentMonths(team.id, member.id)
+  if (months.includes(monthOf(localDate(now, member.time_zone)))) throw locked('timesheet')
+  if (running) refuseLocked(running, months)
   const stop = running ? stopStatement(team.id, running, now) : null
   const id = newId()
   const statements = [
@@ -214,6 +230,7 @@ routes.post('/me/timer/stop', validate('json', stopTimerSchema), async (c) => {
     throw new HTTPException(400, { message: 'That was before the timer started.' })
   }
 
+  refuseLocked(running, await sentMonths(team.id, member.id))
   const stop = stopStatement(team.id, running, endedAt.toISOString())
   await stop.statement.run()
   if (!stop.kept) {
@@ -237,7 +254,7 @@ routes.patch('/me/timer', validate('json', updateTimerSchema), async (c) => {
 routes.post('/me/entries', validate('json', createEntrySchema), async (c) => {
   const { member, team } = c.var
   const input = c.req.valid('json')
-  if (input.garmentId && !(await getMemberGarment(team.id, member.id, input.garmentId))) throw notHers()
+  if (input.garmentId) await workableGarment(team, member, input.garmentId)
   refuseFuture(member, input.dateLocal)
   const months = await sentMonths(team.id, member.id)
   if (months.includes(monthOf(input.dateLocal))) throw locked('timesheet')
@@ -265,8 +282,7 @@ routes.patch('/me/entries/:id', validate('json', updateEntrySchema), async (c) =
   if (isRunning(entry)) throw new HTTPException(409, { message: 'Stop the timer first, then fix it.' })
 
   const months = await sentMonths(team.id, member.id)
-  const reason = lockReason({ invoiceId: entry.invoice_id, dateLocal: entry.date_local }, months)
-  if (reason) throw locked(reason)
+  refuseLocked(entry, months)
   if (input.dateLocal) {
     refuseFuture(member, input.dateLocal)
     if (months.includes(monthOf(input.dateLocal))) throw locked('timesheet')
@@ -287,8 +303,7 @@ routes.delete('/me/entries/:id', async (c) => {
   const { member, team } = c.var
   const entry = await getMemberEntry(team.id, member.id, c.req.param('id'))
   if (!entry) throw noEntry()
-  const reason = lockReason({ invoiceId: entry.invoice_id, dateLocal: entry.date_local }, await sentMonths(team.id, member.id))
-  if (reason) throw locked(reason)
+  refuseLocked(entry, await sentMonths(team.id, member.id))
   await deleteEntry(team.id, entry.id)
   return c.json({ deleted: true })
 })

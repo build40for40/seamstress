@@ -53,6 +53,10 @@ export function canMoveOrder(
   return to !== 'ready' || allGarmentsDone(garments)
 }
 
+export function takesTime(order: Pick<Order, 'status'>): boolean {
+  return order.status === 'open'
+}
+
 export function garmentRef(orderNumber: string, position: number): string {
   let letters = ''
   for (let n = position; n >= 0; n = Math.floor(n / 26) - 1) {
