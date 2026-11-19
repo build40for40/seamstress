@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { dateLocalSchema, idSchema, penceSchema } from './schemas'
 
-export const ORDER_NOTE_MAX = 4000
+export const ORDER_NOTE_MAX = 2000
 
 export const draftOrderSchema = z.object({
   note: z.string().trim().min(1, 'Tell us a bit about the order').max(ORDER_NOTE_MAX),
