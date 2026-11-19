@@ -1,5 +1,5 @@
-seamstress_id,name,time_zone,active
-S01,Ada Example,Europe/London,yes
-S02,Bea Example,Europe/Lisbon,yes
-S03,Cleo Example,Asia/Kolkata,yes
-S04,Dot Example,Europe/London,no
+seamstress_id,name,time_zone,pay_rate_gbp,active
+S01,Ada Example,Europe/London,18,yes
+S02,Bea Example,Europe/Lisbon,17,yes
+S03,Cleo Example,Asia/Kolkata,16,yes
+S04,Dot Example,Europe/London,15,no

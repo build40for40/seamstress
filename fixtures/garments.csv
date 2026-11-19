@@ -1,0 +1,8 @@
+garment_ref,order_number,description,status
+SE-1001-A,SE-1001,Ivory silk wedding gown,done
+SE-1002-A,SE-1002,Velvet evening coat: reline and new cuffs,done
+SE-1003-A,SE-1003,Beaded bridesmaid dress: take in and repair beading,in_progress
+SE-1003-B,SE-1003,Plain bridesmaid dress: hem,in_progress
+SE-1004-A,SE-1004,Wedding veil: hand-rolled edge and comb,in_progress
+SE-1005-A,SE-1005,"Tweed jacket, made to measure",fitting
+SE-1006-A,SE-1006,Linen suit trousers: taper and hem,todo

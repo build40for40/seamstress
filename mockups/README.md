@@ -28,6 +28,18 @@ Then open `http://localhost:4173` at phone width.
 
 The mic button on `index.html` leads to `which-order.html`, as if she had said "two hours on a fitting" with two orders open.
 
+## Where the app has moved on
+
+These were drawn before the team settled the PRD, so the real workroom app differs in a few places. Where they disagree, the PRD wins.
+
+- **The timer comes first.** Each garment gets a one-tap Start, and a running timer shows as a bar on every screen. The log time screen here becomes the fallback for typed hours.
+- **Orders hold garments.** The list shows orders with her garments on each, as `SE-1003-A`, and a note when the order has other garments she isn't on.
+- **Due dates and express.** Orders are sorted express first, then by due date, and flagged when overdue or due within 2 days.
+- **Garment stages.** She moves a garment through to do, in progress, fitting and done.
+- **No "say it or type it" box.** That's a stretch goal.
+
+The brand, voice, cards and the saved screen's "repeat it back" pattern still stand.
+
 ## Things these are not
 
 - Not the real app. Nothing is saved, and only the hours steppers and the three choices on `log-time.html` respond.

@@ -1,6 +1,6 @@
-timesheet_id,seamstress_id,month,total_hours,status
-TS-S01-2026-10,S01,2026-10,38.5,sent
-TS-S03-2026-10,S03,2026-10,3.5,sent
-TS-S01-2026-11,S01,2026-11,2.5,open
-TS-S02-2026-11,S02,2026-11,30.5,open
-TS-S03-2026-11,S03,2026-11,6.5,open
+timesheet_id,seamstress_id,month,total_hours,pay_gbp,status
+TS-S01-2026-10,S01,2026-10,38.5,693,sent
+TS-S03-2026-10,S03,2026-10,3.5,56,sent
+TS-S01-2026-11,S01,2026-11,2.5,45,open
+TS-S02-2026-11,S02,2026-11,30.5,518.5,open
+TS-S03-2026-11,S03,2026-11,6.5,104,open

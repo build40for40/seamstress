@@ -49,13 +49,13 @@ L047,S01,2026-10-30,10:00,seamstress,"One hour tidying up on SE-1001, pressed an
 L048,S01,2026-10-30,10:00,app,"Saved: 1 hour of tidying on SE-1001, 2026-10-30. Want to add a photo?",SE-1001,T011
 L049,S01,2026-10-30,10:02,seamstress,[sends se-1001-finished.jpg] Photo of the finished gown.,SE-1001,
 L050,S01,2026-10-30,10:02,app,Photo saved on SE-1001. The atelier checks it before the client sees it.,SE-1001,P003
-L051,S01,2026-10-30,10:03,app,"Marked SE-1001, Ivory silk wedding gown, made to order, as finished. The atelier has been told.",SE-1001,
+L051,S01,2026-10-30,10:03,app,"Marked SE-1001-A, Ivory silk wedding gown, as done. The atelier has been told.",SE-1001,
 L052,S01,2026-11-16,09:00,seamstress,Morning. What's on my list today?,,
-L053,S01,2026-11-16,09:00,app,"Morning Ada. You have 1 open: SE-1003, Beaded bridesmaid dress, take in and hem.",,
+L053,S01,2026-11-16,09:00,app,"Morning Ada. You have 1 open: SE-1003, Two bridesmaid dresses for a wedding on Saturday.",,
 L054,S01,2026-11-16,10:30,seamstress,"An hour and a half on the bridesmaid dress, took in the side seams.",SE-1003,
 L055,S01,2026-11-16,10:30,app,"Saved: 1.5 hours of sewing on SE-1003, 2026-11-16. Want to add a photo?",SE-1003,T025
 L056,S01,2026-11-18,09:00,seamstress,Morning. What's on my list today?,,
-L057,S01,2026-11-18,09:00,app,"Morning Ada. You have 1 open: SE-1003, Beaded bridesmaid dress, take in and hem.",,
+L057,S01,2026-11-18,09:00,app,"Morning Ada. You have 1 open: SE-1003, Two bridesmaid dresses for a wedding on Saturday.",,
 L058,S01,2026-11-18,10:00,seamstress,"One hour on SE-1003, hem.",SE-1003,
 L059,S01,2026-11-18,10:00,app,"Saved: 1 hour of sewing on SE-1003, 2026-11-18. Want to add a photo?",SE-1003,T029
 L060,S02,2026-11-03,09:00,seamstress,Morning. What's on my list today?,,
@@ -90,7 +90,7 @@ L088,S02,2026-11-12,09:30,seamstress,"Half an hour tidying up on SE-1002, presse
 L089,S02,2026-11-12,09:30,app,"Saved: 0.5 hours of tidying on SE-1002, 2026-11-12. Want to add a photo?",SE-1002,T022
 L090,S02,2026-11-12,09:32,seamstress,[sends se-1002-finished.jpg] Photo of the new lining and cuffs.,SE-1002,
 L091,S02,2026-11-12,09:32,app,Photo saved on SE-1002. The atelier checks it before the client sees it.,SE-1002,P005
-L092,S02,2026-11-12,09:33,app,"Marked SE-1002, Velvet evening coat, reline and new cuffs, as finished. The atelier has been told.",SE-1002,
+L092,S02,2026-11-12,09:33,app,"Marked SE-1002-A, Velvet evening coat: reline and new cuffs, as done. The atelier has been told.",SE-1002,
 L093,S02,2026-11-13,09:00,seamstress,Morning. What's on my list today?,,
 L094,S02,2026-11-13,09:00,app,"Morning Bea. You have 1 open: SE-1005, Tweed jacket, made to measure.",,
 L095,S02,2026-11-13,14:00,seamstress,"Five hours on SE-1005, canvas and front panels.",SE-1005,
@@ -128,19 +128,19 @@ L126,S03,2026-11-05,11:00,app,"Saved: 2 hours of sewing on SE-1004, 2026-11-05. 
 L127,S03,2026-11-05,12:00,seamstress,"One hour waiting for the thread delivery, no order.",,
 L128,S03,2026-11-05,12:00,app,"Saved: 1 hour of waiting on general time, 2026-11-05. Paid, and not billed to any client.",,T017
 L129,S03,2026-11-13,09:00,seamstress,Morning. What's on my list today?,,
-L130,S03,2026-11-13,09:00,app,"Morning Cleo. You have 2 open: SE-1003, Beaded bridesmaid dress, take in and hem; SE-1004, Wedding veil, hand-rolled edge.",,
+L130,S03,2026-11-13,09:00,app,"Morning Cleo. You have 2 open: SE-1003, Two bridesmaid dresses for a wedding on Saturday; SE-1004, Wedding veil, hand-rolled edge.",,
 L131,S03,2026-11-13,10:30,seamstress,"1.5 hours on SE-1004, second half of the rolled edge.",SE-1004,
 L132,S03,2026-11-13,10:30,app,"Saved: 1.5 hours of sewing on SE-1004, 2026-11-13. Want to add a photo?",SE-1004,T023
 L133,S03,2026-11-13,10:32,seamstress,[sends se-1004-edge.jpg] Close up of the rolled edge.,SE-1004,
 L134,S03,2026-11-13,10:32,app,Photo saved on SE-1004. The atelier checks it before the client sees it.,SE-1004,P007
 L135,S03,2026-11-17,09:00,seamstress,Morning. What's on my list today?,,
-L136,S03,2026-11-17,09:00,app,"Morning Cleo. You have 2 open: SE-1003, Beaded bridesmaid dress, take in and hem; SE-1004, Wedding veil, hand-rolled edge.",,
+L136,S03,2026-11-17,09:00,app,"Morning Cleo. You have 2 open: SE-1003, Two bridesmaid dresses for a wedding on Saturday; SE-1004, Wedding veil, hand-rolled edge.",,
 L137,S03,2026-11-17,10:00,seamstress,"One hour on SE-1003, re-stitched the loose beading.",SE-1003,
 L138,S03,2026-11-17,10:00,app,"Saved: 1 hour of sewing on SE-1003, 2026-11-17. Want to add a photo?",SE-1003,T027
 L139,S03,2026-11-17,10:02,seamstress,"[sends se-1003-beading.jpg] Photo of the beading, repaired.",SE-1003,
 L140,S03,2026-11-17,10:02,app,Photo saved on SE-1003. The atelier checks it before the client sees it.,SE-1003,P006
 L141,S03,2026-11-18,09:00,seamstress,Morning. What's on my list today?,,
-L142,S03,2026-11-18,09:00,app,"Morning Cleo. You have 2 open: SE-1003, Beaded bridesmaid dress, take in and hem; SE-1004, Wedding veil, hand-rolled edge.",,
+L142,S03,2026-11-18,09:00,app,"Morning Cleo. You have 2 open: SE-1003, Two bridesmaid dresses for a wedding on Saturday; SE-1004, Wedding veil, hand-rolled edge.",,
 L143,S03,2026-11-18,10:00,seamstress,"One hour on the veil, attached the comb.",SE-1004,
 L144,S03,2026-11-18,10:00,app,"Saved: 1 hour of sewing on SE-1004, 2026-11-18. Want to add a photo?",SE-1004,T030
 L145,S03,2026-11-18,10:02,seamstress,[sends se-1004-comb.jpg] Photo with the comb attached.,SE-1004,

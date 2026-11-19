@@ -10,7 +10,16 @@ from collections import defaultdict
 from pathlib import Path
 
 HERE = Path(__file__).parent
-RATE = 60  # the atelier's one hourly rate, in pounds
+ATELIER = ("Example Atelier (fake)", "atelier@example.com", 60)  # name, reply-to email, hourly rate in pounds
+
+PRICE_LIST = [
+    # name, price in pounds
+    ("Hem", 25),
+    ("Replace zip", 18),
+    ("Take in waist", 40),
+    ("Reline coat", 300),
+]
+RATE = ATELIER[2]
 
 CLIENTS = [
     ("C001", "Client One (fake)"),
@@ -21,32 +30,49 @@ CLIENTS = [
 ]
 
 SEAMSTRESSES = [
-    # id, name, time zone, active
-    ("S01", "Ada Example", "Europe/London", "yes"),
-    ("S02", "Bea Example", "Europe/Lisbon", "yes"),
-    ("S03", "Cleo Example", "Asia/Kolkata", "yes"),
-    ("S04", "Dot Example", "Europe/London", "no"),
+    # id, name, time zone, pay rate in pounds an hour, active
+    ("S01", "Ada Example", "Europe/London", 18, "yes"),
+    ("S02", "Bea Example", "Europe/Lisbon", 17, "yes"),
+    ("S03", "Cleo Example", "Asia/Kolkata", 16, "yes"),
+    ("S04", "Dot Example", "Europe/London", 15, "no"),
 ]
 
 ORDERS = [
-    # order number, client, description, quote, status, created
-    ("SE-1001", "C001", "Ivory silk wedding gown, made to order", 2400, "invoiced", "2026-10-02"),
-    ("SE-1002", "C002", "Velvet evening coat, reline and new cuffs", 480, "ready", "2026-11-02"),
-    ("SE-1003", "C003", "Beaded bridesmaid dress, take in and hem", 300, "open", "2026-11-13"),
-    ("SE-1004", "C001", "Wedding veil, hand-rolled edge", 600, "open", "2026-10-23"),
-    ("SE-1005", "C004", "Tweed jacket, made to measure", 1500, "open", "2026-11-06"),
-    ("SE-1006", "C005", "Linen suit trousers, taper and hem", 120, "open", "2026-11-18"),
+    # order number, client, description, quote, status, created, due, express
+    ("SE-1001", "C001", "Ivory silk wedding gown, made to order", 2400, "collected", "2026-10-02", "2026-11-01", "no"),
+    ("SE-1002", "C002", "Velvet evening coat, reline and new cuffs", 480, "ready", "2026-11-02", "2026-11-20", "no"),
+    ("SE-1003", "C003", "Two bridesmaid dresses for a wedding on Saturday", 300, "open", "2026-11-13", "2026-11-20", "yes"),
+    ("SE-1004", "C001", "Wedding veil, hand-rolled edge", 600, "open", "2026-10-23", "2026-12-12", "no"),
+    ("SE-1005", "C004", "Tweed jacket, made to measure", 1500, "open", "2026-11-06", "2026-11-18", "no"),
+    ("SE-1006", "C005", "Linen suit trousers, taper and hem", 120, "open", "2026-11-18", "2026-11-27", "no"),
+]
+
+GARMENTS = [
+    # garment ref, order, description, status
+    ("SE-1001-A", "SE-1001", "Ivory silk wedding gown", "done"),
+    ("SE-1002-A", "SE-1002", "Velvet evening coat: reline and new cuffs", "done"),
+    ("SE-1003-A", "SE-1003", "Beaded bridesmaid dress: take in and repair beading", "in_progress"),
+    ("SE-1003-B", "SE-1003", "Plain bridesmaid dress: hem", "in_progress"),
+    ("SE-1004-A", "SE-1004", "Wedding veil: hand-rolled edge and comb", "in_progress"),
+    ("SE-1005-A", "SE-1005", "Tweed jacket, made to measure", "fitting"),
+    ("SE-1006-A", "SE-1006", "Linen suit trousers: taper and hem", "todo"),
 ]
 
 ASSIGNMENTS = [
-    ("SE-1001", "S01"),
-    ("SE-1002", "S02"),
-    ("SE-1003", "S01"),
-    ("SE-1003", "S03"),
-    ("SE-1004", "S03"),
-    ("SE-1005", "S02"),
-    # SE-1006 has nobody yet, for the empty state
+    # garment ref, seamstress
+    ("SE-1001-A", "S01"),
+    ("SE-1002-A", "S02"),
+    ("SE-1003-A", "S01"),
+    ("SE-1003-A", "S03"),
+    ("SE-1003-B", "S01"),
+    ("SE-1004-A", "S03"),
+    ("SE-1005-A", "S02"),
+    # SE-1006-A has nobody yet, for the empty state
 ]
+
+# Entries and photos land on their order's first garment unless listed here (entry or photo number: garment ref)
+ENTRY_GARMENT = {29: "SE-1003-B"}
+PHOTO_GARMENT = {}
 
 # order ("" = general time), seamstress, date in her own time zone, hours, kind, review, note
 ENTRIES = [
@@ -159,7 +185,7 @@ PHOTO_SAID = [
 
 CORRECTED = {10: (2, "Sorry, make that two and a half.")}  # entry number: (hours first said, the correction)
 UNCLEAR = {19: "The coat."}  # entry number: her answer when the app asks which order
-FINISHED = {11, 22}  # entries where she also says the order is finished
+FINISHED = {11, 22}  # entries where she also says the garment is done
 ORDER_DONE = {"SE-1001": "2026-10-30", "SE-1002": "2026-11-12"}
 
 
@@ -182,20 +208,36 @@ def hours_text(h):
     return f"{num(h)} hour" + ("" if h == 1 else "s")
 
 
+def garment_order(ref):
+    return next(o for g, o, _, _ in GARMENTS if g == ref)
+
+
+def first_garment(order):
+    return next(g for g, o, _, _ in GARMENTS if o == order)
+
+
+def entry_garment(i, order):
+    return ENTRY_GARMENT.get(i, first_garment(order)) if order else ""
+
+
+def photo_garment(i, order):
+    return PHOTO_GARMENT.get(i, first_garment(order))
+
+
 def open_orders(who, date):
     """Orders this seamstress has on the go on a given day, as (number, description)."""
-    mine = {o for o, s in ASSIGNMENTS if s == who}
+    mine = {garment_order(g) for g, s in ASSIGNMENTS if s == who}
     return [
         (o, d)
-        for o, _, d, _, _, created in ORDERS
+        for o, _, d, _, _, created, _, _ in ORDERS
         if o in mine and created <= date and date <= ORDER_DONE.get(o, "9999")
     ]
 
 
 def scripts():
     """The conversation, line by line, that would produce time_entries.csv and photos.csv."""
-    names = {s: n.split()[0] for s, n, _, _ in SEAMSTRESSES}
-    desc = {o: d for o, _, d, _, _, _ in ORDERS}
+    names = {s: n.split()[0] for s, n, _, _, _ in SEAMSTRESSES}
+    desc = {g: d for g, _, d, _ in GARMENTS}
     rows, days = [], defaultdict(list)
     for i, e in enumerate(ENTRIES, 1):
         days[(e[1], e[2])].append((i, e))
@@ -227,7 +269,8 @@ def scripts():
                     say(who, date, t + 2, "seamstress", f"[sends {file}] {PHOTO_SAID[p - 1]}", order)
                     say(who, date, t + 2, "app", f"Photo saved on {order}. The atelier checks it before the client sees it.", order, f"P{p:03d}")
             if i in FINISHED:
-                say(who, date, t + 3, "app", f"Marked {order}, {desc[order]}, as finished. The atelier has been told.", order)
+                garment = entry_garment(i, order)
+                say(who, date, t + 3, "app", f"Marked {garment}, {desc[garment]}, as done. The atelier has been told.", order)
     write(
         "seamstress_scripts.csv",
         ["line_id", "seamstress_id", "date_local", "time_local", "speaker", "text", "order_number", "creates"],
@@ -241,14 +284,18 @@ def scripts():
 def main():
     scripts()
     invoice_for = {order: inv for inv, order, *_ in INVOICES}
+    pay = {s: rate for s, _, _, rate, _ in SEAMSTRESSES}
+    write("atelier.csv", ["name", "reply_to_email", "hourly_rate_gbp"], [ATELIER])
+    write("price_list.csv", ["name", "price_gbp"], PRICE_LIST)
     write("clients.csv", ["client_id", "name"], CLIENTS)
-    write("seamstresses.csv", ["seamstress_id", "name", "time_zone", "active"], SEAMSTRESSES)
+    write("seamstresses.csv", ["seamstress_id", "name", "time_zone", "pay_rate_gbp", "active"], SEAMSTRESSES)
     write(
         "orders.csv",
-        ["order_number", "client_id", "description", "hourly_rate_gbp", "quote_gbp", "status", "created_date"],
-        [(o, c, d, RATE, q, s, created) for o, c, d, q, s, created in ORDERS],
+        ["order_number", "client_id", "description", "quote_gbp", "status", "created_date", "due_date", "express"],
+        ORDERS,
     )
-    write("order_assignments.csv", ["order_number", "seamstress_id"], ASSIGNMENTS)
+    write("garments.csv", ["garment_ref", "order_number", "description", "status"], GARMENTS)
+    write("garment_assignments.csv", ["garment_ref", "seamstress_id"], ASSIGNMENTS)
 
     entries, hours_on_order, hours_in_month = [], defaultdict(float), defaultdict(float)
     for i, (order, who, date, hours, kind, review, note) in enumerate(ENTRIES, 1):
@@ -256,21 +303,21 @@ def main():
         billable = order and review != "held_back"
         invoice = invoice_for.get(order, "") if billable and review == "approved" else ""
         sheet = f"TS-{who}-{month}"
-        entries.append((f"T{i:03d}", order, who, date, num(hours), kind, review, invoice, sheet, note))
+        entries.append((f"T{i:03d}", order, entry_garment(i, order), who, date, num(hours), kind, review, invoice, sheet, note))
         if invoice:
             hours_on_order[order] += hours
         hours_in_month[(who, month)] += hours
     write(
         "time_entries.csv",
-        ["entry_id", "order_number", "seamstress_id", "date_local", "hours", "kind", "review_status", "invoice_id", "timesheet_id", "note"],
+        ["entry_id", "order_number", "garment_ref", "seamstress_id", "date_local", "hours", "kind", "review_status", "invoice_id", "timesheet_id", "note"],
         entries,
     )
     write(
         "photos.csv",
-        ["photo_id", "order_number", "seamstress_id", "date_local", "file_name", "caption", "review_status"],
-        [(f"P{i:03d}", *row) for i, row in enumerate(PHOTOS, 1)],
+        ["photo_id", "order_number", "garment_ref", "seamstress_id", "date_local", "file_name", "caption", "review_status"],
+        [(f"P{i:03d}", order, photo_garment(i, order), *rest) for i, (order, *rest) in enumerate(PHOTOS, 1)],
     )
-    quote = {o: q for o, _, _, q, _, _ in ORDERS}
+    quote = {o: q for o, _, _, q, *_ in ORDERS}
     write(
         "invoices.csv",
         ["invoice_id", "order_number", "status", "hours", "hourly_rate_gbp", "hourly_total_gbp", "quote_gbp", "final_price_gbp", "sent_date"],
@@ -281,9 +328,9 @@ def main():
     )
     write(
         "timesheets.csv",
-        ["timesheet_id", "seamstress_id", "month", "total_hours", "status"],
+        ["timesheet_id", "seamstress_id", "month", "total_hours", "pay_gbp", "status"],
         [
-            (f"TS-{who}-{month}", who, month, num(total), "sent" if (who, month) in SENT_TIMESHEETS else "open")
+            (f"TS-{who}-{month}", who, month, num(total), num(total * pay[who]), "sent" if (who, month) in SENT_TIMESHEETS else "open")
             for (who, month), total in sorted(hours_in_month.items(), key=lambda kv: (kv[0][1], kv[0][0]))
         ],
     )
