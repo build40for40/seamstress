@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: build40for40/actions/setup@v1
+        id: setup
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - uses: build40for40/actions/preview-worker@v1
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          working-directory: workers/api
+          package-manager: ${{ steps.setup.outputs.package-manager }}
+
+  deploy:
+    needs: check
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy
+      cancel-in-progress: false
+    steps:
+      - uses: build40for40/actions/setup@v1
+        id: setup
+      - run: pnpm build
+      - uses: build40for40/actions/deploy-worker@v1
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          working-directory: workers/api
+          d1-database: seamstress
+          package-manager: ${{ steps.setup.outputs.package-manager }}

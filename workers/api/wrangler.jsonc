@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "seamstress",
+  "account_id": "9b4d3e616e55585a0ae844f424717b43",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/track/*", "/photos/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "seamstress",
+      "database_id": "819fe228-9bdc-45fc-afc7-23ae3ac37171",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [{ "binding": "PHOTOS", "bucket_name": "seamstress-photos" }],
+  "vars": {
+    "EMAIL_FROM": "noreply@build40for40.com"
+  },
+  "routes": [{ "pattern": "seamstress.build40for40.com", "custom_domain": true }],
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": { "enabled": true }
+}

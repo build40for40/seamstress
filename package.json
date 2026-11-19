@@ -1,0 +1,14 @@
+{
+  "name": "seamstress",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.6.0",
+  "scripts": {
+    "dev": "pnpm --parallel --filter api --filter studio --filter workroom dev",
+    "build": "pnpm --filter studio build && pnpm --filter workroom build",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "seed": "pnpm --filter api seed"
+  }
+}
