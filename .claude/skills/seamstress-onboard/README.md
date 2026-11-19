@@ -31,6 +31,9 @@ The skill lives in this repo and is tested from Claude Code:
 
 For a real owner it needs to run in claude.ai (as an uploaded skill or a Claude project), since an atelier owner won't use a terminal. That move is not done yet.
 
+## After setup: "what's next?"
+The owner only needs one habit: ask Claude **"what's next?"** Claude reads the board and lists what needs them today, most urgent first, each with an offer: draft the invoice for a finished order, nudge a client who hasn't answered a quote, remind someone about an unpaid invoice, total the timesheets at month end. The first time they invoice, Claude sets up a private Invoice details page (they add their bank details there themselves) and numbers every invoice from it.
+
 ## What you get
 - A space named after your company.
 - A board with one card per garment. Lists come from your own description of how an order flows; for most ateliers that's Inquiry, Quoted, Accepted, In Progress, Client Review, then an ending that follows how you get paid (by default Ready & Invoiced → Paid & Collected), plus Cancelled. Every list has to mean a different next action, so a simple alterations shop may end up with four. Invoices awaiting payment stay open work, never "done".
@@ -41,7 +44,7 @@ For a real owner it needs to run in claude.ai (as an uploaded skill or a Claude 
 - Claude can't create accounts: you sign up for Superthread and connect it yourself, with Claude guiding you.
 - The MCP cannot upload files. Photos are attached by the seamstress logging app (personal link per seamstress, no login), and Claude reads them by file ID.
 - Superthread has no custom fields: rate, price and client contact go in the card description.
-- Not built yet: the claude.ai version of the skill, invoice generation, payroll, client portal.
+- Not built yet: payroll, client portal, an automatic daily nudge.
 - Not checked yet: what Superthread's signup asks for, whether connecting Superthread in claude.ai needs a paid Claude plan, and whether Claude can update your Superthread profile.
 
 See [DECISIONS.md](DECISIONS.md) for why it works this way.
@@ -50,4 +53,5 @@ See [DECISIONS.md](DECISIONS.md) for why it works this way.
 - `SKILL.md`: the onboarding skill
 - `conventions-template.md`: template for the house rules page
 - `board-preview-template.html`: the board preview Claude draws during the conversation
+- `invoice-details-template.md`: the private Invoice details page, created at the first invoice
 - `DECISIONS.md`: decisions made while building

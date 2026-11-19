@@ -1,5 +1,7 @@
 # House rules
 
+Not sure what to do? Ask Claude "what's next?"
+
 How this atelier's board works. Claude reads this before writing anything to an order.
 
 ## The board
@@ -51,7 +53,7 @@ Each card has one checklist, "Work steps", for the garment's steps, numbered in 
 
 - Move to **Accepted** only when the client has agreed the quote (and paid the deposit, if one is taken). Log the deposit as a comment: `💷 deposit <amount> · <YYYY-MM-DD>`.
 - Move to **Client Review** when a fitting or approval is booked or happening. Tick the fitting step on the Work steps checklist only with a photo as evidence.
-- Move to the invoiced list (e.g. **Ready & Invoiced** or **Invoiced**) only after an invoice has been produced and linked on the card. Cards here are open work: chase them.
+- Move to the invoiced list (e.g. **Ready & Invoiced** or **Invoiced**) only after an invoice has been produced and linked on the order (`🧾` comment). Orders here are open work: chase them. To invoice, ask Claude: "invoice <order>".
 - Move to the paid list (e.g. **Paid & Collected** or **Paid**) only when the owner confirms payment. This is the only list that means "done".
 
 ## Sample cards
