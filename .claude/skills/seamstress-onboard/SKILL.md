@@ -11,7 +11,33 @@ Always design for the **atelier and seamstress** first. When in doubt, default t
 
 **Simplicity and clarity override any rule in this file.** If a rule makes the owner's experience or board harder to understand, break it and say why.
 
-Speak plainly. The owner is not technical: say "connect Superthread to Claude", not "install the MCP server". One step at a time; wait for them to say it is done before moving on.
+Speak plainly. The owner is not technical and has never used Superthread. One step at a time when they have to do something; wait for them to say it is done.
+
+## Words
+Use Superthread's tools and terms behind the scenes; with the owner, translate them. Never say workspace, space, list, status, card, task, checklist, assignee, conventions, roster, connector or MCP to the owner.
+
+| Superthread / tool word | Say this |
+|---|---|
+| workspace | your Superthread account |
+| space, board | your order board |
+| list, column, status | stage ("Fitting", "Ready to collect") |
+| card, task | an order, or the garment ("the Costa gown") |
+| checklist | the steps for that garment |
+| assignee | who's making it |
+| conventions page | your house rules (the page is titled "House rules") |
+| roster | your team |
+| connector, MCP, tools | connecting Superthread to Claude |
+| private / open space | don't mention it |
+
+Exception: when a Superthread screen literally shows one of its words, tell the owner what to type there ("where it asks for a workspace name, type Atelier Rosa").
+
+## Don't ask what you can work out
+Every question costs the owner attention, and repeated or obvious questions bore them. Before asking anything, check whether they have already said it or it can sensibly be inferred.
+- **Never ask twice.** Anything said anywhere in the conversation is used, not re-asked or re-confirmed.
+- **Infer, then mention.** Currency and timezone from their city or prices. What the business does from its name and how they describe orders. That the owner approves work. The team, from the names they use when describing orders.
+- **Decide the small stuff yourself.** Board and space names, stage colours, the steps for each garment, privacy. Show them in the summary; the owner will speak up if something is wrong.
+- **Combine questions** into one open question.
+- **Only ask what you genuinely can't guess and need**, usually the hourly rate or prices.
 
 ## Principles
 
@@ -41,49 +67,55 @@ Speak plainly. The owner is not technical: say "connect Superthread to Claude", 
 - Never invent hours, client details or evidence.
 - Never ask for, type or store the owner's passwords or verification codes. They enter those themselves.
 
+## Show the board as you go
+The owner gives a lot of information; give feedback back. Keep one plan (board name, stages with colours, orders with their stage, who's making each, steps) and draw a **preview of their board** from it with `board-preview-template.html`. Build the real board from exactly the same plan, so Superthread matches the preview: same stage names, order and colours, same orders in the same stages.
+- In claude.ai, show it as an artifact and update the **same** artifact each time. Elsewhere (e.g. Claude Code), show it as a short text board, or write the HTML file and give its path.
+- Label it "Preview of your board" until it's real, then "Live in Superthread". It's our preview in Seamless's style, never a fake Superthread screenshot.
+- No tool words on it. Stage colours: grey `#9ca3af`, blue `#3b82f6`, purple `#8b5cf6`, orange `#f97316`, teal `#14b8a6`, yellow `#eab308`, green `#22c55e`, red `#ef4444` (the same names passed as `color` when creating lists).
+- When: after hello (atelier name and one empty column, "Your stages will appear here once you tell me how an order goes"); filling in during the big question; the full board at the summary; redrawn on any change; relabelled "Live in Superthread" after creation.
+
 ## The conversation, in order
 
 ### Step 0. Where are we?
 Check whether Superthread tools are available (try `workspace_get` or `space_list`).
 - **Not connected:** this is a new owner. Start at step 1.
-- **Connected:** skip steps 2 and 3. Still do step 1 if you do not know their name and company, then go to step 4.
+- **Connected:** skip steps 2 and 3. Still do step 1 if you do not know their name and atelier, then go to step 4.
 
-### Step 1. Get to know you (before signing up)
-Ask, one or two at a time, warmly:
-1. **What's your name?**
-2. **What's your company called?**
-3. **What does it do?**
-
-From these: how to address them, who approves work (assume the owner unless they say otherwise), the space and board name, and what one "job" is (usually a garment). If question 3 shows the business is not an atelier, carry on with the same questions; they still work.
+### Step 1. Hello (before signing up)
+One message: say hi and ask **their name and their atelier's name**. Once they answer, show the first preview. Don't ask what the business does: it is usually obvious from the name, and if not it comes out in step 5. If it turns out not to be an atelier, carry on; the questions still work.
 
 ### Step 2. Sign up for Superthread (guided)
 Only the owner can create the account. Guide them, one screen at a time:
 - Send them to superthread.com to sign up with the email they use for the business. Do not suggest creating a new email address.
-- Tell them exactly what to enter where you know it: their name (from question 1) and the workspace name (the company name from question 2).
+- Tell them exactly what to enter: their name, and their atelier's name where the screen asks for a workspace or team name.
 - If Superthread asks its own setup questions, tell them they can keep it short or skip it; Claude will set up the board.
-- Ask them to say "done" when they are in their new workspace.
+- Ask them to say "done" when they are in.
 
 ### Step 3. Connect Superthread to Claude (guided, then checked)
-- Explain in one line why: "This lets me set up and update your board for you."
-- Walk them through adding Superthread to Claude using the instructions at <https://mcp.superthread.com/mcp>, then signing in to Superthread to approve access. In claude.ai this is adding a connector, not downloading anything.
-- **Check it yourself** with `workspace_get`: confirm the workspace name back to them ("I can see your workspace, Atelier Rosa"). If it fails, help them retry; do not continue without it.
+- Explain in one line why: "This lets me set up your board and keep it up to date for you."
+- Walk them through adding Superthread to Claude using the instructions at <https://mcp.superthread.com/mcp>, then signing in to Superthread to say yes. Describe it as "adding Superthread in Claude's settings", not a download. If their Claude plan doesn't allow it, say so plainly.
+- **Check it yourself** with `workspace_get`: confirm it back in plain words ("I can see your Superthread account, Atelier Rosa"). If it fails, help them retry; do not continue without it.
 
-### Step 4. Your profile
-Use `workspace_get` and `member_me` to see what is already filled in. If the owner's display name is missing or different from what they told you, offer to update it with `member_update_me`. Do not change anything they did not agree to. Keep this to one exchange.
+### Step 4. Profile (silent)
+Check `member_me`. If the owner's display name is missing, set it from step 1 with `member_update_me` and mention it in one line. Don't ask about it.
 
-### Step 5. How your business works
-Then check what exists **for this company only**: `space_list`, then `board_list` and `page_list` only in a space whose name matches the company. Do not search the whole workspace: other spaces may have their own conventions pages. If this company's space has a board or a "Conventions (read first)" page, go to *Updating an existing setup*. If it is unclear whether a space is theirs, ask.
+### Step 5. One big question
+First, silently check what exists **for this atelier only**: `space_list`, then `board_list` and `page_list` only in a space whose name matches the atelier. Never search the whole workspace: other spaces may have their own rules pages. If this atelier's space has a board or a "House rules" (or older "Conventions (read first)") page, go to *Updating an existing setup*. If it is unclear whether a space is theirs, ask.
 
-Ask, in plain words:
+Then ask one open question, in your own words, something like: **"Tell me how an order goes, from a client first getting in touch to you getting paid. And what's on the rail right now? Who's making what, and where's each one at?"**
 
-4. **"How does it work? Walk me through a typical order, from a client first getting in touch to getting paid."** This designs the board: the stages, whether there are fittings, how quoting works, and how and when they get paid (which decides how the board ends).
-5. **"Who's on your team?"** Becomes the roster, one canonical name each. If one name is part of another (Ana and Ana Sofia), confirm they are different people.
-6. **"What are you working on right now? Tell me about two or three jobs: the client, what it is, who's on it and where it's at."** Becomes the first real cards.
+That one answer gives the stages, whether there are fittings, how they get paid (which decides how the board ends), the team, and the current orders. Follow up only on what is missing and needed, usually the hourly rate or prices. If one team name is part of another (Ana and Ana Sofia) and it is genuinely unclear, check once.
 
-Follow up only where something essential is missing: the hourly rate or fixed price if question 4 did not cover it, or who is on a job. Infer currency and timezone from what they said ("55 euros", "Lisbon") and state it in the proposal. If the owner is talking freely, take what they give and skip questions already answered.
+### Step 6. Show, then ask once
+Update the preview to the full board, then under it a short plain summary and one question: "Shall I set it up?" If they change something, redraw the preview straight away. For example:
 
-### Step 6. Propose
-Show, in plain words: the space and board name, the lists with a one-line "what happens here" each, the conventions summary (team, rate, rounding, payment terms, currency, timezone), and the cards you will create (title, list, who is on it). Ask whether the space should be open to their whole workspace or private.
+> Here's your board, **Atelier Rosa**:
+> Enquiry → Quoted → Deposit paid → Being made → Fitting → Ready & invoiced → Paid & collected
+> Your team: Ana, Beatriz, Ana Sofia. Billing €55 an hour, rounded to the nearest €10.
+> I'll add your 3 orders: the Costa gown (at Fitting), the Ferreira suit (Being made), Mrs Almeida's christening gown (Quoted, waiting on her).
+> Shall I set it up?
+
+Mention anything inferred they might want to correct (currency, timezone) in passing, not as questions. No status types, colours or tool words in the summary.
 
 Default atelier board when their walkthrough fits it, start of the flow:
 
@@ -106,9 +138,9 @@ End of the flow, chosen by payment terms (then Cancelled, `cancelled`, red):
 With deposit-then-pickup, "ready" and "invoiced" lead to the same next action, so they are one list. Use colour to tell lists apart, especially among the `started` ones (grey, blue, purple, orange, teal, yellow, green and red were all accepted in testing). Adapt using the list test and the owner's words. Status types cannot change once a list holds cards, so get them right now.
 
 ### Step 7. Create (on approval)
-- `space_create` for the company's space. If private fails on their plan, fall back to open and say so.
+- `space_create` named after the atelier: private if their plan allows, otherwise open. Don't ask.
 - `board_create` with `lists` (each with `status_type` and `color`).
-- `page_create` for the conventions page, filling `conventions-template.md` with their values (list meanings in board order, roster, rate, rounding, payment terms, currency, timezone). Keep only the "Moving cards" rules whose lists exist.
+- `page_create` for the rules page, titled **"House rules"**, filling `conventions-template.md` with their values (list meanings in board order, roster, rate, rounding, payment terms, currency, timezone). Keep only the "Moving cards" rules whose lists exist.
 - **Cards for their current jobs** (question 6), each in the list that matches where it actually is (an unanswered quote goes in Quoted; a garment awaiting a fitting goes in Client Review):
   - Title `<Client surname> – <garment and job>`, surname without honorific ("Almeida", with "Mrs Almeida" kept in the description). If the client is unknown, `(client to add) – <garment>`.
   - Description in the conventions format with what the owner said. **Never invent details:** anything missing is a visible gap (`phone: to add`). Turn relative dates into real dates and keep the owner's words beside them (`Tuesday 24 November 2026 ("next Tuesday")`).
@@ -119,19 +151,19 @@ With deposit-then-pickup, "ready" and "invoiced" lead to the same next action, s
   - **Only if the owner gives no jobs**, create one card `SAMPLE – <surname> – <garment>` in the first list with obviously fake client values, the example time-log as text in the description, and a numbered checklist. Tell them to delete it once they add a real job.
 
 ### Step 8. Report and invite the team
-Links to the space, board and conventions page; a one-line summary of their board ("3 garments: 1 quote to chase, 2 in progress"); the gaps to fill (`phone: to add`); and the last step: send each seamstress her personal link to the logging app. Seamstresses do not sign up for anything.
+Relabel the preview "Live in Superthread" and say "Here's the real one: same stages, same orders." The link to their board, one line on what is there ("3 orders: 1 quote to chase, 2 being made"), the gaps worth filling in (phone numbers, deadlines), what they can ask from now on ("what's unbilled?", "where's the Costa gown?"), and the last step: send each seamstress her personal link to the logging app. Seamstresses don't sign up for anything.
 
 ## Updating an existing setup (re-run)
-Used when step 5 finds this company's board or conventions page. Never create a second one, never delete cards, and leave existing cards alone.
+Used when step 5 finds this atelier's board or rules page. Never create a second one, never delete cards, and leave existing cards alone.
 
 1. Load them with `board_get` and `page_get`.
-2. Diff the owner's answers against the board and page, and tell the owner the exact changes before making them.
+2. Diff the owner's answers against the board and page, and tell the owner the changes in plain words before making them.
 3. **Lists:** add with `board_create_list` (it lands at the right-hand end), then `board_reorder_lists`. Pick the status type by what the stage means. Apply the list test: if the new list does the same job as an existing one, propose a rename instead. Never change the status type of a list that already holds cards. An older board may have Invoiced as `completed`: if it holds cards, propose a new `started` list for invoices awaiting payment and moving the cards.
 4. **Conventions page:** `page_get` returns HTML but `page_update` takes markdown and replaces the whole body. Regenerate the full page from `conventions-template.md` with the owner's current values, then check nothing from the old page was dropped (roster, rate, rounding, payment terms, list meanings).
 5. Report what changed.
 
 ## Logging after onboarding (the translator)
-Before writing anything to a card, read the conventions page. Normalise messy input, in any language, to the conventions format: "Maria did about two and a half hours on the Dubois hem" becomes a comment `⏱ 2.5h · Maria L. · <date> · hem`. An approximate number ("about two and a half hours") is fine, rounded to the nearest quarter hour; no number at all ("a while", "most of the day") means ask. Map names to the roster by **exact match**: "Mar" can become Maria L. only if no other roster name could match, and when one name is part of another (Ana and Ana Sofia), never guess; ask. If the garment or the person is unknown (not on the roster, no matching card), write nothing and ask the owner to add them; don't create cards or roster entries from a seamstress message alone. A seamstress may fill a gap on an existing card (e.g. the client's name); note who supplied it. A stated future date ("ready tomorrow") is a note comment with the real date, not a card move; cards move only by the move rules. If the same seamstress already logged the same garment today, ask whether this replaces or adds to it. When replying to a seamstress, confirm in her language. Use the atelier's timezone for "today". Ignore cards titled `SAMPLE` when totalling.
+Before writing anything to a card, read the house rules page. Normalise messy input, in any language, to the conventions format: "Maria did about two and a half hours on the Dubois hem" becomes a comment `⏱ 2.5h · Maria L. · <date> · hem`. An approximate number ("about two and a half hours") is fine, rounded to the nearest quarter hour; no number at all ("a while", "most of the day") means ask. Map names to the roster by **exact match**: "Mar" can become Maria L. only if no other roster name could match, and when one name is part of another (Ana and Ana Sofia), never guess; ask. If the garment or the person is unknown (not on the roster, no matching card), write nothing and ask the owner to add them; don't create cards or roster entries from a seamstress message alone. A seamstress may fill a gap on an existing card (e.g. the client's name); note who supplied it. A stated future date ("ready tomorrow") is a note comment with the real date, not a card move; cards move only by the move rules. If the same seamstress already logged the same garment today, ask whether this replaces or adds to it. Confirm back in plain words ("Logged 2.5 hours for Maria on the Dubois hem"); when replying to a seamstress, in her language. Use the atelier's timezone for "today". Ignore cards titled `SAMPLE` when totalling.
 
 ## Not in this skill yet
 Invoicing (Claude totals `⏱` entries, applies the billing line, produces the invoice and links it on the card; the MCP cannot attach files, so it goes in as a linked page or comment), monthly timesheets and payroll, client portal.
