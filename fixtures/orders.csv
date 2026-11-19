@@ -1,0 +1,7 @@
+order_number,client_id,description,hourly_rate_gbp,quote_gbp,status,created_date
+SE-1001,C001,"Ivory silk wedding gown, made to order",60,2400,invoiced,2026-10-02
+SE-1002,C002,"Velvet evening coat, reline and new cuffs",60,480,ready,2026-11-02
+SE-1003,C003,"Beaded bridesmaid dress, take in and hem",60,300,open,2026-11-13
+SE-1004,C001,"Wedding veil, hand-rolled edge",60,600,open,2026-10-23
+SE-1005,C004,"Tweed jacket, made to measure",60,1500,open,2026-11-06
+SE-1006,C005,"Linen suit trousers, taper and hem",60,120,open,2026-11-18

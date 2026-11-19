@@ -1,0 +1,12 @@
+photo_id,order_number,seamstress_id,date_local,file_name,caption,review_status
+P001,SE-1001,S01,2026-10-06,se-1001-bodice.jpg,Bodice with boning channels,approved
+P002,SE-1001,S01,2026-10-13,se-1001-first-fitting.jpg,On the stand after the first fitting,approved
+P003,SE-1001,S01,2026-10-30,se-1001-finished.jpg,Finished gown,approved
+P004,SE-1002,S02,2026-11-03,se-1002-before.jpg,"Old lining, before",approved
+P005,SE-1002,S02,2026-11-12,se-1002-finished.jpg,New lining and cuffs,approved
+P006,SE-1003,S03,2026-11-17,se-1003-beading.jpg,Beading repaired,approved
+P007,SE-1004,S03,2026-11-13,se-1004-edge.jpg,Rolled edge close up,approved
+P008,SE-1004,S03,2026-11-18,se-1004-comb.jpg,Comb attached,waiting
+P009,SE-1005,S02,2026-11-16,se-1005-sleeves.jpg,Sleeves set,approved
+P010,SE-1005,S02,2026-11-17,se-1005-miscut.jpg,The sleeve that was recut,held_back
+P011,SE-1005,S02,2026-11-18,se-1005-collar.jpg,Collar pinned,waiting
