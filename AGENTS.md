@@ -34,12 +34,29 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 - A time entry stores the seamstress's local date (`date_local`) and `minutes`. Timer entries also store `started_at` and `ended_at` as UTC. A running timer is a row with `ended_at` empty and `minutes` empty. There is at most one per member, enforced with a partial unique index.
 - A timer entry's `date_local` is the date in the member's time zone when it started, even if it runs past midnight.
 - Locked means the entry is on a sent invoice, or its member's timesheet for that month has been sent. Locked entries reject edits with `409` and a plain message.
+- A timer counts as forgotten past 8 hours (`FORGOTTEN_AFTER_MINUTES` in `packages/shared/src/time.ts`) or past her local midnight. It's flagged, never stopped for her.
+- Starting the timer again on the same garment and kind returns the running one unchanged. A timer stopped under a minute is deleted, and the app says so.
+- New time only goes on open orders (`takesTime`). Ready, collected and cancelled orders answer `409`.
+- Typed time and edits can't be dated in the future. When a seamstress changes the kind, date or minutes of garment time, its review goes back to waiting.
+- A seamstress can't send a month's timesheet while a timer is running in it, and sending a sent month again returns it unchanged.
+- A seamstress moves a garment forward from any stage, and back only from fitting to in progress. Only the owner can undo done.
 - The studio shows Europe/London. The workroom shows the member's own time zone. The tracking page shows UK time with the viewer's local time beside it.
 
 ### Money
 
 - GBP stored as integer pence. The hourly total is billable minutes × the team rate ÷ 60, rounded to the nearest penny, with no rounding of time. The final price is the CEO's call (PRD CEO-5).
 - Billing, unbilled, running cost and timesheet maths live only in `packages/shared` and are unit tested there.
+- Pay for an entry uses the latest pay rate on or before its `date_local`, falling back to the earliest rate when it predates them all.
+- An invoice only accepts held-back entries from its own order that aren't on another invoice.
+- On the dashboard, "over quote" counts open and ready orders. Due flags only apply to open orders whose garments aren't all done.
+
+### Owner and client screens
+
+- `POST /api/teams` names the owner "Owner", since the WorkOS token carries no name. Setup renames her straight after with `PATCH /api/members/:id`.
+- The Timesheets badge counts timesheets sent for this month and last month, in Europe/London.
+- The tracking page shows an open order with no time logged and every garment still to do as "Booked in".
+- The garments-done email goes to the atelier when the last garment on an order is done, whoever marks it.
+- Photos need a header (owner token or member key), so both apps fetch `/photos/:id` and show blob URLs. Only the tracking page uses a plain `<img>`, with `?t=<tracking token>`.
 
 ### Photos
 
@@ -72,8 +89,10 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 - One Worker, `seamstress`, on the `seamstress.build40for40.com` custom domain. `/` is the studio, `/workroom/` the workroom, `/track/*` the tracking page, `/api/*` the API, `/photos/*` photos.
 - Bindings: the `seamstress` D1 database, the `seamstress-photos` R2 bucket, static assets from both apps' builds.
 - Secrets: `POSTMARK_SERVER_TOKEN`, listed empty in `workers/api/.dev.vars.example`.
-- WorkOS: the production client allows `https://seamstress.build40for40.com/` as a redirect URI and origin; the staging client allows localhost and the `*.workers.dev` previews.
+- WorkOS: the production client allows `https://seamstress.build40for40.com/` as a redirect URI and web origin; the staging client allows `http://localhost:5173/` and `https://*seamstress.40for40.workers.dev/` (the previews).
 - CI tests and builds every push and PR, uploads a preview per PR, and deploys `main`. `CLOUDFLARE_API_TOKEN` comes from the org secrets.
+- Previews share the production D1 database and R2 bucket. Never seed a preview or run destructive tests against one.
+- `POSTMARK_SERVER_TOKEN` is set on the Worker once, by hand. CI deploys leave it in place.
 
 ## Still open
 
