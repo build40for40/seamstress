@@ -1,6 +1,6 @@
 # Seamstress app mockups
 
-Six clickable screens for the seamstress's phone, covering the seamstress stories in [docs/PRD.md](../docs/PRD.md). They are plain HTML with no build step and no backend: every number on them is typed in, taken from the fake data in [fixtures](../fixtures) for seamstress `S02` on Tuesday 10 November.
+Eight clickable screens for the seamstress's phone, covering the seamstress stories in [docs/PRD.md](../docs/PRD.md). They are plain HTML with no build step and no backend: every number on them is typed in, taken from the fake data in [fixtures](../fixtures) for seamstress `S02` on Tuesday 10 November.
 
 To look at them, open `index.html` in a browser, or serve the folder:
 
@@ -18,11 +18,15 @@ Then open `http://localhost:4173` at phone width.
 | `saved.html` | Saved: repeats back what went in, with a way to fix it | SEAM-2, SEAM-4 |
 | `photo.html` | Add a photo: camera or gallery, and a caption | SEAM-3 |
 | `timesheet.html` | My timesheet: the month by order and by day | SEAM-5 |
+| `general-time.html` | General time: hours with no order, for waiting. Paid, and no client is billed | SEAM-2 |
+| `which-order.html` | Which order?: shown when she says or types something that could mean two orders. Nothing is saved until she picks | SEAM-2 |
+
+The mic button on `index.html` leads to `which-order.html`, as if she had said "two hours on a fitting" with two orders open.
 
 ## Things these are not
 
-- Not the real app. Nothing is saved, and only the hours stepper and the three choices on `log-time.html` respond.
+- Not the real app. Nothing is saved, and only the hours steppers and the three choices on `log-time.html` respond.
 - Not final design. The colours and type are a first pass.
-- Not complete. General time opens the same log time screen and still shows an order number, and there is no screen yet for a dead link, a failed upload or the app asking "which order?".
+- Not complete. There is no screen yet for a dead link or a failed upload, and saving general time goes straight back to the list with no confirmation.
 
 No client names appear on any screen, only order numbers and garments.
