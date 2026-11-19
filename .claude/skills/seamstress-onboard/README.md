@@ -1,5 +1,7 @@
 # Superthread onboarding skill
 
+Two skills: `seamstress-onboard` (this folder) sets everything up; `seamstress-run` handles logging, "what's next?" and invoicing afterwards. Onboarding invokes it at the end, and it also triggers on its own in later chats. Upload both to claude.ai.
+
 A separate track from the Seamless app: onboarding an atelier owner onto Superthread through one conversation with Claude, using the Superthread MCP.
 
 Have one conversation with Claude and get a working system for your atelier. Claude gets to know you, walks you through signing up for Superthread and connecting it, then learns how your business works and sets up your board: a space for your company, a board for orders, a conventions page, and cards for the jobs you're working on right now. Your board opens as your to-do list instead of an empty page. Hours and photo evidence then live on each garment's card, and you ask Claude instead of reading the board.
@@ -53,5 +55,5 @@ See [DECISIONS.md](DECISIONS.md) for why it works this way.
 - `SKILL.md`: the onboarding skill
 - `conventions-template.md`: template for the house rules page
 - `board-preview-template.html`: the board preview Claude draws during the conversation
-- `invoice-details-template.md`: the private Invoice details page, created at the first invoice
+- `../seamstress-run/`: the day-to-day skill and the invoice details template
 - `DECISIONS.md`: decisions made while building
