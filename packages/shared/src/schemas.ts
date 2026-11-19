@@ -39,9 +39,34 @@ export const createTeamSchema = z.object({
   hourlyRatePence: penceSchema.positive(),
 })
 
+const clearable = <T extends z.ZodType<string>>(schema: T) =>
+  z.preprocess((value) => (typeof value === 'string' && value.trim() === '' ? null : value), schema.nullable()).optional()
+
+const compact = z.string().transform((value) => value.replace(/[\s-]/g, '').toUpperCase())
+
+export const sortCodeSchema = compact
+  .pipe(z.string().regex(/^\d{6}$/, 'A sort code is 6 digits'))
+  .transform((digits) => `${digits.slice(0, 2)}-${digits.slice(2, 4)}-${digits.slice(4)}`)
+export const accountNumberSchema = compact.pipe(z.string().regex(/^\d{8}$/, 'An account number is 8 digits'))
+export const ibanSchema = compact.pipe(z.string().regex(/^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/, 'That IBAN looks off'))
+export const bicSchema = compact.pipe(z.string().regex(/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/, 'That BIC looks off'))
+
+export const businessDetailsSchema = z.object({
+  businessAddress: clearable(z.string().trim().max(500)),
+  companyNumber: clearable(z.string().trim().max(20)),
+  vatNumber: clearable(z.string().trim().max(20)),
+  bankAccountName: clearable(z.string().trim().max(120)),
+  bankSortCode: clearable(sortCodeSchema),
+  bankAccountNumber: clearable(accountNumberSchema),
+  bankIban: clearable(ibanSchema),
+  bankBic: clearable(bicSchema),
+  paymentTerms: clearable(z.string().trim().max(300)),
+})
+
 export const updateTeamSchema = createTeamSchema.partial().extend({
   autoEmailClients: z.boolean().optional(),
   showPayEstimate: z.boolean().optional(),
+  ...businessDetailsSchema.shape,
 })
 
 export const createPriceItemSchema = z.object({

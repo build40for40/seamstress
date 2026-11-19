@@ -1,6 +1,6 @@
 import { invoiceDraft } from '@seamstress/shared/billing'
 import { updateInvoiceSchema } from '@seamstress/shared/schemas'
-import type { InvoiceDraft, InvoiceSnapshot } from '@seamstress/shared/types'
+import { BANK_FIELDS, type InvoiceAtelier, type InvoiceDraft, type InvoiceSnapshot } from '@seamstress/shared/types'
 import type { Context } from 'hono'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
@@ -26,6 +26,14 @@ routes.use('/orders/:id/invoices', requireOwner)
 const invoiceNotFound = () => new HTTPException(404, { message: "We couldn't find that invoice." })
 const alreadySent = () => new HTTPException(409, { message: "That invoice has been sent, so it can't change." })
 
+const bankModel = (atelier: InvoiceAtelier) => ({
+  accountName: atelier.bankAccountName,
+  sortCode: atelier.bankSortCode,
+  accountNumber: atelier.bankAccountNumber,
+  iban: atelier.bankIban,
+  bic: atelier.bankBic,
+})
+
 async function loadInvoice(c: Context<AppEnv>) {
   const invoice = await getInvoice(c.var.team.id, c.req.param('id')!)
   if (!invoice) throw invoiceNotFound()
@@ -41,8 +49,9 @@ async function invoiceView(c: Context<AppEnv>, row: InvoiceRow) {
     row.status === 'draft' ? listEntries(team.id, { orderId: order.id }) : [],
   ])
   const { snapshot, ...invoice } = serialize.invoice(row)
+  const { atelier: sentAtelier, ...sentDraft } = snapshot ?? {}
   const draft: InvoiceDraft =
-    snapshot ??
+    (snapshot && (sentDraft as InvoiceDraft)) ??
     invoiceDraft({
       order: { quotePence: order.quote_pence ?? 0 },
       garments: garments.map(serialize.garment),
@@ -56,7 +65,7 @@ async function invoiceView(c: Context<AppEnv>, row: InvoiceRow) {
     draft,
     order: serialize.order(order),
     client: client ? serialize.client(client) : null,
-    atelier: { name: team.name, replyToEmail: team.reply_to_email },
+    atelier: sentAtelier ?? serialize.invoiceAtelier(team),
     trackingUrl: trackingUrl(c, order.tracking_token),
   }
 }
@@ -92,12 +101,12 @@ routes.post('/invoices/:id/send', async (c) => {
   const { team, member } = c.var
   const invoice = await loadInvoice(c)
   if (invoice.status !== 'draft') throw new HTTPException(409, { message: 'That invoice has already been sent.' })
-  const { draft } = await invoiceView(c, invoice)
+  const { draft, atelier } = await invoiceView(c, invoice)
   if (draft.entryIds.length === 0 && draft.finalPricePence === null) {
     throw new HTTPException(409, { message: "There's nothing to bill yet. Approve some hours or set a final price." })
   }
 
-  const snapshot: InvoiceSnapshot = draft
+  const snapshot: InvoiceSnapshot = { ...draft, atelier }
   const sent = await sendInvoice(team.id, invoice.id, snapshot, draft.entryIds)
   if (!sent) throw new HTTPException(409, { message: 'That invoice has already been sent.' })
   await logActivity(team.id, {
@@ -125,6 +134,11 @@ routes.post('/invoices/:id/send', async (c) => {
         quotePence: snapshot.quotePence,
         totalPence: snapshot.totalPence,
         trackingUrl: view.trackingUrl,
+        businessAddress: atelier.businessAddress,
+        companyNumber: atelier.companyNumber,
+        vatNumber: atelier.vatNumber,
+        bank: BANK_FIELDS.some((field) => atelier[field]) ? bankModel(atelier) : null,
+        paymentTerms: atelier.paymentTerms,
       },
     })
   }

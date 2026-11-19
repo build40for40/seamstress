@@ -98,9 +98,11 @@ describe('invoices', () => {
     const { team, owner, order, entries, log } = await workshop()
     const { body: draft } = await owner.send('POST', `/api/orders/${order.id}/invoices`)
     await owner.send('PATCH', `/api/invoices/${draft.invoice.id}`, { finalPricePence: 14000 })
+    await owner.send('PATCH', '/api/team', { businessAddress: '1 Fake Street', paymentTerms: 'Pay within 14 days.' })
 
     const sent = await owner.send('POST', `/api/invoices/${draft.invoice.id}/send`)
     expect(sent.status).toBe(200)
+    expect(sent.body.atelier).toMatchObject({ businessAddress: '1 Fake Street', paymentTerms: 'Pay within 14 days.' })
     expect(sent.body.invoice).toMatchObject({ status: 'sent', number: 'INV-0001', sentAt: expect.any(String) })
     expect(sent.body.draft).toMatchObject({ minutes: 150, hourlyTotalPence: 15000, totalPence: 14000 })
 
@@ -109,14 +111,16 @@ describe('invoices', () => {
     expect((await getEntry(team.id, entries.waiting.id))!.invoice_id).toBeNull()
     expect((await getEntry(team.id, entries.heldBack.id))!.invoice_id).toBeNull()
 
-    await owner.send('PATCH', '/api/team', { hourlyRatePence: 9000 })
+    await owner.send('PATCH', '/api/team', { hourlyRatePence: 9000, paymentTerms: 'Pay within 7 days.' })
     await log({ minutes: 600 })
     const later = await owner.get(`/api/invoices/${draft.invoice.id}`)
     expect(later.body.draft).toEqual(sent.body.draft)
+    expect(later.body.atelier).toEqual(sent.body.atelier)
 
     const next = await owner.send('POST', `/api/orders/${order.id}/invoices`)
     expect(next.body.invoice.id).not.toBe(draft.invoice.id)
     expect(next.body.draft).toMatchObject({ minutes: 600, ratePence: 9000, hourlyTotalPence: 90000 })
+    expect(next.body.atelier.paymentTerms).toBe('Pay within 7 days.')
   })
 
   it('refuses to change a sent invoice or its hours with a plain 409', async () => {

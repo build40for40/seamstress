@@ -24,14 +24,27 @@ export async function createTeamWithOwner(team: NewTeam, owner: NewOwner) {
   return { teamId, memberId }
 }
 
-export type TeamPatch = Partial<
-  Pick<TeamRow, 'name' | 'reply_to_email' | 'hourly_rate_pence' | 'auto_email_clients' | 'show_pay_estimate'>
->
+const PATCHABLE = [
+  'name',
+  'reply_to_email',
+  'hourly_rate_pence',
+  'auto_email_clients',
+  'show_pay_estimate',
+  'business_address',
+  'company_number',
+  'vat_number',
+  'bank_account_name',
+  'bank_sort_code',
+  'bank_account_number',
+  'bank_iban',
+  'bank_bic',
+  'payment_terms',
+] as const
+
+export type TeamPatch = Partial<Pick<TeamRow, (typeof PATCHABLE)[number]>>
 
 export async function updateTeam(teamId: string, patch: TeamPatch) {
-  const keys = (['name', 'reply_to_email', 'hourly_rate_pence', 'auto_email_clients', 'show_pay_estimate'] as const).filter(
-    (key) => patch[key] !== undefined,
-  )
+  const keys = PATCHABLE.filter((key) => patch[key] !== undefined)
   if (keys.length > 0) {
     await db()
       .prepare(`UPDATE teams SET ${keys.map((key) => `${key} = ?`).join(', ')} WHERE id = ?`)

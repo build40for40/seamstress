@@ -4,6 +4,7 @@ import type {
   DueFlag,
   Garment,
   Invoice,
+  InvoiceAtelier,
   InvoiceDraft,
   Member,
   Order,
@@ -80,7 +81,7 @@ export type InvoiceView = {
   draft: InvoiceDraft
   order: Order
   client: Client | null
-  atelier: { name: string; replyToEmail: string }
+  atelier: InvoiceAtelier
   trackingUrl: string
 }
 

@@ -15,7 +15,11 @@ const memberWithTeam = (where: string) => `
     json_object(
       'id', t.id, 'name', t.name, 'reply_to_email', t.reply_to_email, 'hourly_rate_pence', t.hourly_rate_pence,
       'auto_email_clients', t.auto_email_clients, 'show_pay_estimate', t.show_pay_estimate,
-      'next_order_number', t.next_order_number, 'next_invoice_number', t.next_invoice_number, 'created_at', t.created_at
+      'next_order_number', t.next_order_number, 'next_invoice_number', t.next_invoice_number, 'created_at', t.created_at,
+      'business_address', t.business_address, 'company_number', t.company_number, 'vat_number', t.vat_number,
+      'bank_account_name', t.bank_account_name, 'bank_sort_code', t.bank_sort_code,
+      'bank_account_number', t.bank_account_number, 'bank_iban', t.bank_iban, 'bank_bic', t.bank_bic,
+      'payment_terms', t.payment_terms
     ) AS team
   FROM members m JOIN teams t ON t.id = m.team_id
   WHERE ${where} AND m.removed_at IS NULL`

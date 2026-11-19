@@ -29,7 +29,26 @@ export type PhotoLabel = z.infer<typeof photoLabelSchema>
 
 export const STUDIO_TIME_ZONE = 'Europe/London'
 
-export interface Team {
+export interface BusinessDetails {
+  businessAddress: string | null
+  companyNumber: string | null
+  vatNumber: string | null
+  bankAccountName: string | null
+  bankSortCode: string | null
+  bankAccountNumber: string | null
+  bankIban: string | null
+  bankBic: string | null
+  paymentTerms: string | null
+}
+
+export const BANK_FIELDS = ['bankAccountName', 'bankSortCode', 'bankAccountNumber', 'bankIban', 'bankBic'] as const
+
+export interface InvoiceAtelier extends BusinessDetails {
+  name: string
+  replyToEmail: string
+}
+
+export interface Team extends BusinessDetails {
   id: string
   name: string
   replyToEmail: string
@@ -191,7 +210,7 @@ export interface InvoiceDraft {
   heldBack: HeldBackLine[]
 }
 
-export type InvoiceSnapshot = InvoiceDraft
+export type InvoiceSnapshot = InvoiceDraft & { atelier?: InvoiceAtelier }
 
 export interface Timesheet {
   id: string

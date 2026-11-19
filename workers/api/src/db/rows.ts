@@ -17,6 +17,15 @@ export type TeamRow = {
   next_order_number: number
   next_invoice_number: number
   created_at: string
+  business_address: string | null
+  company_number: string | null
+  vat_number: string | null
+  bank_account_name: string | null
+  bank_sort_code: string | null
+  bank_account_number: string | null
+  bank_iban: string | null
+  bank_bic: string | null
+  payment_terms: string | null
 }
 
 export type MemberRow = {
