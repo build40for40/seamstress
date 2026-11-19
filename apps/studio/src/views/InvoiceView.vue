@@ -26,6 +26,18 @@ function adopt(next: InvoiceView) {
 
 watch(data, (next) => next && adopt(next), { immediate: true })
 
+const payRows = computed(() => {
+  const atelier = current.value?.atelier
+  if (!atelier) return []
+  return [
+    ['Account name', atelier.bankAccountName],
+    ['Sort code', atelier.bankSortCode],
+    ['Account number', atelier.bankAccountNumber],
+    ['IBAN', atelier.bankIban],
+    ['BIC', atelier.bankBic],
+  ].filter((row): row is [string, string] => Boolean(row[1]))
+})
+
 const refByGarment = computed(() => new Map((current.value?.draft.lines ?? []).map((line) => [line.garmentId, line.ref])))
 const finalChanged = computed(() => finalPrice.value !== (current.value?.draft.finalPricePence ?? null))
 
@@ -80,7 +92,10 @@ const print = () => window.print()
       <header class="spread head">
         <div class="stack">
           <h1>{{ current.atelier.name }}</h1>
+          <p v-if="current.atelier.businessAddress" class="small muted address">{{ current.atelier.businessAddress }}</p>
           <p class="small muted">{{ current.atelier.replyToEmail }}</p>
+          <p v-if="current.atelier.companyNumber" class="small muted">Company number {{ current.atelier.companyNumber }}</p>
+          <p v-if="current.atelier.vatNumber" class="small muted">VAT number {{ current.atelier.vatNumber }}</p>
         </div>
         <div class="stack meta">
           <p class="sewn-label">{{ current.invoice.number ?? 'Draft invoice' }}</p>
@@ -130,6 +145,18 @@ const print = () => window.print()
           </tfoot>
         </table>
       </div>
+
+      <section v-if="payRows.length || current.atelier.paymentTerms" class="stack pay">
+        <h2 v-if="payRows.length">How to pay</h2>
+        <dl v-if="payRows.length" class="pay-rows">
+          <div v-for="[label, value] in payRows" :key="label"><dt>{{ label }}</dt><dd class="num">{{ value }}</dd></div>
+          <div><dt>Reference</dt><dd class="num">{{ current.invoice.number ?? current.order.number }}</dd></div>
+        </dl>
+        <p v-if="current.atelier.paymentTerms" class="small">{{ current.atelier.paymentTerms }}</p>
+      </section>
+      <p v-else-if="isDraft" class="small muted no-print">
+        No bank details on this one yet. <RouterLink :to="{ name: 'settings' }">Add them in Settings</RouterLink> so clients know where to pay.
+      </p>
 
       <p v-if="current.invoice.paidAt" class="small muted">Paid on {{ formatInstantDate(current.invoice.paidAt) }}. Thank you.</p>
     </article>
@@ -225,6 +252,37 @@ const print = () => window.print()
 
 .meta {
   text-align: right;
+}
+
+.address {
+  white-space: pre-line;
+}
+
+.pay {
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+  break-inside: avoid;
+}
+
+.pay-rows {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+}
+
+.pay-rows div {
+  display: flex;
+  gap: 1rem;
+}
+
+.pay-rows dt {
+  min-width: 9rem;
+  color: var(--muted);
+}
+
+.pay-rows dd {
+  margin: 0;
+  font-weight: 600;
 }
 
 .figures {

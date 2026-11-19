@@ -48,6 +48,8 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 - Billing, unbilled, running cost and timesheet maths live only in `packages/shared` and are unit tested there.
 - Pay for an entry uses the latest pay rate on or before its `date_local`, falling back to the earliest rate when it predates them all.
 - An invoice only accepts held-back entries from its own order that aren't on another invoice.
+- Ateliers are paid by bank transfer. The business address, company number, VAT number, bank details and payment terms live on the `teams` row, are only ever returned to owners, and go on the invoice and the invoice email. A sent invoice keeps the details it was sent with in its snapshot.
+- A change to the bank details is logged as `bank_details_changed` activity and emailed to the reply-to address the atelier had before the change.
 - On the dashboard, "over quote" counts open and ready orders. Due flags only apply to open orders whose garments aren't all done.
 
 ### Owner and client screens

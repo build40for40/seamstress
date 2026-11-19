@@ -1,8 +1,10 @@
 import type {
   Activity,
+  BusinessDetails,
   Client,
   Garment,
   Invoice,
+  InvoiceAtelier,
   InvoiceSnapshot,
   Member,
   Order,
@@ -25,7 +27,26 @@ import type {
   TimeEntryRow,
 } from '../db/rows'
 
+export const businessDetails = (row: TeamRow): BusinessDetails => ({
+  businessAddress: row.business_address,
+  companyNumber: row.company_number,
+  vatNumber: row.vat_number,
+  bankAccountName: row.bank_account_name,
+  bankSortCode: row.bank_sort_code,
+  bankAccountNumber: row.bank_account_number,
+  bankIban: row.bank_iban,
+  bankBic: row.bank_bic,
+  paymentTerms: row.payment_terms,
+})
+
+export const invoiceAtelier = (row: TeamRow): InvoiceAtelier => ({
+  name: row.name,
+  replyToEmail: row.reply_to_email,
+  ...businessDetails(row),
+})
+
 export const team = (row: TeamRow): Team => ({
+  ...businessDetails(row),
   id: row.id,
   name: row.name,
   replyToEmail: row.reply_to_email,

@@ -180,6 +180,7 @@ Templates in `workers/api/postmark/<alias>.json` (subject, HTML, text), pushed b
 | `seamstress-invoice` | Client | Invoice sent, with the lines, the final price and the link |
 | `seamstress-garments-done` | Atelier | The last garment on an order is done |
 | `seamstress-timesheet-sent` | Atelier | A seamstress sends her timesheet |
+| `seamstress-bank-details-changed` | Atelier | The bank details on the invoices change |
 
 From `"<Atelier name> via Seamless" <noreply@build40for40.com>`, read from the `EMAIL_FROM` var in `wrangler.jsonc`, `MessageStream: outbound`, `ReplyTo` the atelier's email. Links use the request's origin. Seeded clients have no email address, so the seed never sends anything. Test real sends with a client whose email is a team address.
 

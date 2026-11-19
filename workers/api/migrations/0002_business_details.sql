@@ -1,0 +1,9 @@
+ALTER TABLE teams ADD COLUMN business_address TEXT;
+ALTER TABLE teams ADD COLUMN company_number TEXT;
+ALTER TABLE teams ADD COLUMN vat_number TEXT;
+ALTER TABLE teams ADD COLUMN bank_account_name TEXT;
+ALTER TABLE teams ADD COLUMN bank_sort_code TEXT;
+ALTER TABLE teams ADD COLUMN bank_account_number TEXT;
+ALTER TABLE teams ADD COLUMN bank_iban TEXT;
+ALTER TABLE teams ADD COLUMN bank_bic TEXT;
+ALTER TABLE teams ADD COLUMN payment_terms TEXT;

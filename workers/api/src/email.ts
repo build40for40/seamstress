@@ -8,6 +8,7 @@ export type EmailAlias =
   | 'seamstress-invoice'
   | 'seamstress-garments-done'
   | 'seamstress-timesheet-sent'
+  | 'seamstress-bank-details-changed'
 
 export type Email = {
   team: TeamRow

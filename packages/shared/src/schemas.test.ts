@@ -7,6 +7,7 @@ import {
   reviewSchema,
   startTimerSchema,
   updateInvoiceSchema,
+  updateTeamSchema,
 } from './schemas'
 
 describe('startTimerSchema', () => {
@@ -68,6 +69,16 @@ describe('other bodies', () => {
     expect(createTeamSchema.safeParse(team).success).toBe(true)
     expect(createTeamSchema.safeParse({ ...team, hourlyRatePence: 60.5 }).success).toBe(false)
     expect(createTeamSchema.safeParse({ ...team, replyToEmail: 'nope' }).success).toBe(false)
+  })
+
+  it('tidies bank details and lets them be cleared', () => {
+    expect(updateTeamSchema.parse({ bankSortCode: '12 34 56', bankAccountNumber: '1234 5678', bankIban: 'gb33 bukb 2020 1555 5555 55' })).toEqual({
+      bankSortCode: '12-34-56',
+      bankAccountNumber: '12345678',
+      bankIban: 'GB33BUKB20201555555555',
+    })
+    expect(updateTeamSchema.parse({ bankSortCode: ' ', businessAddress: '' })).toEqual({ bankSortCode: null, businessAddress: null })
+    expect(updateTeamSchema.safeParse({ bankSortCode: '12345' }).error?.issues[0]?.message).toBe('A sort code is 6 digits')
   })
 
   it('lets a final price be cleared', () => {
