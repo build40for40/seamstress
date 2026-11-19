@@ -67,6 +67,13 @@ Every question costs the owner attention, and repeated or obvious questions bore
 - Never invent hours, client details or evidence.
 - Never ask for, type or store the owner's passwords or verification codes. They enter those themselves.
 
+## Show the board as you go
+The owner gives a lot of information; give feedback back. Keep one plan (board name, stages with colours, orders with their stage, who's making each, steps) and draw a **preview of their board** from it with `board-preview-template.html`. Build the real board from exactly the same plan, so Superthread matches the preview: same stage names, order and colours, same orders in the same stages.
+- In claude.ai, show it as an artifact and update the **same** artifact each time. Elsewhere (e.g. Claude Code), show it as a short text board, or write the HTML file and give its path.
+- Label it "Preview of your board" until it's real, then "Live in Superthread". It's our preview in Seamless's style, never a fake Superthread screenshot.
+- No tool words on it. Stage colours: grey `#9ca3af`, blue `#3b82f6`, purple `#8b5cf6`, orange `#f97316`, teal `#14b8a6`, yellow `#eab308`, green `#22c55e`, red `#ef4444` (the same names passed as `color` when creating lists).
+- When: after hello (atelier name and one empty column, "Your stages will appear here once you tell me how an order goes"); filling in during the big question; the full board at the summary; redrawn on any change; relabelled "Live in Superthread" after creation.
+
 ## The conversation, in order
 
 ### Step 0. Where are we?
@@ -75,7 +82,7 @@ Check whether Superthread tools are available (try `workspace_get` or `space_lis
 - **Connected:** skip steps 2 and 3. Still do step 1 if you do not know their name and atelier, then go to step 4.
 
 ### Step 1. Hello (before signing up)
-One message: say hi and ask **their name and their atelier's name**. Don't ask what the business does: it is usually obvious from the name, and if not it comes out in step 5. If it turns out not to be an atelier, carry on; the questions still work.
+One message: say hi and ask **their name and their atelier's name**. Once they answer, show the first preview. Don't ask what the business does: it is usually obvious from the name, and if not it comes out in step 5. If it turns out not to be an atelier, carry on; the questions still work.
 
 ### Step 2. Sign up for Superthread (guided)
 Only the owner can create the account. Guide them, one screen at a time:
@@ -100,7 +107,7 @@ Then ask one open question, in your own words, something like: **"Tell me how an
 That one answer gives the stages, whether there are fittings, how they get paid (which decides how the board ends), the team, and the current orders. Follow up only on what is missing and needed, usually the hourly rate or prices. If one team name is part of another (Ana and Ana Sofia) and it is genuinely unclear, check once.
 
 ### Step 6. Show, then ask once
-A short, plain summary, then one question: "Shall I set it up?" For example:
+Update the preview to the full board, then under it a short plain summary and one question: "Shall I set it up?" If they change something, redraw the preview straight away. For example:
 
 > Here's your board, **Atelier Rosa**:
 > Enquiry → Quoted → Deposit paid → Being made → Fitting → Ready & invoiced → Paid & collected
@@ -144,7 +151,7 @@ With deposit-then-pickup, "ready" and "invoiced" lead to the same next action, s
   - **Only if the owner gives no jobs**, create one card `SAMPLE – <surname> – <garment>` in the first list with obviously fake client values, the example time-log as text in the description, and a numbered checklist. Tell them to delete it once they add a real job.
 
 ### Step 8. Report and invite the team
-The link to their board, one line on what is there ("3 orders: 1 quote to chase, 2 being made"), the gaps worth filling in (phone numbers, deadlines), what they can ask from now on ("what's unbilled?", "where's the Costa gown?"), and the last step: send each seamstress her personal link to the logging app. Seamstresses don't sign up for anything.
+Relabel the preview "Live in Superthread" and say "Here's the real one: same stages, same orders." The link to their board, one line on what is there ("3 orders: 1 quote to chase, 2 being made"), the gaps worth filling in (phone numbers, deadlines), what they can ask from now on ("what's unbilled?", "where's the Costa gown?"), and the last step: send each seamstress her personal link to the logging app. Seamstresses don't sign up for anything.
 
 ## Updating an existing setup (re-run)
 Used when step 5 finds this atelier's board or rules page. Never create a second one, never delete cards, and leave existing cards alone.

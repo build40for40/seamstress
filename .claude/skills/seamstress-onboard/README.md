@@ -18,8 +18,8 @@ All of it happens in one chat with Claude. You only leave the chat to sign up an
 | 3. Connect Superthread to Claude | Add Superthread in Claude's settings and sign in to say yes. Claude checks it can see your account | You, guided, then Claude checks |
 | 4. Profile | Claude quietly fills in your name if it's missing | Claude |
 | 5. One big question | How an order goes, from first message to getting paid, and what's on the rail right now. Claude works out the rest | Claude asks |
-| 6. Summary | Claude shows your stages, team, billing and orders in plain words, and asks once | Claude, you approve |
-| 7. Your board appears | Your order board, your house rules, and your current orders on it | Claude |
+| 6. Preview and summary | A preview of your board fills up as you talk (from step 1). At the end Claude shows the full preview and asks once | Claude, you approve |
+| 7. Your board appears | The real board in Superthread, exactly as previewed, with your house rules and current orders | Claude |
 | 8. Your team | Send each seamstress her personal link to the logging app. They don't sign up for anything | You |
 
 ## For the build team
@@ -48,5 +48,6 @@ See [DECISIONS.md](DECISIONS.md) for why it works this way.
 
 ## Layout (this folder)
 - `SKILL.md`: the onboarding skill
-- `conventions-template.md`: template for the conventions page
+- `conventions-template.md`: template for the house rules page
+- `board-preview-template.html`: the board preview Claude draws during the conversation
 - `DECISIONS.md`: decisions made while building
