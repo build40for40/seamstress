@@ -74,6 +74,13 @@ routes.patch('/invoices/:id', validate('json', updateInvoiceSchema), async (c) =
   const invoice = await loadInvoice(c)
   if (invoice.status !== 'draft') throw alreadySent()
   const { finalPricePence, includedHeldBack } = c.req.valid('json')
+  if (includedHeldBack?.length) {
+    const heldBack = await listEntries(c.var.team.id, { orderId: invoice.order_id, reviewStatus: 'held_back' })
+    const tickable = new Set(heldBack.filter((entry) => entry.invoice_id === null).map((entry) => entry.id))
+    if (!includedHeldBack.every((id) => tickable.has(id))) {
+      throw new HTTPException(400, { message: "You can only tick held-back hours from this order that aren't billed yet." })
+    }
+  }
   const updated = await updateDraftInvoice(c.var.team.id, invoice.id, {
     final_price_pence: finalPricePence,
     included_held_back: includedHeldBack === undefined ? undefined : [...new Set(includedHeldBack)],

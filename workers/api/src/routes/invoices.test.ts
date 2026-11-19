@@ -79,6 +79,21 @@ describe('invoices', () => {
     })
   })
 
+  it("only lets her tick this order's unbilled held-back hours", async () => {
+    const { owner, order, entries, ada, log, addOrder, team } = await workshop()
+    const other = await addOrder({ garments: [{ description: 'Coat', assignees: [ada] }] })
+    const [coat] = await listGarments(team.id, [other.id])
+    const elsewhere = await log({ garment_id: coat!.id, review_status: 'held_back' })
+    const { body: draft } = await owner.send('POST', `/api/orders/${order.id}/invoices`)
+
+    for (const id of [elsewhere.id, entries.gown.id, 'not-an-entry']) {
+      const { status } = await owner.send('PATCH', `/api/invoices/${draft.invoice.id}`, { includedHeldBack: [entries.heldBack.id, id] })
+      expect(status).toBe(400)
+    }
+    const { body } = await owner.send('GET', `/api/invoices/${draft.invoice.id}`)
+    expect(body.invoice.includedHeldBack).toEqual([])
+  })
+
   it('sends with a number and a snapshot, and locks the billed hours', async () => {
     const { team, owner, order, entries, log } = await workshop()
     const { body: draft } = await owner.send('POST', `/api/orders/${order.id}/invoices`)
