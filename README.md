@@ -10,6 +10,8 @@ Live at https://seamstress.build40for40.com.
 - **Workroom** (`/workroom/`): each seamstress opens a personal link on her phone, with no password. She sees only her own garments, starts and stops a timer, types in time she forgot, sends photos, moves garments along and sends her timesheet.
 - **Tracking page** (`/track/<token>`): the client follows her order, with approved hours and photos only, and gets emails when it's in, ready and invoiced.
 
+- **Superthread onboarding skill** (`.claude/skills/seamstress-onboard/`): a separate track that onboards an atelier owner onto Superthread through one conversation with Claude. See its [README](.claude/skills/seamstress-onboard/README.md).
+
 Any atelier can sign up and run its own team. [docs/PRD.md](docs/PRD.md) has the stories and product decisions, [docs/PLAN.md](docs/PLAN.md) the build plan, and [AGENTS.md](AGENTS.md) the technical decisions.
 
 ## Layout
