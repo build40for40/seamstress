@@ -3,12 +3,12 @@ import { logActivity } from './db/activity'
 import type { ClientRow, TeamRow } from './db/rows'
 
 export type EmailAlias =
-  | 'seamstress-order-received'
-  | 'seamstress-order-ready'
-  | 'seamstress-invoice'
-  | 'seamstress-garments-done'
-  | 'seamstress-timesheet-sent'
-  | 'seamstress-bank-details-changed'
+  | 'seamless-order-received'
+  | 'seamless-order-ready'
+  | 'seamless-invoice'
+  | 'seamless-garments-done'
+  | 'seamless-timesheet-sent'
+  | 'seamless-bank-details-changed'
 
 export type Email = {
   team: TeamRow

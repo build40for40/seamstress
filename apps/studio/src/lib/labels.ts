@@ -41,11 +41,11 @@ export const PHOTO_LABEL_LABELS: Record<PhotoLabel, string> = {
 }
 
 const EMAIL_LABELS: Record<string, string> = {
-  'seamstress-order-received': 'order received',
-  'seamstress-order-ready': 'ready to collect',
-  'seamstress-invoice': 'invoice',
-  'seamstress-garments-done': 'all garments done',
-  'seamstress-timesheet-sent': 'timesheet sent',
+  'seamless-order-received': 'order received',
+  'seamless-order-ready': 'ready to collect',
+  'seamless-invoice': 'invoice',
+  'seamless-garments-done': 'all garments done',
+  'seamless-timesheet-sent': 'timesheet sent',
 }
 
 const MOMENT_LABELS: Record<string, string> = {

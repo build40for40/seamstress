@@ -61,7 +61,7 @@ describe('setting up an atelier', () => {
     expect(sent).toHaveLength(1)
     expect(sent[0]).toMatchObject({
       To: atelier.replyToEmail,
-      TemplateAlias: 'seamstress-bank-details-changed',
+      TemplateAlias: 'seamless-bank-details-changed',
       TemplateModel: { accountEnding: '1234' },
     })
     const logged = await env.DB.prepare("SELECT detail FROM activity WHERE team_id = ? AND kind = 'bank_details_changed'")

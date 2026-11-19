@@ -63,7 +63,7 @@ routes.patch('/team', requireOwner, validate('json', updateTeamSchema), async (c
   const changed = BANK_FIELDS.filter((field) => was[field] !== now[field])
   if (changed.length > 0) {
     await logActivity(before.id, { memberId: c.var.member.id, kind: 'bank_details_changed', detail: { fields: changed } })
-    sendEmail(c.env, c.executionCtx, 'seamstress-bank-details-changed', {
+    sendEmail(c.env, c.executionCtx, 'seamless-bank-details-changed', {
       team: team!,
       to: before.reply_to_email,
       model: {

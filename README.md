@@ -73,6 +73,6 @@ CI (`.github/workflows/ci.yml`) typechecks, tests and builds every push and PR. 
 
 Previews share the production D1 database and R2 bucket, so never seed them or run destructive tests against them. `pnpm seed --remote` writes to production: don't.
 
-Emails are Postmark templates under `seamstress-*` aliases. After editing `workers/api/postmark/*.json`, push them with `pnpm --filter api postmark:sync`. The Worker's `POSTMARK_SERVER_TOKEN` is a Cloudflare secret, set once with `pnpm --filter api wrangler secret put POSTMARK_SERVER_TOKEN`. `ANTHROPIC_API_KEY` and `TYPESAFE_API_KEY` go up with every deploy from the org secrets of the same names.
+Emails are Postmark templates under `seamless-*` aliases. After editing `workers/api/postmark/*.json`, push them with `pnpm --filter api postmark:sync`. The Worker's `POSTMARK_SERVER_TOKEN` is a Cloudflare secret, set once with `pnpm --filter api wrangler secret put POSTMARK_SERVER_TOKEN`. `ANTHROPIC_API_KEY` and `TYPESAFE_API_KEY` go up with every deploy from the org secrets of the same names.
 
 Sign in goes through the shared build40for40 WorkOS application. The production client allows `https://seamless.build40for40.com/`, and the staging client allows `http://localhost:5173/` and `https://*seamstress.40for40.workers.dev/`, as redirect URIs and web origins.

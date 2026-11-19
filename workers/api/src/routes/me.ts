@@ -114,7 +114,7 @@ function stopStatement(teamId: string, timer: TimeEntryRow, endedAt: string) {
 function tellAtelierIfAllDone(c: Context<AppEnv>, team: TeamRow, orderId: string, number: string) {
   return listOrderGarmentStatuses(team.id, orderId).then((garments) => {
     if (!allGarmentsDone(garments)) return
-    sendEmail(c.env, c.executionCtx, 'seamstress-garments-done', {
+    sendEmail(c.env, c.executionCtx, 'seamless-garments-done', {
       team,
       to: team.reply_to_email,
       orderId,
@@ -408,7 +408,7 @@ routes.post('/me/timesheet/:month/send', async (c) => {
   await sendTimesheet(team.id, member.id, month)
   await logActivity(team.id, { memberId: member.id, kind: 'timesheet_sent', detail: { month } })
   const { timesheet } = await memberTimesheet(member, team, month)
-  sendEmail(c.env, c.executionCtx, 'seamstress-timesheet-sent', {
+  sendEmail(c.env, c.executionCtx, 'seamless-timesheet-sent', {
     team,
     to: team.reply_to_email,
     model: {

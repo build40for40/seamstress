@@ -119,7 +119,7 @@ routes.post('/invoices/:id/send', async (c) => {
   const view = await invoiceView(c, sent)
   const to = clientEmail(team, await getClient(team.id, view.order.clientId), { automatic: false })
   if (to) {
-    sendEmail(c.env, c.executionCtx, 'seamstress-invoice', {
+    sendEmail(c.env, c.executionCtx, 'seamless-invoice', {
       team,
       to,
       orderId: sent.order_id,
