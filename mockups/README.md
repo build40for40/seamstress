@@ -1,4 +1,4 @@
-# Seamstress app mockups
+# Seamless: seamstress app mockups
 
 Eleven clickable screens for the seamstress's phone, covering the seamstress stories in [docs/PRD.md](../docs/PRD.md). They are plain HTML with no build step and no backend: every number on them is typed in, taken from the fake data in [fixtures](../fixtures) for seamstress `S02` on Tuesday 10 November.
 
@@ -38,8 +38,9 @@ No client names appear on any screen, only order numbers and garments.
 
 ## Brand and voice
 
-The app talks like a Regency society dressmaker: sharp, sassy, sure of herself and discreet about her clients.
+The product is called **Seamless**. It talks like a Regency society dressmaker: sharp, sassy, sure of herself and discreet about her clients.
 
 - **Voice:** plain English with attitude. "Go on, tell me everything." "Noted. Not a minute missed." "I'm not saving a thing until you pick." No French.
 - **Where the sass goes:** headings and asides. Labels, buttons, hours and money stay plain and exact.
+- **Tailoring details:** a tape measure across the top of every screen, pinstripe cloth as the ground, order numbers as sewn-in labels, running stitch for dividers and round the main button, a sewing machine on the home screen, a needle and thread by the say-or-type box, scissors on "fix it", a spool on the timesheet and a dress form where a photo will go. All drawn in code, with no image files and no real maker's name or logo.
 - **Look:** aubergine text on a powder ground, claret for the main button, a high-contrast serif for headings and her asides (in italics), a plain sans for everything you need to read fast, and squared corners.

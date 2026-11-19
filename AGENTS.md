@@ -3,7 +3,7 @@
 Day 14 of 40 for 40, built live on Twitch on Thursday 19 November 2026. The problem is "Unbilled seamstress hours", from Alex. Work is tracked on the Superthread `day14` board and the "Day 14" page.
 
 - **Form factor:** three picks for flexibility: CLI, WhatsApp and Agents.
-- **Name:** Seamstress. Anything web-facing is served at `build40for40.com/seamstress/`.
+- **Name:** Seamless. The repo and the URL path are still `seamstress`. Anything web-facing is served at `build40for40.com/seamstress/`.
 
 Shared 40 for 40 context lives in `../AGENTS.md`.
 
