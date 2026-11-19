@@ -107,7 +107,7 @@ async function orderDetail(c: Context<AppEnv>, orderId: string) {
   }
 }
 
-function emailClient(c: Context<AppEnv>, alias: 'seamstress-order-received' | 'seamstress-order-ready', order: OrderRow, client: ClientRow | null) {
+function emailClient(c: Context<AppEnv>, alias: 'seamless-order-received' | 'seamless-order-ready', order: OrderRow, client: ClientRow | null) {
   const to = clientEmail(c.var.team, client)
   if (!to) return
   sendEmail(c.env, c.executionCtx, alias, {
@@ -147,7 +147,7 @@ routes.post('/orders', validate('json', createOrderSchema), async (c) => {
     member.id,
   )
   if (!order) throw new HTTPException(404, { message: "We couldn't find that client." })
-  emailClient(c, 'seamstress-order-received', order, await getClient(team.id, order.client_id))
+  emailClient(c, 'seamless-order-received', order, await getClient(team.id, order.client_id))
   return c.json(await orderDetail(c, order.id), 201)
 })
 
@@ -191,7 +191,7 @@ routes.patch('/orders/:id', validate('json', updateOrderSchema), async (c) => {
       detail: { from: order.status, to: input.status },
     })
     if (input.status === 'ready') {
-      emailClient(c, 'seamstress-order-ready', updated!, await getClient(team.id, updated!.client_id))
+      emailClient(c, 'seamless-order-ready', updated!, await getClient(team.id, updated!.client_id))
     }
   }
   return c.json(await orderDetail(c, order.id))
@@ -237,7 +237,7 @@ routes.patch('/garments/:id', validate('json', updateGarmentSchema), async (c) =
     })
     if (input.status === 'done' && allGarmentsDone(await listGarments(team.id, [garment.order_id]))) {
       const order = (await getOrder(team.id, garment.order_id))!
-      sendEmail(c.env, c.executionCtx, 'seamstress-garments-done', {
+      sendEmail(c.env, c.executionCtx, 'seamless-garments-done', {
         team,
         to: team.reply_to_email,
         orderId: order.id,

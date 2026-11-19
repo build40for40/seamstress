@@ -28,7 +28,7 @@ async function send(respond: () => Response | Promise<Response>) {
   const { team, addOrder } = await createTestTeam({ name: 'Needle Test Atelier' })
   const order = await addOrder()
   const pending: Promise<unknown>[] = []
-  sendEmail(env, { waitUntil: (promise) => void pending.push(promise) }, 'seamstress-order-ready', {
+  sendEmail(env, { waitUntil: (promise) => void pending.push(promise) }, 'seamless-order-ready', {
     team,
     to: 'hello@40for40.app',
     orderId: order.id,
@@ -49,12 +49,12 @@ describe('sendEmail', () => {
       From: '"Needle Test Atelier via Seamless" <noreply@build40for40.com>',
       To: 'hello@40for40.app',
       ReplyTo: 'hello@40for40.app',
-      TemplateAlias: 'seamstress-order-ready',
+      TemplateAlias: 'seamless-order-ready',
       MessageStream: 'outbound',
       TemplateModel: { atelierName: 'Needle Test Atelier', clientName: 'Fake Client', orderNumber: order.number },
     })
     const [logged] = await activityOf(team.id, order.id)
-    expect(JSON.parse(logged!.detail)).toMatchObject({ alias: 'seamstress-order-ready', status: 'sent' })
+    expect(JSON.parse(logged!.detail)).toMatchObject({ alias: 'seamless-order-ready', status: 'sent' })
   })
 
   it('logs a failure instead of throwing', async () => {

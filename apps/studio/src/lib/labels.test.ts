@@ -35,7 +35,7 @@ describe('describeActivity', () => {
       'Told the client on WhatsApp: ready to collect',
     )
     expect(
-      describeActivity(activity('email', { alias: 'seamstress-order-received', to: 'c@example.com', status: 'sent' }), lookups),
+      describeActivity(activity('email', { alias: 'seamless-order-received', to: 'c@example.com', status: 'sent' }), lookups),
     ).toBe('Emailed c@example.com: order received')
     expect(describeActivity(activity('invoice_sent', { number: 'INV-0001', totalPence: 240000 }), lookups)).toBe(
       'Sent invoice INV-0001 for £2,400.00',

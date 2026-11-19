@@ -2,7 +2,7 @@
 
 Day 14 of 40 for 40, built live on Twitch on Thursday 19 November 2026. The problem is "Unbilled seamstress hours", from Alex. Work is tracked on the Superthread `day14` board and the "Day 14" page.
 
-- **Name:** Seamless. It lives at the `seamless` subdomain, but the repo, folder, Worker, database, bucket, Postmark aliases and `members.role` value keep their `seamstress` names. Brand and voice are in `mockups/README.md`.
+- **Name:** Seamless. It lives at the `seamless` subdomain, but the repo, folder, Worker, database, bucket and `members.role` value keep their `seamstress` names. Brand and voice are in `mockups/README.md`.
 - **Form factor:** two web apps and a Worker, at https://seamless.build40for40.com. The pre-day picks (CLI, WhatsApp, Agents) were dropped for this.
 - **Layout:** a pnpm workspace. `apps/studio` is the CEO's app, `apps/workroom` the seamstress app, `packages/shared` the zod schemas, billing and time maths both sides use, and `workers/api` the one Worker that serves both apps, the API and the client's tracking page.
 - **Docs:** [docs/PRD.md](docs/PRD.md) is the product: personas, stories, objects, scope and every product decision. [docs/PLAN.md](docs/PLAN.md) is the build plan: data model, API, screens and order of work. `fixtures/` is the shared fake data, and `mockups/` the first sketches of the seamstress screens.
@@ -69,7 +69,7 @@ Product decisions are in the PRD, section 7. These are the technical ones.
 ### Email
 
 - Postmark, from `"<Atelier name> via Seamless" <noreply@build40for40.com>` on the `outbound` (transactional) stream, with `Reply-To` set to the atelier's email. The address is the `EMAIL_FROM` var in `wrangler.jsonc`.
-- Templates live in `workers/api/postmark/` and are pushed with `pnpm --filter api postmark:sync` under `seamstress-*` aliases. The Worker sends with `/email/withTemplate`.
+- Templates live in `workers/api/postmark/` and are pushed with `pnpm --filter api postmark:sync` under `seamless-*` aliases. The Worker sends with `/email/withTemplate`.
 - Emails send in `ctx.waitUntil`, never block the change that caused them, and are logged on the order's activity whether they succeed or fail.
 
 ### Drafting an order from a note
