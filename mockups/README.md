@@ -31,7 +31,15 @@ The mic button on `index.html` leads to `which-order.html`, as if she had said "
 ## Things these are not
 
 - Not the real app. Nothing is saved, and only the hours steppers and the three choices on `log-time.html` respond.
-- Not final design. The colours and type are a first pass.
+- Not final design. See the brand notes below.
 - Not complete. There are no screens yet for changing the date, marking an order finished, or the timer in SEAM-6.
 
 No client names appear on any screen, only order numbers and garments.
+
+## Brand and voice
+
+The app talks like a Regency society dressmaker: sharp, sassy, sure of herself and discreet about her clients.
+
+- **Voice:** plain English with attitude. "Go on, tell me everything." "Noted. Not a minute missed." "I'm not saving a thing until you pick." No French.
+- **Where the sass goes:** headings and asides. Labels, buttons, hours and money stay plain and exact.
+- **Look:** aubergine text on a powder ground, claret for the main button, a high-contrast serif for headings and her asides (in italics), a plain sans for everything you need to read fast, and squared corners.
